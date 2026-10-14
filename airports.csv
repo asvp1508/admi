@@ -1,0 +1,85 @@
+iata,name,city,state_or_region,country,lat,lon
+ABQ,,Albuquerque,North America,United States,35.04,-106.609
+AGX,,Agatti,Asia,India,10.824,72.176
+AJL,,Aizawl,Asia,India,23.841,92.62
+AMD,,Ahmedabad,Asia,India,23.077,72.634
+ANC,,Anchorage,North America,United States,61.174,-149.996
+ATL,,Atlanta,North America,United States,33.637,-84.428
+ATQ,,Amritsar,Asia,India,31.709,74.797
+BBI,,Bhubaneswar,Asia,India,20.244,85.818
+BDL,,Hartford,North America,United States,41.939,-72.683
+BHM,,Birmingham,North America,United States,33.563,-86.754
+BLR,,Bengaluru,Asia,India,13.199,77.706
+BNA,,Nashville,North America,United States,36.124,-86.678
+BOI,,Boise,North America,United States,43.564,-116.223
+BOM,,Mumbai,Asia,India,19.089,72.868
+BOS,,Boston,North America,United States,42.364,-71.005
+BTV,,Burlington,North America,United States,44.472,-73.153
+BWI,,Baltimore,North America,United States,39.175,-76.668
+BZN,,Bozeman,North America,United States,45.778,-111.153
+CCU,,Kolkata,Asia,India,22.655,88.447
+CHS,,Charleston,North America,United States,32.899,-80.04
+CLE,,Cleveland,North America,United States,41.412,-81.85
+CLT,,Charlotte,North America,United States,35.214,-80.943
+COK,,Kochi,Asia,India,10.152,76.402
+CRW,,Charleston,North America,United States,38.373,-81.593
+DED,,Dehradun,Asia,India,30.19,78.18
+DEL,,Delhi,Asia,India,28.556,77.1
+DEN,,Denver,North America,United States,39.862,-104.673
+DFW,,Dallas-Fort Worth,North America,United States,32.897,-97.038
+DMU,,Dimapur,Asia,India,25.883,93.772
+DSM,,Des Moines,North America,United States,41.534,-93.663
+DTW,,Detroit,North America,United States,42.212,-83.353
+EWR,,Newark,North America,United States,40.693,-74.169
+FAR,,Fargo,North America,United States,46.921,-96.816
+FSD,,Sioux Falls,North America,United States,43.582,-96.742
+GAU,,Guwahati,Asia,India,26.106,91.586
+GOI,,Goa,Asia,India,15.38,73.831
+HGI,,Itanagar,Asia,India,27.095,93.653
+HNL,,Honolulu,North America,United States,21.318,-157.922
+HYD,,Hyderabad,Asia,India,17.24,78.429
+IAD,,Washington Dulles,North America,United States,38.953,-77.456
+ICT,,Wichita,North America,United States,37.65,-97.433
+IDR,,Indore,Asia,India,22.722,75.801
+ILG,,Wilmington,North America,United States,39.679,-75.607
+IMF,,Imphal,Asia,India,24.76,93.897
+IND,,Indianapolis,North America,United States,39.717,-86.295
+IXA,,Agartala,Asia,India,23.887,91.241
+IXC,,Chandigarh,Asia,India,30.673,76.789
+IXL,,Leh,Asia,India,34.136,77.546
+IXR,,Ranchi,Asia,India,23.314,85.322
+IXZ,,Port Blair,Asia,India,11.641,92.73
+JAC,,Jackson Hole,North America,United States,43.607,-110.738
+JAI,,Jaipur,Asia,India,26.824,75.812
+JAN,,Jackson,North America,United States,32.311,-90.076
+KUU,,Kullu,Asia,India,31.877,77.154
+LAS,,Las Vegas,North America,United States,36.08,-115.152
+LAX,,Los Angeles,North America,United States,33.943,-118.408
+LGA,,New York,North America,United States,40.777,-73.873
+LIT,,Little Rock,North America,United States,34.729,-92.224
+LKO,,Lucknow,Asia,India,26.761,80.889
+MAA,,Chennai,Asia,India,12.994,80.169
+MCO,,Orlando,North America,United States,28.429,-81.309
+MHT,,Manchester,North America,United States,42.933,-71.437
+MKE,,Milwaukee,North America,United States,42.947,-87.897
+MSP,,Minneapolis,North America,United States,44.882,-93.222
+MSY,,New Orleans,North America,United States,29.993,-90.258
+OKC,,Oklahoma City,North America,United States,35.393,-97.601
+OMA,,Omaha,North America,United States,41.303,-95.894
+ORD,,Chicago,North America,United States,41.978,-87.905
+PAT,,Patna,Asia,India,25.591,85.088
+PDX,,Portland,North America,United States,45.589,-122.595
+PHL,,Philadelphia,North America,United States,39.872,-75.241
+PHX,,Phoenix,North America,United States,33.434,-112.012
+PNY,,Puducherry,Asia,India,11.968,79.81
+PVD,,Providence,North America,United States,41.724,-71.428
+PWM,,Portland,North America,United States,43.646,-70.309
+PYG,,Gangtok,Asia,India,27.226,88.586
+RPR,,Raipur,Asia,India,21.181,81.739
+SDF,,Louisville,North America,United States,38.174,-85.736
+SEA,,Seattle,North America,United States,47.45,-122.309
+SHL,,Shillong,Asia,India,25.704,91.979
+SLC,,Salt Lake City,North America,United States,40.788,-111.978
+STL,,St. Louis,North America,United States,38.749,-90.37
+SXR,,Srinagar,Asia,India,33.987,74.774
+VTZ,,Visakhapatnam,Asia,India,17.721,83.225

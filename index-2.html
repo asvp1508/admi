@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ADMI Score</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✈️</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f5f1;--panel:#fff;--soft:#f1f0ec;--line:#e4e2db;--text:#2b2f33;--dim:#7a7f84;--gold:#3f7f78;--onacc:#fff;--green:#3d8a5a;--red:#b8574d;--blue:#3f6fa8;--chip:#efeee9;--notebg:#eef4f2;--notefg:#40575a;--warnbg:#f8ecea;--warnfg:#7a4540;--tagsbg:#f6dcd8;--tagsfg:#8a3f37;--tagnbg:#dcefe3;--tagnfg:#2f6b47;--tagibg:#eee9d4;--tagifg:#6d6128;--shadow:0 1px 2px rgba(40,40,30,.05);--demobg:#f3e6c9;--demofg:#6d5420}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15181a;--panel:#1c2023;--soft:#171a1c;--line:#2c3236;--text:#e2e4e1;--dim:#8d9498;--gold:#6fb5ab;--onacc:#0f1a19;--green:#6fc38e;--red:#e08b81;--blue:#82aee0;--chip:#252a2d;--notebg:#1b2625;--notefg:#a9c3c0;--warnbg:#2a1d1c;--warnfg:#e3b4ae;--tagsbg:#3a2321;--tagsfg:#f0a79f;--tagnbg:#1f3328;--tagnfg:#8fd5a9;--tagibg:#302d1d;--tagifg:#d9c88a;--shadow:none;--demobg:#33290f;--demofg:#e8c77a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#15181a;--panel:#1c2023;--soft:#171a1c;--line:#2c3236;--text:#e2e4e1;--dim:#8d9498;--gold:#6fb5ab;--onacc:#0f1a19;--green:#6fc38e;--red:#e08b81;--blue:#82aee0;--chip:#252a2d;--notebg:#1b2625;--notefg:#a9c3c0;--warnbg:#2a1d1c;--warnfg:#e3b4ae;--tagsbg:#3a2321;--tagsfg:#f0a79f;--tagnbg:#1f3328;--tagnfg:#8fd5a9;--tagibg:#302d1d;--tagifg:#d9c88a;--shadow:none;--demobg:#33290f;--demofg:#e8c77a;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:'DM Sans',system-ui,sans-serif;font-size:15px;line-height:1.5}
+h1,h2,h3{font-family:'DM Sans',system-ui,sans-serif;margin:0;font-weight:600;text-wrap:balance}
+.mono{font-family:'DM Mono',monospace}
+header{padding:28px 20px 0;max-width:1180px;margin:0 auto}
+header h1{font-size:24px;letter-spacing:-.01em}
+header p{margin:4px 0 16px;color:var(--dim);font-size:14px;max-width:62ch}
+nav{display:flex;gap:2px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+nav button{background:none;border:0;color:var(--dim);padding:10px 14px;cursor:pointer;font:500 14px 'DM Sans',system-ui,sans-serif;border-bottom:2px solid transparent;margin-bottom:-1px}
+nav button:hover{color:var(--text)}
+nav button.on{color:var(--gold);border-color:var(--gold)}
+main{max-width:1180px;margin:0 auto;padding:24px 20px 96px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;margin-bottom:20px;box-shadow:var(--shadow)}
+.panel h2{font-size:18px;margin-bottom:6px}
+.panel h3{font-size:15px;color:var(--text)}
+.sub{color:var(--dim);font-size:14px;margin:0 0 14px;max-width:70ch}
+label{display:block;font-size:13px;color:var(--dim);margin:10px 0 5px}
+input,select,textarea{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:9px 11px;font:14px 'DM Mono',monospace;width:100%}
+input:focus,select:focus,textarea:focus{outline:2px solid color-mix(in srgb,var(--gold) 40%,transparent);border-color:var(--gold)}
+textarea{min-height:60px}
+input[type=radio],input[type=checkbox]{width:auto;accent-color:var(--gold)}
+.row{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end}
+.row>*{flex:1;min-width:150px}
+button.b{white-space:nowrap;background:var(--gold);color:var(--onacc);border:0;border-radius:8px;padding:10px 18px;font:500 14px 'DM Sans',system-ui,sans-serif;cursor:pointer}
+button.b:hover{filter:brightness(1.06)}
+button.b.alt{background:var(--soft);color:var(--text);border:1px solid var(--line)}
+button.b:disabled{opacity:.45;cursor:default}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{background:var(--chip);border:1px solid transparent;border-radius:16px;padding:4px 12px;font:13px 'DM Sans'}
+.chip b{color:var(--text);font-weight:500}
+.ac{display:inline-block;margin:2px 4px 2px 0;padding:3px 10px;border-radius:14px;border:1px solid var(--line);background:var(--panel);color:var(--dim);font:13px 'DM Sans',system-ui,sans-serif;cursor:pointer;user-select:none}
+.ac:hover{border-color:var(--gold);color:var(--text)}
+.ac.o{border-color:var(--blue);color:var(--blue);background:transparent}
+.ac.c{background:var(--gold);border-color:var(--gold);color:var(--onacc);font-weight:500}
+.ac.dsh{border-style:dashed}
+.acx{width:90px;padding:3px 8px;font:13px 'DM Mono',ui-monospace,monospace}
+.chip button{background:none;border:0;color:var(--dim);cursor:pointer;margin-left:4px}
+.radios label{display:inline-flex;gap:6px;align-items:center;font-size:14px;color:var(--text);margin:4px 14px 4px 0}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;color:var(--dim);font:500 12px 'DM Sans',system-ui,sans-serif;padding:10px 8px;border-bottom:1px solid var(--line);cursor:pointer;white-space:nowrap}
+td{padding:10px 8px;border-bottom:1px solid var(--line);font-family:'DM Mono',monospace;font-size:13px;vertical-align:middle}
+tr.r:hover{background:var(--soft);cursor:pointer}
+.tag{padding:2px 9px;border-radius:10px;font:12px 'DM Sans',system-ui,sans-serif;white-space:nowrap}
+.tag.s{background:var(--tagsbg);color:var(--tagsfg)}.tag.n{background:var(--tagnbg);color:var(--tagnfg)}.tag.i{background:var(--tagibg);color:var(--tagifg)}
+.note{border-radius:10px;padding:11px 14px;background:var(--notebg);font-size:14px;color:var(--notefg);margin:12px 0}
+.note b{color:var(--text)}
+.warn{background:var(--warnbg);color:var(--warnfg)}
+details.more{margin:12px 0}
+details.more>summary{cursor:pointer;color:var(--gold);font-size:14px;list-style:none}
+details.more>summary::-webkit-details-marker{display:none}
+details.more>summary::before{content:"+ "}
+details.more[open]>summary::before{content:"– "}
+.bar{height:6px;background:var(--chip);border-radius:3px;overflow:hidden}.bar>i{display:block;height:100%;background:var(--gold)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+.kpi{background:var(--soft);border-radius:10px;padding:14px}.kpi b{display:block;font:500 22px 'DM Mono',ui-monospace,monospace}.kpi span{font-size:13px;color:var(--dim)}
+.demo{background:var(--demobg);color:var(--demofg);padding:8px 14px;font-size:14px;text-align:center}
+.hide{display:none}
+.method h3{margin:24px 0 6px;font-size:17px}.method p,.method li{color:var(--text);line-height:1.65;max-width:72ch}
+code{font-family:'DM Mono',monospace;background:var(--chip);padding:1px 6px;border-radius:5px;font-size:13px}
+.formula{font:14px 'DM Mono',ui-monospace,monospace;background:var(--soft);padding:12px 16px;border-radius:10px;margin:10px 0;overflow-x:auto}
+svg text{fill:var(--dim);font:10px 'DM Mono',ui-monospace,monospace}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;padding:16px;z-index:50}
+.mbox{background:var(--panel);color:var(--text);border-radius:14px;padding:22px;max-width:420px;width:100%}
+.mbox p{margin:0 0 16px}.mrow{display:flex;gap:10px;justify-content:flex-end}
+@media (max-width:600px){main{padding:16px 16px 80px}header{padding:20px 16px 0}.panel{padding:16px}}
+</style>
+</head>
+<body>
+<div id="errBanner" class="demo hide" style="background:#2a0f0e;color:#ffb3ac"></div>
+<div id="demoBanner" class="demo hide">DEMO DATA: these numbers are generated, not real fares. Never cite them.</div>
+<header>
+  <h1>ADMI Score</h1>
+  <p>Airline Distortion and Market Index: measure how far a nonstop fare strays from what distance and competition justify.</p>
+  <nav id="nav"></nav>
+</header>
+<main id="main"></main>
+
+<script>
+// Airport table. primary=true marks the single most-used airport chosen for each country; conf=M means verify.
+window.ADMI_AIRPORTS = [{"iata":"BHM","city":"Birmingham","country":"United States","region":"North America","sub":"Alabama","lat":33.563,"lon":-86.754,"primary":false,"usState":true,"conf":"H"},{"iata":"ANC","city":"Anchorage","country":"United States","region":"North America","sub":"Alaska","lat":61.174,"lon":-149.996,"primary":false,"usState":true,"conf":"H"},{"iata":"PHX","city":"Phoenix","country":"United States","region":"North America","sub":"Arizona","lat":33.434,"lon":-112.012,"primary":false,"usState":true,"conf":"H"},{"iata":"LIT","city":"Little Rock","country":"United States","region":"North America","sub":"Arkansas","lat":34.729,"lon":-92.224,"primary":false,"usState":true,"conf":"H"},{"iata":"LAX","city":"Los Angeles","country":"United States","region":"North America","sub":"California","lat":33.943,"lon":-118.408,"primary":false,"usState":true,"conf":"H"},{"iata":"DEN","city":"Denver","country":"United States","region":"North America","sub":"Colorado","lat":39.862,"lon":-104.673,"primary":false,"usState":true,"conf":"H"},{"iata":"BDL","city":"Hartford","country":"United States","region":"North America","sub":"Connecticut","lat":41.939,"lon":-72.683,"primary":false,"usState":true,"conf":"H"},{"iata":"ILG","city":"Wilmington","country":"United States","region":"North America","sub":"Delaware","lat":39.679,"lon":-75.607,"primary":false,"usState":true,"conf":"H"},{"iata":"MCO","city":"Orlando","country":"United States","region":"North America","sub":"Florida","lat":28.429,"lon":-81.309,"primary":false,"usState":true,"conf":"H"},{"iata":"HNL","city":"Honolulu","country":"United States","region":"North America","sub":"Hawaii","lat":21.318,"lon":-157.922,"primary":false,"usState":true,"conf":"H"},{"iata":"BOI","city":"Boise","country":"United States","region":"North America","sub":"Idaho","lat":43.564,"lon":-116.223,"primary":false,"usState":true,"conf":"H"},{"iata":"ORD","city":"Chicago","country":"United States","region":"North America","sub":"Illinois","lat":41.978,"lon":-87.905,"primary":false,"usState":true,"conf":"H"},{"iata":"IND","city":"Indianapolis","country":"United States","region":"North America","sub":"Indiana","lat":39.717,"lon":-86.295,"primary":false,"usState":true,"conf":"H"},{"iata":"DSM","city":"Des Moines","country":"United States","region":"North America","sub":"Iowa","lat":41.534,"lon":-93.663,"primary":false,"usState":true,"conf":"H"},{"iata":"ICT","city":"Wichita","country":"United States","region":"North America","sub":"Kansas","lat":37.65,"lon":-97.433,"primary":false,"usState":true,"conf":"H"},{"iata":"SDF","city":"Louisville","country":"United States","region":"North America","sub":"Kentucky","lat":38.174,"lon":-85.736,"primary":false,"usState":true,"conf":"H"},{"iata":"MSY","city":"New Orleans","country":"United States","region":"North America","sub":"Louisiana","lat":29.993,"lon":-90.258,"primary":false,"usState":true,"conf":"H"},{"iata":"PWM","city":"Portland","country":"United States","region":"North America","sub":"Maine","lat":43.646,"lon":-70.309,"primary":false,"usState":true,"conf":"H"},{"iata":"BWI","city":"Baltimore","country":"United States","region":"North America","sub":"Maryland","lat":39.175,"lon":-76.668,"primary":false,"usState":true,"conf":"H"},{"iata":"BOS","city":"Boston","country":"United States","region":"North America","sub":"Massachusetts","lat":42.364,"lon":-71.005,"primary":false,"usState":true,"conf":"H"},{"iata":"DTW","city":"Detroit","country":"United States","region":"North America","sub":"Michigan","lat":42.212,"lon":-83.353,"primary":false,"usState":true,"conf":"H"},{"iata":"MSP","city":"Minneapolis","country":"United States","region":"North America","sub":"Minnesota","lat":44.882,"lon":-93.222,"primary":false,"usState":true,"conf":"H"},{"iata":"JAN","city":"Jackson","country":"United States","region":"North America","sub":"Mississippi","lat":32.311,"lon":-90.076,"primary":false,"usState":true,"conf":"H"},{"iata":"STL","city":"St. Louis","country":"United States","region":"North America","sub":"Missouri","lat":38.749,"lon":-90.37,"primary":false,"usState":true,"conf":"H"},{"iata":"BZN","city":"Bozeman","country":"United States","region":"North America","sub":"Montana","lat":45.778,"lon":-111.153,"primary":false,"usState":true,"conf":"H"},{"iata":"OMA","city":"Omaha","country":"United States","region":"North America","sub":"Nebraska","lat":41.303,"lon":-95.894,"primary":false,"usState":true,"conf":"H"},{"iata":"LAS","city":"Las Vegas","country":"United States","region":"North America","sub":"Nevada","lat":36.08,"lon":-115.152,"primary":false,"usState":true,"conf":"H"},{"iata":"MHT","city":"Manchester","country":"United States","region":"North America","sub":"New Hampshire","lat":42.933,"lon":-71.437,"primary":false,"usState":true,"conf":"H"},{"iata":"EWR","city":"Newark","country":"United States","region":"North America","sub":"New Jersey","lat":40.693,"lon":-74.169,"primary":false,"usState":true,"conf":"H"},{"iata":"ABQ","city":"Albuquerque","country":"United States","region":"North America","sub":"New Mexico","lat":35.04,"lon":-106.609,"primary":false,"usState":true,"conf":"H"},{"iata":"LGA","city":"New York","country":"United States","region":"North America","sub":"New York","lat":40.777,"lon":-73.873,"primary":false,"usState":true,"conf":"H"},{"iata":"CLT","city":"Charlotte","country":"United States","region":"North America","sub":"North Carolina","lat":35.214,"lon":-80.943,"primary":false,"usState":true,"conf":"H"},{"iata":"FAR","city":"Fargo","country":"United States","region":"North America","sub":"North Dakota","lat":46.921,"lon":-96.816,"primary":false,"usState":true,"conf":"H"},{"iata":"CLE","city":"Cleveland","country":"United States","region":"North America","sub":"Ohio","lat":41.412,"lon":-81.85,"primary":false,"usState":true,"conf":"H"},{"iata":"OKC","city":"Oklahoma City","country":"United States","region":"North America","sub":"Oklahoma","lat":35.393,"lon":-97.601,"primary":false,"usState":true,"conf":"H"},{"iata":"PDX","city":"Portland","country":"United States","region":"North America","sub":"Oregon","lat":45.589,"lon":-122.595,"primary":false,"usState":true,"conf":"H"},{"iata":"PHL","city":"Philadelphia","country":"United States","region":"North America","sub":"Pennsylvania","lat":39.872,"lon":-75.241,"primary":false,"usState":true,"conf":"H"},{"iata":"PVD","city":"Providence","country":"United States","region":"North America","sub":"Rhode Island","lat":41.724,"lon":-71.428,"primary":false,"usState":true,"conf":"H"},{"iata":"CHS","city":"Charleston","country":"United States","region":"North America","sub":"South Carolina","lat":32.899,"lon":-80.04,"primary":false,"usState":true,"conf":"H"},{"iata":"FSD","city":"Sioux Falls","country":"United States","region":"North America","sub":"South Dakota","lat":43.582,"lon":-96.742,"primary":false,"usState":true,"conf":"H"},{"iata":"BNA","city":"Nashville","country":"United States","region":"North America","sub":"Tennessee","lat":36.124,"lon":-86.678,"primary":false,"usState":true,"conf":"H"},{"iata":"DFW","city":"Dallas-Fort Worth","country":"United States","region":"North America","sub":"Texas","lat":32.897,"lon":-97.038,"primary":false,"usState":true,"conf":"H"},{"iata":"SLC","city":"Salt Lake City","country":"United States","region":"North America","sub":"Utah","lat":40.788,"lon":-111.978,"primary":false,"usState":true,"conf":"H"},{"iata":"BTV","city":"Burlington","country":"United States","region":"North America","sub":"Vermont","lat":44.472,"lon":-73.153,"primary":false,"usState":true,"conf":"H"},{"iata":"IAD","city":"Washington Dulles","country":"United States","region":"North America","sub":"Virginia","lat":38.953,"lon":-77.456,"primary":false,"usState":true,"conf":"H"},{"iata":"SEA","city":"Seattle","country":"United States","region":"North America","sub":"Washington","lat":47.45,"lon":-122.309,"primary":false,"usState":true,"conf":"H"},{"iata":"CRW","city":"Charleston","country":"United States","region":"North America","sub":"West Virginia","lat":38.373,"lon":-81.593,"primary":false,"usState":true,"conf":"H"},{"iata":"MKE","city":"Milwaukee","country":"United States","region":"North America","sub":"Wisconsin","lat":42.947,"lon":-87.897,"primary":false,"usState":true,"conf":"H"},{"iata":"JAC","city":"Jackson Hole","country":"United States","region":"North America","sub":"Wyoming","lat":43.607,"lon":-110.738,"primary":false,"usState":true,"conf":"H"},{"iata":"YYZ","city":"Toronto","country":"Canada","region":"North America","sub":"","lat":43.677,"lon":-79.631,"primary":true,"usState":false,"conf":"H"},{"iata":"MEX","city":"Mexico City","country":"Mexico","region":"North America","sub":"","lat":19.436,"lon":-99.072,"primary":true,"usState":false,"conf":"H"},{"iata":"GUA","city":"Guatemala City","country":"Guatemala","region":"North America","sub":"","lat":14.583,"lon":-90.527,"primary":true,"usState":false,"conf":"H"},{"iata":"BZE","city":"Belize City","country":"Belize","region":"North America","sub":"","lat":17.539,"lon":-88.308,"primary":true,"usState":false,"conf":"H"},{"iata":"SAL","city":"San Salvador","country":"El Salvador","region":"North America","sub":"","lat":13.441,"lon":-89.056,"primary":true,"usState":false,"conf":"H"},{"iata":"SAP","city":"San Pedro Sula","country":"Honduras","region":"North America","sub":"","lat":15.453,"lon":-87.924,"primary":true,"usState":false,"conf":"M"},{"iata":"MGA","city":"Managua","country":"Nicaragua","region":"North America","sub":"","lat":12.142,"lon":-86.168,"primary":true,"usState":false,"conf":"H"},{"iata":"SJO","city":"San Jose","country":"Costa Rica","region":"North America","sub":"","lat":9.994,"lon":-84.209,"primary":true,"usState":false,"conf":"H"},{"iata":"PTY","city":"Panama City","country":"Panama","region":"North America","sub":"","lat":9.071,"lon":-79.383,"primary":true,"usState":false,"conf":"H"},{"iata":"HAV","city":"Havana","country":"Cuba","region":"North America","sub":"","lat":22.989,"lon":-82.409,"primary":true,"usState":false,"conf":"H"},{"iata":"KIN","city":"Kingston","country":"Jamaica","region":"North America","sub":"","lat":17.936,"lon":-76.787,"primary":true,"usState":false,"conf":"M"},{"iata":"PAP","city":"Port-au-Prince","country":"Haiti","region":"North America","sub":"","lat":18.58,"lon":-72.293,"primary":true,"usState":false,"conf":"H"},{"iata":"PUJ","city":"Punta Cana","country":"Dominican Republic","region":"North America","sub":"","lat":18.567,"lon":-68.363,"primary":true,"usState":false,"conf":"H"},{"iata":"NAS","city":"Nassau","country":"Bahamas","region":"North America","sub":"","lat":25.039,"lon":-77.466,"primary":true,"usState":false,"conf":"H"},{"iata":"BGI","city":"Bridgetown","country":"Barbados","region":"North America","sub":"","lat":13.075,"lon":-59.492,"primary":true,"usState":false,"conf":"H"},{"iata":"POS","city":"Port of Spain","country":"Trinidad and Tobago","region":"North America","sub":"","lat":10.595,"lon":-61.337,"primary":true,"usState":false,"conf":"H"},{"iata":"ANU","city":"St. John's","country":"Antigua and Barbuda","region":"North America","sub":"","lat":17.137,"lon":-61.793,"primary":true,"usState":false,"conf":"H"},{"iata":"UVF","city":"Vieux Fort","country":"Saint Lucia","region":"North America","sub":"","lat":13.733,"lon":-60.953,"primary":true,"usState":false,"conf":"H"},{"iata":"GND","city":"St. George's","country":"Grenada","region":"North America","sub":"","lat":12.004,"lon":-61.786,"primary":true,"usState":false,"conf":"H"},{"iata":"SVD","city":"Kingstown","country":"Saint Vincent and the Grenadines","region":"North America","sub":"","lat":13.144,"lon":-61.211,"primary":true,"usState":false,"conf":"H"},{"iata":"DOM","city":"Roseau","country":"Dominica","region":"North America","sub":"","lat":15.547,"lon":-61.3,"primary":true,"usState":false,"conf":"H"},{"iata":"SKB","city":"Basseterre","country":"Saint Kitts and Nevis","region":"North America","sub":"","lat":17.311,"lon":-62.719,"primary":true,"usState":false,"conf":"H"},{"iata":"GRU","city":"Sao Paulo","country":"Brazil","region":"South America","sub":"","lat":-23.435,"lon":-46.473,"primary":true,"usState":false,"conf":"H"},{"iata":"EZE","city":"Buenos Aires","country":"Argentina","region":"South America","sub":"","lat":-34.822,"lon":-58.536,"primary":true,"usState":false,"conf":"H"},{"iata":"SCL","city":"Santiago","country":"Chile","region":"South America","sub":"","lat":-33.393,"lon":-70.786,"primary":true,"usState":false,"conf":"H"},{"iata":"BOG","city":"Bogota","country":"Colombia","region":"South America","sub":"","lat":4.702,"lon":-74.147,"primary":true,"usState":false,"conf":"H"},{"iata":"LIM","city":"Lima","country":"Peru","region":"South America","sub":"","lat":-12.022,"lon":-77.114,"primary":true,"usState":false,"conf":"H"},{"iata":"CCS","city":"Caracas","country":"Venezuela","region":"South America","sub":"","lat":10.601,"lon":-66.991,"primary":true,"usState":false,"conf":"M"},{"iata":"UIO","city":"Quito","country":"Ecuador","region":"South America","sub":"","lat":-0.129,"lon":-78.358,"primary":true,"usState":false,"conf":"H"},{"iata":"VVI","city":"Santa Cruz","country":"Bolivia","region":"South America","sub":"","lat":-17.645,"lon":-63.135,"primary":true,"usState":false,"conf":"H"},{"iata":"ASU","city":"Asuncion","country":"Paraguay","region":"South America","sub":"","lat":-25.24,"lon":-57.519,"primary":true,"usState":false,"conf":"H"},{"iata":"MVD","city":"Montevideo","country":"Uruguay","region":"South America","sub":"","lat":-34.838,"lon":-56.031,"primary":true,"usState":false,"conf":"H"},{"iata":"GEO","city":"Georgetown","country":"Guyana","region":"South America","sub":"","lat":6.499,"lon":-58.255,"primary":true,"usState":false,"conf":"H"},{"iata":"PBM","city":"Paramaribo","country":"Suriname","region":"South America","sub":"","lat":5.453,"lon":-55.188,"primary":true,"usState":false,"conf":"H"},{"iata":"LHR","city":"London","country":"United Kingdom","region":"Europe","sub":"","lat":51.47,"lon":-0.454,"primary":true,"usState":false,"conf":"H"},{"iata":"DUB","city":"Dublin","country":"Ireland","region":"Europe","sub":"","lat":53.421,"lon":-6.27,"primary":true,"usState":false,"conf":"H"},{"iata":"CDG","city":"Paris","country":"France","region":"Europe","sub":"","lat":49.01,"lon":2.548,"primary":true,"usState":false,"conf":"H"},{"iata":"FRA","city":"Frankfurt","country":"Germany","region":"Europe","sub":"","lat":50.033,"lon":8.571,"primary":true,"usState":false,"conf":"H"},{"iata":"MAD","city":"Madrid","country":"Spain","region":"Europe","sub":"","lat":40.472,"lon":-3.561,"primary":true,"usState":false,"conf":"H"},{"iata":"FCO","city":"Rome","country":"Italy","region":"Europe","sub":"","lat":41.8,"lon":12.239,"primary":true,"usState":false,"conf":"H"},{"iata":"AMS","city":"Amsterdam","country":"Netherlands","region":"Europe","sub":"","lat":52.309,"lon":4.764,"primary":true,"usState":false,"conf":"H"},{"iata":"BRU","city":"Brussels","country":"Belgium","region":"Europe","sub":"","lat":50.901,"lon":4.484,"primary":true,"usState":false,"conf":"H"},{"iata":"ZRH","city":"Zurich","country":"Switzerland","region":"Europe","sub":"","lat":47.458,"lon":8.548,"primary":true,"usState":false,"conf":"H"},{"iata":"VIE","city":"Vienna","country":"Austria","region":"Europe","sub":"","lat":48.11,"lon":16.57,"primary":true,"usState":false,"conf":"H"},{"iata":"LIS","city":"Lisbon","country":"Portugal","region":"Europe","sub":"","lat":38.774,"lon":-9.134,"primary":true,"usState":false,"conf":"H"},{"iata":"ATH","city":"Athens","country":"Greece","region":"Europe","sub":"","lat":37.936,"lon":23.947,"primary":true,"usState":false,"conf":"H"},{"iata":"WAW","city":"Warsaw","country":"Poland","region":"Europe","sub":"","lat":52.166,"lon":20.967,"primary":true,"usState":false,"conf":"H"},{"iata":"PRG","city":"Prague","country":"Czechia","region":"Europe","sub":"","lat":50.101,"lon":14.26,"primary":true,"usState":false,"conf":"H"},{"iata":"BUD","city":"Budapest","country":"Hungary","region":"Europe","sub":"","lat":47.439,"lon":19.262,"primary":true,"usState":false,"conf":"H"},{"iata":"OTP","city":"Bucharest","country":"Romania","region":"Europe","sub":"","lat":44.572,"lon":26.102,"primary":true,"usState":false,"conf":"H"},{"iata":"SOF","city":"Sofia","country":"Bulgaria","region":"Europe","sub":"","lat":42.695,"lon":23.406,"primary":true,"usState":false,"conf":"H"},{"iata":"ZAG","city":"Zagreb","country":"Croatia","region":"Europe","sub":"","lat":45.743,"lon":16.069,"primary":true,"usState":false,"conf":"H"},{"iata":"BEG","city":"Belgrade","country":"Serbia","region":"Europe","sub":"","lat":44.818,"lon":20.309,"primary":true,"usState":false,"conf":"H"},{"iata":"BTS","city":"Bratislava","country":"Slovakia","region":"Europe","sub":"","lat":48.17,"lon":17.213,"primary":true,"usState":false,"conf":"H"},{"iata":"LJU","city":"Ljubljana","country":"Slovenia","region":"Europe","sub":"","lat":46.224,"lon":14.458,"primary":true,"usState":false,"conf":"H"},{"iata":"CPH","city":"Copenhagen","country":"Denmark","region":"Europe","sub":"","lat":55.618,"lon":12.656,"primary":true,"usState":false,"conf":"H"},{"iata":"ARN","city":"Stockholm","country":"Sweden","region":"Europe","sub":"","lat":59.652,"lon":17.919,"primary":true,"usState":false,"conf":"H"},{"iata":"OSL","city":"Oslo","country":"Norway","region":"Europe","sub":"","lat":60.194,"lon":11.1,"primary":true,"usState":false,"conf":"H"},{"iata":"HEL","city":"Helsinki","country":"Finland","region":"Europe","sub":"","lat":60.317,"lon":24.963,"primary":true,"usState":false,"conf":"H"},{"iata":"KEF","city":"Reykjavik","country":"Iceland","region":"Europe","sub":"","lat":63.985,"lon":-22.605,"primary":true,"usState":false,"conf":"H"},{"iata":"TLL","city":"Tallinn","country":"Estonia","region":"Europe","sub":"","lat":59.413,"lon":24.833,"primary":true,"usState":false,"conf":"H"},{"iata":"RIX","city":"Riga","country":"Latvia","region":"Europe","sub":"","lat":56.924,"lon":23.971,"primary":true,"usState":false,"conf":"H"},{"iata":"VNO","city":"Vilnius","country":"Lithuania","region":"Europe","sub":"","lat":54.634,"lon":25.286,"primary":true,"usState":false,"conf":"H"},{"iata":"LUX","city":"Luxembourg","country":"Luxembourg","region":"Europe","sub":"","lat":49.627,"lon":6.212,"primary":true,"usState":false,"conf":"H"},{"iata":"MLA","city":"Valletta","country":"Malta","region":"Europe","sub":"","lat":35.857,"lon":14.477,"primary":true,"usState":false,"conf":"H"},{"iata":"LCA","city":"Larnaca","country":"Cyprus","region":"Europe","sub":"","lat":34.875,"lon":33.625,"primary":true,"usState":false,"conf":"H"},{"iata":"TIA","city":"Tirana","country":"Albania","region":"Europe","sub":"","lat":41.415,"lon":19.721,"primary":true,"usState":false,"conf":"H"},{"iata":"SKP","city":"Skopje","country":"North Macedonia","region":"Europe","sub":"","lat":41.962,"lon":21.621,"primary":true,"usState":false,"conf":"H"},{"iata":"SJJ","city":"Sarajevo","country":"Bosnia and Herzegovina","region":"Europe","sub":"","lat":43.825,"lon":18.331,"primary":true,"usState":false,"conf":"H"},{"iata":"TGD","city":"Podgorica","country":"Montenegro","region":"Europe","sub":"","lat":42.359,"lon":19.252,"primary":true,"usState":false,"conf":"H"},{"iata":"PRN","city":"Pristina","country":"Kosovo","region":"Europe","sub":"","lat":42.573,"lon":21.036,"primary":true,"usState":false,"conf":"H"},{"iata":"KIV","city":"Chisinau","country":"Moldova","region":"Europe","sub":"","lat":46.928,"lon":28.931,"primary":true,"usState":false,"conf":"H"},{"iata":"KBP","city":"Kyiv","country":"Ukraine","region":"Europe","sub":"","lat":50.345,"lon":30.895,"primary":true,"usState":false,"conf":"M"},{"iata":"MSQ","city":"Minsk","country":"Belarus","region":"Europe","sub":"","lat":53.882,"lon":28.031,"primary":true,"usState":false,"conf":"H"},{"iata":"SVO","city":"Moscow","country":"Russia","region":"Europe","sub":"","lat":55.973,"lon":37.415,"primary":true,"usState":false,"conf":"M"},{"iata":"DEL","city":"Delhi","country":"India","region":"Asia","sub":"","lat":28.556,"lon":77.1,"primary":true,"usState":false,"conf":"H"},{"iata":"CAN","city":"Guangzhou","country":"China","region":"Asia","sub":"","lat":23.392,"lon":113.299,"primary":true,"usState":false,"conf":"M"},{"iata":"HND","city":"Tokyo","country":"Japan","region":"Asia","sub":"","lat":35.549,"lon":139.78,"primary":true,"usState":false,"conf":"H"},{"iata":"ICN","city":"Seoul","country":"South Korea","region":"Asia","sub":"","lat":37.469,"lon":126.451,"primary":true,"usState":false,"conf":"H"},{"iata":"TPE","city":"Taipei","country":"Taiwan","region":"Asia","sub":"","lat":25.078,"lon":121.233,"primary":true,"usState":false,"conf":"H"},{"iata":"HKG","city":"Hong Kong","country":"Hong Kong","region":"Asia","sub":"","lat":22.308,"lon":113.915,"primary":true,"usState":false,"conf":"H"},{"iata":"SIN","city":"Singapore","country":"Singapore","region":"Asia","sub":"","lat":1.364,"lon":103.991,"primary":true,"usState":false,"conf":"H"},{"iata":"KUL","city":"Kuala Lumpur","country":"Malaysia","region":"Asia","sub":"","lat":2.746,"lon":101.71,"primary":true,"usState":false,"conf":"H"},{"iata":"BKK","city":"Bangkok","country":"Thailand","region":"Asia","sub":"","lat":13.69,"lon":100.75,"primary":true,"usState":false,"conf":"H"},{"iata":"SGN","city":"Ho Chi Minh City","country":"Vietnam","region":"Asia","sub":"","lat":10.819,"lon":106.652,"primary":true,"usState":false,"conf":"H"},{"iata":"CGK","city":"Jakarta","country":"Indonesia","region":"Asia","sub":"","lat":-6.126,"lon":106.656,"primary":true,"usState":false,"conf":"H"},{"iata":"MNL","city":"Manila","country":"Philippines","region":"Asia","sub":"","lat":14.509,"lon":121.02,"primary":true,"usState":false,"conf":"H"},{"iata":"PNH","city":"Phnom Penh","country":"Cambodia","region":"Asia","sub":"","lat":11.547,"lon":104.844,"primary":true,"usState":false,"conf":"M"},{"iata":"VTE","city":"Vientiane","country":"Laos","region":"Asia","sub":"","lat":17.988,"lon":102.563,"primary":true,"usState":false,"conf":"H"},{"iata":"RGN","city":"Yangon","country":"Myanmar","region":"Asia","sub":"","lat":16.907,"lon":96.133,"primary":true,"usState":false,"conf":"H"},{"iata":"BWN","city":"Bandar Seri Begawan","country":"Brunei","region":"Asia","sub":"","lat":4.944,"lon":114.928,"primary":true,"usState":false,"conf":"H"},{"iata":"KHI","city":"Karachi","country":"Pakistan","region":"Asia","sub":"","lat":24.907,"lon":67.161,"primary":true,"usState":false,"conf":"M"},{"iata":"DAC","city":"Dhaka","country":"Bangladesh","region":"Asia","sub":"","lat":23.843,"lon":90.398,"primary":true,"usState":false,"conf":"H"},{"iata":"CMB","city":"Colombo","country":"Sri Lanka","region":"Asia","sub":"","lat":7.181,"lon":79.884,"primary":true,"usState":false,"conf":"H"},{"iata":"KTM","city":"Kathmandu","country":"Nepal","region":"Asia","sub":"","lat":27.696,"lon":85.359,"primary":true,"usState":false,"conf":"H"},{"iata":"PBH","city":"Paro","country":"Bhutan","region":"Asia","sub":"","lat":27.403,"lon":89.425,"primary":true,"usState":false,"conf":"H"},{"iata":"MLE","city":"Male","country":"Maldives","region":"Asia","sub":"","lat":4.192,"lon":73.529,"primary":true,"usState":false,"conf":"H"},{"iata":"KBL","city":"Kabul","country":"Afghanistan","region":"Asia","sub":"","lat":34.566,"lon":69.212,"primary":true,"usState":false,"conf":"H"},{"iata":"ULN","city":"Ulaanbaatar","country":"Mongolia","region":"Asia","sub":"","lat":47.843,"lon":106.766,"primary":true,"usState":false,"conf":"M"},{"iata":"ALA","city":"Almaty","country":"Kazakhstan","region":"Asia","sub":"","lat":43.352,"lon":77.04,"primary":true,"usState":false,"conf":"M"},{"iata":"TAS","city":"Tashkent","country":"Uzbekistan","region":"Asia","sub":"","lat":41.258,"lon":69.281,"primary":true,"usState":false,"conf":"H"},{"iata":"FRU","city":"Bishkek","country":"Kyrgyzstan","region":"Asia","sub":"","lat":43.061,"lon":74.478,"primary":true,"usState":false,"conf":"H"},{"iata":"DYU","city":"Dushanbe","country":"Tajikistan","region":"Asia","sub":"","lat":38.543,"lon":68.825,"primary":true,"usState":false,"conf":"H"},{"iata":"ASB","city":"Ashgabat","country":"Turkmenistan","region":"Asia","sub":"","lat":37.987,"lon":58.361,"primary":true,"usState":false,"conf":"H"},{"iata":"GYD","city":"Baku","country":"Azerbaijan","region":"Asia","sub":"","lat":40.468,"lon":50.047,"primary":true,"usState":false,"conf":"H"},{"iata":"EVN","city":"Yerevan","country":"Armenia","region":"Asia","sub":"","lat":40.147,"lon":44.396,"primary":true,"usState":false,"conf":"H"},{"iata":"TBS","city":"Tbilisi","country":"Georgia","region":"Asia","sub":"","lat":41.669,"lon":44.955,"primary":true,"usState":false,"conf":"H"},{"iata":"IST","city":"Istanbul","country":"Turkey","region":"Asia","sub":"","lat":41.261,"lon":28.742,"primary":true,"usState":false,"conf":"H"},{"iata":"TLV","city":"Tel Aviv","country":"Israel","region":"Asia","sub":"","lat":32.011,"lon":34.887,"primary":true,"usState":false,"conf":"H"},{"iata":"AMM","city":"Amman","country":"Jordan","region":"Asia","sub":"","lat":31.723,"lon":35.993,"primary":true,"usState":false,"conf":"H"},{"iata":"BEY","city":"Beirut","country":"Lebanon","region":"Asia","sub":"","lat":33.821,"lon":35.488,"primary":true,"usState":false,"conf":"H"},{"iata":"DAM","city":"Damascus","country":"Syria","region":"Asia","sub":"","lat":33.411,"lon":36.516,"primary":true,"usState":false,"conf":"H"},{"iata":"BGW","city":"Baghdad","country":"Iraq","region":"Asia","sub":"","lat":33.262,"lon":44.235,"primary":true,"usState":false,"conf":"H"},{"iata":"IKA","city":"Tehran","country":"Iran","region":"Asia","sub":"","lat":35.416,"lon":51.152,"primary":true,"usState":false,"conf":"M"},{"iata":"KWI","city":"Kuwait City","country":"Kuwait","region":"Asia","sub":"","lat":29.227,"lon":47.969,"primary":true,"usState":false,"conf":"H"},{"iata":"JED","city":"Jeddah","country":"Saudi Arabia","region":"Asia","sub":"","lat":21.68,"lon":39.157,"primary":true,"usState":false,"conf":"M"},{"iata":"DXB","city":"Dubai","country":"United Arab Emirates","region":"Asia","sub":"","lat":25.253,"lon":55.366,"primary":true,"usState":false,"conf":"H"},{"iata":"DOH","city":"Doha","country":"Qatar","region":"Asia","sub":"","lat":25.273,"lon":51.608,"primary":true,"usState":false,"conf":"H"},{"iata":"BAH","city":"Manama","country":"Bahrain","region":"Asia","sub":"","lat":26.271,"lon":50.634,"primary":true,"usState":false,"conf":"H"},{"iata":"MCT","city":"Muscat","country":"Oman","region":"Asia","sub":"","lat":23.593,"lon":58.284,"primary":true,"usState":false,"conf":"H"},{"iata":"SAH","city":"Sanaa","country":"Yemen","region":"Asia","sub":"","lat":15.476,"lon":44.22,"primary":true,"usState":false,"conf":"H"},{"iata":"CAI","city":"Cairo","country":"Egypt","region":"Africa","sub":"","lat":30.122,"lon":31.406,"primary":true,"usState":false,"conf":"H"},{"iata":"CMN","city":"Casablanca","country":"Morocco","region":"Africa","sub":"","lat":33.367,"lon":-7.59,"primary":true,"usState":false,"conf":"H"},{"iata":"ALG","city":"Algiers","country":"Algeria","region":"Africa","sub":"","lat":36.691,"lon":3.215,"primary":true,"usState":false,"conf":"H"},{"iata":"TUN","city":"Tunis","country":"Tunisia","region":"Africa","sub":"","lat":36.851,"lon":10.227,"primary":true,"usState":false,"conf":"H"},{"iata":"TIP","city":"Tripoli","country":"Libya","region":"Africa","sub":"","lat":32.664,"lon":13.159,"primary":true,"usState":false,"conf":"M"},{"iata":"KRT","city":"Khartoum","country":"Sudan","region":"Africa","sub":"","lat":15.59,"lon":32.553,"primary":true,"usState":false,"conf":"H"},{"iata":"JUB","city":"Juba","country":"South Sudan","region":"Africa","sub":"","lat":4.872,"lon":31.601,"primary":true,"usState":false,"conf":"H"},{"iata":"ADD","city":"Addis Ababa","country":"Ethiopia","region":"Africa","sub":"","lat":8.978,"lon":38.799,"primary":true,"usState":false,"conf":"H"},{"iata":"ASM","city":"Asmara","country":"Eritrea","region":"Africa","sub":"","lat":15.292,"lon":38.911,"primary":true,"usState":false,"conf":"H"},{"iata":"JIB","city":"Djibouti","country":"Djibouti","region":"Africa","sub":"","lat":11.547,"lon":43.159,"primary":true,"usState":false,"conf":"H"},{"iata":"MGQ","city":"Mogadishu","country":"Somalia","region":"Africa","sub":"","lat":2.014,"lon":45.305,"primary":true,"usState":false,"conf":"H"},{"iata":"NBO","city":"Nairobi","country":"Kenya","region":"Africa","sub":"","lat":-1.319,"lon":36.927,"primary":true,"usState":false,"conf":"H"},{"iata":"EBB","city":"Entebbe","country":"Uganda","region":"Africa","sub":"","lat":0.042,"lon":32.443,"primary":true,"usState":false,"conf":"H"},{"iata":"DAR","city":"Dar es Salaam","country":"Tanzania","region":"Africa","sub":"","lat":-6.878,"lon":39.203,"primary":true,"usState":false,"conf":"H"},{"iata":"KGL","city":"Kigali","country":"Rwanda","region":"Africa","sub":"","lat":-1.969,"lon":30.139,"primary":true,"usState":false,"conf":"H"},{"iata":"BJM","city":"Bujumbura","country":"Burundi","region":"Africa","sub":"","lat":-3.324,"lon":29.319,"primary":true,"usState":false,"conf":"H"},{"iata":"FIH","city":"Kinshasa","country":"DR Congo","region":"Africa","sub":"","lat":-4.386,"lon":15.445,"primary":true,"usState":false,"conf":"H"},{"iata":"BZV","city":"Brazzaville","country":"Republic of the Congo","region":"Africa","sub":"","lat":-4.252,"lon":15.253,"primary":true,"usState":false,"conf":"H"},{"iata":"LAD","city":"Luanda","country":"Angola","region":"Africa","sub":"","lat":-8.858,"lon":13.231,"primary":true,"usState":false,"conf":"H"},{"iata":"LUN","city":"Lusaka","country":"Zambia","region":"Africa","sub":"","lat":-15.331,"lon":28.453,"primary":true,"usState":false,"conf":"H"},{"iata":"HRE","city":"Harare","country":"Zimbabwe","region":"Africa","sub":"","lat":-17.932,"lon":31.093,"primary":true,"usState":false,"conf":"H"},{"iata":"MPM","city":"Maputo","country":"Mozambique","region":"Africa","sub":"","lat":-25.921,"lon":32.573,"primary":true,"usState":false,"conf":"H"},{"iata":"LLW","city":"Lilongwe","country":"Malawi","region":"Africa","sub":"","lat":-13.789,"lon":33.781,"primary":true,"usState":false,"conf":"H"},{"iata":"TNR","city":"Antananarivo","country":"Madagascar","region":"Africa","sub":"","lat":-18.797,"lon":47.479,"primary":true,"usState":false,"conf":"H"},{"iata":"MRU","city":"Port Louis","country":"Mauritius","region":"Africa","sub":"","lat":-20.43,"lon":57.683,"primary":true,"usState":false,"conf":"H"},{"iata":"SEZ","city":"Victoria","country":"Seychelles","region":"Africa","sub":"","lat":-4.674,"lon":55.522,"primary":true,"usState":false,"conf":"H"},{"iata":"JNB","city":"Johannesburg","country":"South Africa","region":"Africa","sub":"","lat":-26.139,"lon":28.246,"primary":true,"usState":false,"conf":"H"},{"iata":"WDH","city":"Windhoek","country":"Namibia","region":"Africa","sub":"","lat":-22.48,"lon":17.463,"primary":true,"usState":false,"conf":"H"},{"iata":"GBE","city":"Gaborone","country":"Botswana","region":"Africa","sub":"","lat":-24.557,"lon":25.918,"primary":true,"usState":false,"conf":"H"},{"iata":"MSU","city":"Maseru","country":"Lesotho","region":"Africa","sub":"","lat":-29.462,"lon":27.553,"primary":true,"usState":false,"conf":"H"},{"iata":"SHO","city":"Manzini","country":"Eswatini","region":"Africa","sub":"","lat":-26.358,"lon":31.717,"primary":true,"usState":false,"conf":"H"},{"iata":"LOS","city":"Lagos","country":"Nigeria","region":"Africa","sub":"","lat":6.577,"lon":3.321,"primary":true,"usState":false,"conf":"H"},{"iata":"ACC","city":"Accra","country":"Ghana","region":"Africa","sub":"","lat":5.605,"lon":-0.167,"primary":true,"usState":false,"conf":"H"},{"iata":"ABJ","city":"Abidjan","country":"Ivory Coast","region":"Africa","sub":"","lat":5.261,"lon":-3.926,"primary":true,"usState":false,"conf":"H"},{"iata":"DSS","city":"Dakar","country":"Senegal","region":"Africa","sub":"","lat":14.67,"lon":-17.073,"primary":true,"usState":false,"conf":"H"},{"iata":"BKO","city":"Bamako","country":"Mali","region":"Africa","sub":"","lat":12.534,"lon":-7.95,"primary":true,"usState":false,"conf":"H"},{"iata":"OUA","city":"Ouagadougou","country":"Burkina Faso","region":"Africa","sub":"","lat":12.353,"lon":-1.512,"primary":true,"usState":false,"conf":"H"},{"iata":"NIM","city":"Niamey","country":"Niger","region":"Africa","sub":"","lat":13.481,"lon":2.183,"primary":true,"usState":false,"conf":"H"},{"iata":"NDJ","city":"N'Djamena","country":"Chad","region":"Africa","sub":"","lat":12.134,"lon":15.034,"primary":true,"usState":false,"conf":"H"},{"iata":"DLA","city":"Douala","country":"Cameroon","region":"Africa","sub":"","lat":4.006,"lon":9.719,"primary":true,"usState":false,"conf":"H"},{"iata":"LBV","city":"Libreville","country":"Gabon","region":"Africa","sub":"","lat":0.459,"lon":9.412,"primary":true,"usState":false,"conf":"H"},{"iata":"SSG","city":"Malabo","country":"Equatorial Guinea","region":"Africa","sub":"","lat":3.755,"lon":8.709,"primary":true,"usState":false,"conf":"H"},{"iata":"BGF","city":"Bangui","country":"Central African Republic","region":"Africa","sub":"","lat":4.399,"lon":18.519,"primary":true,"usState":false,"conf":"H"},{"iata":"COO","city":"Cotonou","country":"Benin","region":"Africa","sub":"","lat":6.357,"lon":2.384,"primary":true,"usState":false,"conf":"H"},{"iata":"LFW","city":"Lome","country":"Togo","region":"Africa","sub":"","lat":6.166,"lon":1.254,"primary":true,"usState":false,"conf":"H"},{"iata":"CKY","city":"Conakry","country":"Guinea","region":"Africa","sub":"","lat":9.576,"lon":-13.612,"primary":true,"usState":false,"conf":"H"},{"iata":"FNA","city":"Freetown","country":"Sierra Leone","region":"Africa","sub":"","lat":8.616,"lon":-13.196,"primary":true,"usState":false,"conf":"H"},{"iata":"ROB","city":"Monrovia","country":"Liberia","region":"Africa","sub":"","lat":6.234,"lon":-10.362,"primary":true,"usState":false,"conf":"H"},{"iata":"BJL","city":"Banjul","country":"Gambia","region":"Africa","sub":"","lat":13.338,"lon":-16.652,"primary":true,"usState":false,"conf":"H"},{"iata":"OXB","city":"Bissau","country":"Guinea-Bissau","region":"Africa","sub":"","lat":11.895,"lon":-15.654,"primary":true,"usState":false,"conf":"H"},{"iata":"NKC","city":"Nouakchott","country":"Mauritania","region":"Africa","sub":"","lat":18.098,"lon":-15.948,"primary":true,"usState":false,"conf":"H"},{"iata":"RAI","city":"Praia","country":"Cape Verde","region":"Africa","sub":"","lat":14.945,"lon":-23.494,"primary":true,"usState":false,"conf":"H"},{"iata":"HAH","city":"Moroni","country":"Comoros","region":"Africa","sub":"","lat":-11.533,"lon":43.272,"primary":true,"usState":false,"conf":"H"},{"iata":"TMS","city":"Sao Tome","country":"Sao Tome and Principe","region":"Africa","sub":"","lat":0.378,"lon":6.712,"primary":true,"usState":false,"conf":"H"},{"iata":"SYD","city":"Sydney","country":"Australia","region":"Oceania","sub":"","lat":-33.946,"lon":151.177,"primary":true,"usState":false,"conf":"H"},{"iata":"AKL","city":"Auckland","country":"New Zealand","region":"Oceania","sub":"","lat":-37.008,"lon":174.792,"primary":true,"usState":false,"conf":"H"},{"iata":"NAN","city":"Nadi","country":"Fiji","region":"Oceania","sub":"","lat":-17.755,"lon":177.443,"primary":true,"usState":false,"conf":"H"},{"iata":"POM","city":"Port Moresby","country":"Papua New Guinea","region":"Oceania","sub":"","lat":-9.443,"lon":147.22,"primary":true,"usState":false,"conf":"H"},{"iata":"APW","city":"Apia","country":"Samoa","region":"Oceania","sub":"","lat":-13.83,"lon":-172.008,"primary":true,"usState":false,"conf":"H"},{"iata":"TBU","city":"Nuku'alofa","country":"Tonga","region":"Oceania","sub":"","lat":-21.241,"lon":-175.15,"primary":true,"usState":false,"conf":"H"},{"iata":"VLI","city":"Port Vila","country":"Vanuatu","region":"Oceania","sub":"","lat":-17.699,"lon":168.32,"primary":true,"usState":false,"conf":"H"},{"iata":"HIR","city":"Honiara","country":"Solomon Islands","region":"Oceania","sub":"","lat":-9.428,"lon":160.055,"primary":true,"usState":false,"conf":"H"},{"iata":"ROR","city":"Koror","country":"Palau","region":"Oceania","sub":"","lat":7.367,"lon":134.544,"primary":true,"usState":false,"conf":"H"},{"iata":"BLR","city":"Bengaluru","country":"India","region":"Asia","sub":"","lat":13.199,"lon":77.706,"primary":false,"usState":false,"conf":"H"},{"iata":"BOM","city":"Mumbai","country":"India","region":"Asia","sub":"","lat":19.089,"lon":72.868,"primary":false,"usState":false,"conf":"H"},{"iata":"MAA","city":"Chennai","country":"India","region":"Asia","sub":"","lat":12.994,"lon":80.169,"primary":false,"usState":false,"conf":"H"},{"iata":"HYD","city":"Hyderabad","country":"India","region":"Asia","sub":"","lat":17.24,"lon":78.429,"primary":false,"usState":false,"conf":"H"},{"iata":"CCU","city":"Kolkata","country":"India","region":"Asia","sub":"","lat":22.655,"lon":88.447,"primary":false,"usState":false,"conf":"H"},{"iata":"ATL","city":"Atlanta","country":"United States","region":"North America","sub":"","lat":33.637,"lon":-84.428,"primary":true,"usState":false,"conf":"H"},{"iata":"JFK","city":"New York","country":"United States","region":"North America","sub":"","lat":40.64,"lon":-73.779,"primary":false,"usState":false,"conf":"H"},{"iata":"SFO","city":"San Francisco","country":"United States","region":"North America","sub":"","lat":37.619,"lon":-122.375,"primary":false,"usState":false,"conf":"H"},{"iata":"MIA","city":"Miami","country":"United States","region":"North America","sub":"","lat":25.795,"lon":-80.287,"primary":false,"usState":false,"conf":"H"},{"iata":"VTZ","city":"Visakhapatnam","country":"India","region":"Asia","sub":"","lat":17.721,"lon":83.225,"primary":false,"usState":false,"conf":"H"},{"iata":"HGI","city":"Itanagar","country":"India","region":"Asia","sub":"","lat":27.095,"lon":93.653,"primary":false,"usState":false,"conf":"H"},{"iata":"GAU","city":"Guwahati","country":"India","region":"Asia","sub":"","lat":26.106,"lon":91.586,"primary":false,"usState":false,"conf":"H"},{"iata":"PAT","city":"Patna","country":"India","region":"Asia","sub":"","lat":25.591,"lon":85.088,"primary":false,"usState":false,"conf":"H"},{"iata":"RPR","city":"Raipur","country":"India","region":"Asia","sub":"","lat":21.181,"lon":81.739,"primary":false,"usState":false,"conf":"H"},{"iata":"GOI","city":"Goa","country":"India","region":"Asia","sub":"","lat":15.38,"lon":73.831,"primary":false,"usState":false,"conf":"H"},{"iata":"AMD","city":"Ahmedabad","country":"India","region":"Asia","sub":"","lat":23.077,"lon":72.634,"primary":false,"usState":false,"conf":"H"},{"iata":"KUU","city":"Kullu","country":"India","region":"Asia","sub":"","lat":31.877,"lon":77.154,"primary":false,"usState":false,"conf":"H"},{"iata":"IXR","city":"Ranchi","country":"India","region":"Asia","sub":"","lat":23.314,"lon":85.322,"primary":false,"usState":false,"conf":"H"},{"iata":"COK","city":"Kochi","country":"India","region":"Asia","sub":"","lat":10.152,"lon":76.402,"primary":false,"usState":false,"conf":"H"},{"iata":"IDR","city":"Indore","country":"India","region":"Asia","sub":"","lat":22.722,"lon":75.801,"primary":false,"usState":false,"conf":"H"},{"iata":"IMF","city":"Imphal","country":"India","region":"Asia","sub":"","lat":24.76,"lon":93.897,"primary":false,"usState":false,"conf":"H"},{"iata":"SHL","city":"Shillong","country":"India","region":"Asia","sub":"","lat":25.704,"lon":91.979,"primary":false,"usState":false,"conf":"H"},{"iata":"AJL","city":"Aizawl","country":"India","region":"Asia","sub":"","lat":23.841,"lon":92.62,"primary":false,"usState":false,"conf":"H"},{"iata":"DMU","city":"Dimapur","country":"India","region":"Asia","sub":"","lat":25.883,"lon":93.772,"primary":false,"usState":false,"conf":"H"},{"iata":"BBI","city":"Bhubaneswar","country":"India","region":"Asia","sub":"","lat":20.244,"lon":85.818,"primary":false,"usState":false,"conf":"H"},{"iata":"ATQ","city":"Amritsar","country":"India","region":"Asia","sub":"","lat":31.709,"lon":74.797,"primary":false,"usState":false,"conf":"H"},{"iata":"JAI","city":"Jaipur","country":"India","region":"Asia","sub":"","lat":26.824,"lon":75.812,"primary":false,"usState":false,"conf":"H"},{"iata":"PYG","city":"Gangtok","country":"India","region":"Asia","sub":"","lat":27.226,"lon":88.586,"primary":false,"usState":false,"conf":"H"},{"iata":"IXA","city":"Agartala","country":"India","region":"Asia","sub":"","lat":23.887,"lon":91.241,"primary":false,"usState":false,"conf":"H"},{"iata":"LKO","city":"Lucknow","country":"India","region":"Asia","sub":"","lat":26.761,"lon":80.889,"primary":false,"usState":false,"conf":"H"},{"iata":"DED","city":"Dehradun","country":"India","region":"Asia","sub":"","lat":30.19,"lon":78.18,"primary":false,"usState":false,"conf":"H"},{"iata":"IXC","city":"Chandigarh","country":"India","region":"Asia","sub":"","lat":30.673,"lon":76.789,"primary":false,"usState":false,"conf":"H"},{"iata":"SXR","city":"Srinagar","country":"India","region":"Asia","sub":"","lat":33.987,"lon":74.774,"primary":false,"usState":false,"conf":"H"},{"iata":"IXL","city":"Leh","country":"India","region":"Asia","sub":"","lat":34.136,"lon":77.546,"primary":false,"usState":false,"conf":"H"},{"iata":"PNY","city":"Puducherry","country":"India","region":"Asia","sub":"","lat":11.968,"lon":79.81,"primary":false,"usState":false,"conf":"H"},{"iata":"IXZ","city":"Port Blair","country":"India","region":"Asia","sub":"","lat":11.641,"lon":92.73,"primary":false,"usState":false,"conf":"H"},{"iata":"AGX","city":"Agatti","country":"India","region":"Asia","sub":"","lat":10.824,"lon":72.176,"primary":false,"usState":false,"conf":"H"},{"iata":"YUL","city":"Montreal","country":"Canada","region":"North America","sub":"","lat":45.47,"lon":-73.741,"primary":false,"usState":false,"conf":"H"},{"iata":"YVR","city":"Vancouver","country":"Canada","region":"North America","sub":"","lat":49.195,"lon":-123.184,"primary":false,"usState":false,"conf":"H"},{"iata":"YYC","city":"Calgary","country":"Canada","region":"North America","sub":"","lat":51.114,"lon":-114.02,"primary":false,"usState":false,"conf":"H"},{"iata":"YWG","city":"Winnipeg","country":"Canada","region":"North America","sub":"","lat":49.91,"lon":-97.239,"primary":false,"usState":false,"conf":"H"},{"iata":"YXE","city":"Saskatoon","country":"Canada","region":"North America","sub":"","lat":52.171,"lon":-106.7,"primary":false,"usState":false,"conf":"H"},{"iata":"YHZ","city":"Halifax","country":"Canada","region":"North America","sub":"","lat":44.881,"lon":-63.509,"primary":false,"usState":false,"conf":"H"},{"iata":"YQM","city":"Moncton","country":"Canada","region":"North America","sub":"","lat":46.112,"lon":-64.679,"primary":false,"usState":false,"conf":"H"},{"iata":"YYT","city":"St. John's","country":"Canada","region":"North America","sub":"","lat":47.619,"lon":-52.752,"primary":false,"usState":false,"conf":"H"},{"iata":"YYG","city":"Charlottetown","country":"Canada","region":"North America","sub":"","lat":46.29,"lon":-63.121,"primary":false,"usState":false,"conf":"H"},{"iata":"YXY","city":"Whitehorse","country":"Canada","region":"North America","sub":"","lat":60.71,"lon":-135.067,"primary":false,"usState":false,"conf":"H"},{"iata":"YZF","city":"Yellowknife","country":"Canada","region":"North America","sub":"","lat":62.463,"lon":-114.44,"primary":false,"usState":false,"conf":"H"},{"iata":"YFB","city":"Iqaluit","country":"Canada","region":"North America","sub":"","lat":63.756,"lon":-68.556,"primary":false,"usState":false,"conf":"H"},{"iata":"MEL","city":"Melbourne","country":"Australia","region":"Oceania","sub":"","lat":-37.673,"lon":144.843,"primary":false,"usState":false,"conf":"H"},{"iata":"BNE","city":"Brisbane","country":"Australia","region":"Oceania","sub":"","lat":-27.384,"lon":153.117,"primary":false,"usState":false,"conf":"H"},{"iata":"PER","city":"Perth","country":"Australia","region":"Oceania","sub":"","lat":-31.94,"lon":115.967,"primary":false,"usState":false,"conf":"H"},{"iata":"ADL","city":"Adelaide","country":"Australia","region":"Oceania","sub":"","lat":-34.945,"lon":138.531,"primary":false,"usState":false,"conf":"H"},{"iata":"HBA","city":"Hobart","country":"Australia","region":"Oceania","sub":"","lat":-42.836,"lon":147.511,"primary":false,"usState":false,"conf":"H"},{"iata":"CBR","city":"Canberra","country":"Australia","region":"Oceania","sub":"","lat":-35.307,"lon":149.195,"primary":false,"usState":false,"conf":"H"},{"iata":"DRW","city":"Darwin","country":"Australia","region":"Oceania","sub":"","lat":-12.415,"lon":130.877,"primary":false,"usState":false,"conf":"H"},{"iata":"MUC","city":"Munich","country":"Germany","region":"Europe","sub":"","lat":48.354,"lon":11.786,"primary":false,"usState":false,"conf":"H"},{"iata":"STR","city":"Stuttgart","country":"Germany","region":"Europe","sub":"","lat":48.69,"lon":9.222,"primary":false,"usState":false,"conf":"H"},{"iata":"BER","city":"Berlin","country":"Germany","region":"Europe","sub":"","lat":52.367,"lon":13.504,"primary":false,"usState":false,"conf":"H"},{"iata":"BRE","city":"Bremen","country":"Germany","region":"Europe","sub":"","lat":53.047,"lon":8.787,"primary":false,"usState":false,"conf":"H"},{"iata":"HAM","city":"Hamburg","country":"Germany","region":"Europe","sub":"","lat":53.63,"lon":9.988,"primary":false,"usState":false,"conf":"H"},{"iata":"HAJ","city":"Hanover","country":"Germany","region":"Europe","sub":"","lat":52.461,"lon":9.685,"primary":false,"usState":false,"conf":"H"},{"iata":"DUS","city":"Dusseldorf","country":"Germany","region":"Europe","sub":"","lat":51.289,"lon":6.767,"primary":false,"usState":false,"conf":"H"},{"iata":"HHN","city":"Hahn","country":"Germany","region":"Europe","sub":"","lat":49.949,"lon":7.264,"primary":false,"usState":false,"conf":"H"},{"iata":"SCN","city":"Saarbrucken","country":"Germany","region":"Europe","sub":"","lat":49.215,"lon":7.11,"primary":false,"usState":false,"conf":"H"},{"iata":"LEJ","city":"Leipzig","country":"Germany","region":"Europe","sub":"","lat":51.424,"lon":12.236,"primary":false,"usState":false,"conf":"H"},{"iata":"ERF","city":"Erfurt","country":"Germany","region":"Europe","sub":"","lat":50.98,"lon":10.958,"primary":false,"usState":false,"conf":"H"},{"iata":"RLG","city":"Rostock","country":"Germany","region":"Europe","sub":"","lat":53.918,"lon":12.278,"primary":false,"usState":false,"conf":"H"}];
+window.ADMI_DIVISIONS = {"United States":[["Alabama","BHM"],["Alaska","ANC"],["Arizona","PHX"],["Arkansas","LIT"],["California","LAX"],["Colorado","DEN"],["Connecticut","BDL"],["Delaware","ILG"],["Florida","MCO"],["Hawaii","HNL"],["Idaho","BOI"],["Illinois","ORD"],["Indiana","IND"],["Iowa","DSM"],["Kansas","ICT"],["Kentucky","SDF"],["Louisiana","MSY"],["Maine","PWM"],["Maryland","BWI"],["Massachusetts","BOS"],["Michigan","DTW"],["Minnesota","MSP"],["Mississippi","JAN"],["Missouri","STL"],["Montana","BZN"],["Nebraska","OMA"],["Nevada","LAS"],["New Hampshire","MHT"],["New Jersey","EWR"],["New Mexico","ABQ"],["New York","LGA"],["North Carolina","CLT"],["North Dakota","FAR"],["Ohio","CLE"],["Oklahoma","OKC"],["Oregon","PDX"],["Pennsylvania","PHL"],["Rhode Island","PVD"],["South Carolina","CHS"],["South Dakota","FSD"],["Tennessee","BNA"],["Texas","DFW"],["Utah","SLC"],["Vermont","BTV"],["Virginia","IAD"],["Washington","SEA"],["West Virginia","CRW"],["Wisconsin","MKE"],["Wyoming","JAC"]],"India":[["Andhra Pradesh","VTZ"],["Arunachal Pradesh","HGI"],["Assam","GAU"],["Bihar","PAT"],["Chhattisgarh","RPR"],["Goa","GOI"],["Gujarat","AMD"],["Himachal Pradesh","KUU"],["Jharkhand","IXR"],["Karnataka","BLR"],["Kerala","COK"],["Madhya Pradesh","IDR"],["Maharashtra","BOM"],["Manipur","IMF"],["Meghalaya","SHL"],["Mizoram","AJL"],["Nagaland","DMU"],["Odisha","BBI"],["Punjab","ATQ"],["Rajasthan","JAI"],["Sikkim","PYG"],["Tamil Nadu","MAA"],["Telangana","HYD"],["Tripura","IXA"],["Uttar Pradesh","LKO"],["Uttarakhand","DED"],["West Bengal","CCU"],["Delhi","DEL"],["Chandigarh","IXC"],["Jammu and Kashmir","SXR"],["Ladakh","IXL"],["Puducherry","PNY"],["Andaman and Nicobar Islands","IXZ"],["Lakshadweep","AGX"]],"Canada":[["Ontario","YYZ"],["Quebec","YUL"],["British Columbia","YVR"],["Alberta","YYC"],["Manitoba","YWG"],["Saskatchewan","YXE"],["Nova Scotia","YHZ"],["New Brunswick","YQM"],["Newfoundland and Labrador","YYT"],["Prince Edward Island","YYG"],["Yukon","YXY"],["Northwest Territories","YZF"],["Nunavut","YFB"]],"Australia":[["New South Wales","SYD"],["Victoria","MEL"],["Queensland","BNE"],["Western Australia","PER"],["South Australia","ADL"],["Tasmania","HBA"],["Australian Capital Territory","CBR"],["Northern Territory","DRW"]],"Germany":[["Baden-Wurttemberg","STR"],["Bavaria","MUC"],["Berlin","BER"],["Bremen","BRE"],["Hamburg","HAM"],["Hesse","FRA"],["Mecklenburg-Vorpommern","RLG"],["Lower Saxony","HAJ"],["North Rhine-Westphalia","DUS"],["Rhineland-Palatinate","HHN"],["Saarland","SCN"],["Saxony","LEJ"],["Thuringia","ERF"]]};
+window.ADMI_FIRST=[["BHM",169,1,"Delta"],["ANC",null,0,""],["PHX",150,3,"American"],["LIT",199,1,"Delta"],["LAX",188,3,"Frontier"],["DEN",118,3,"Frontier"],["BDL",169,1,"Delta"],["ILG",null,0,""],["MCO",59,3,"Southwest Airlines"],["HNL",811,1,"Delta"],["BOI",424,1,"Delta"],["ORD",105,3,"American + Delta + United"],["IND",60,3,"Southwest Airlines"],["DSM",289,1,"Delta"],["ICT",309,1,"Delta"],["SDF",294,1,"Delta"],["MSY",59,3,"Southwest Airlines"],["PWM",329,1,"Delta"],["BWI",89,3,"Delta"],["BOS",279,2,"Delta"],["DTW",117,2,"Frontier"],["MSP",190,2,"Frontier"],["JAN",209,1,"Delta"],["STL",69,2,"Delta + Southwest"],["BZN",444,1,"Delta"],["OMA",304,1,"Delta"],["LAS",180,3,"Southwest Airlines"],["MHT",163,3,"United Air + commuteair"],["EWR",137,3,"United Air"],["ABQ",359,1,"Delta"],["LGA",107,3,"Frontier"],["CLT",339,2,"American"],["FAR",329,1,"Delta"],["CLE",89,2,"Delta"],["OKC",314,1,"Delta"],["PDX",187,2,"Alaska Airlines"],["PHL",79,3,"American"],["PVD",309,1,"Delta"],["CHS",179,1,"Delta"],["FSD",319,1,"Delta"],["BNA",67,2,"Southwest Airlines"],["DFW",79,2,"American"],["SLC",464,1,"Delta"],["BTV",329,1,"Delta"],["IAD",85,3,"United + Delta"],["SEA",197,2,"Alaska Airlines"],["CRW",204,1,"Delta (operated by Endeavor Air DBA)"],["MKE",294,1,"Delta"],["JAC",434,1,"Delta"]];
+window.ADMI_OCT25=[["BHM",259,"Delta","",1,0],["ANC",580,"Delta","Alaska Air, American",4,1],["PHX",294,"Southwest","Delta, American",3,0],["LIT",346,"Delta","",1,0],["LAX",288,"Frontier","Delta, American",3,0],["DEN",196,"Frontier","Delta, Southwest, United",4,0],["BDL",349,"Delta","",1,0],["ILG",198,"American","",1,1],["MCO",49,"Frontier","Delta, Southwest",3,0],["HNL",991,"Delta","",1,0],["BOI",549,"Delta","",1,0],["ORD",121,"Frontier","United, Delta, American",4,0],["IND",269,"Delta","Southwest",2,0],["DSM",389,"Delta","",1,0],["ICT",422,"Delta","",1,0],["SDF",399,"Delta","",1,0],["MSY",115,"Frontier","Southwest, Delta",3,0],["PWM",429,"Delta","",1,0],["BWI",126,"Frontier","Delta, Southwest",3,0],["BOS",185,"Frontier","Jet Blue, Delta",3,0],["DTW",162,"Frontier","Delta",2,0],["MSP",131,"Frontier","Delta",2,0],["JAN",201,"Delta","",1,0],["STL",232,"Delta","Southwest",2,0],["BZN",559,"Delta","",1,0],["OMA",399,"Delta","",1,0],["LAS",239,"Frontier","Delta, Southwest",3,0],["MHT",259,"American","Southwest, United",3,1],["EWR",144,"Frontier","Delta, United",3,0],["ABQ",459,"Delta","",1,0],["LGA",140,"Frontier","Delta, American",3,0],["CLT",439,"Delta","American",2,0],["FAR",429,"Delta","",1,0],["CLE",136,"Frontier","Delta",2,0],["OKC",434,"Delta","",1,0],["PDX",337,"Alaska","Delta",2,0],["PHL",111,"Frontier","American, Delta",3,0],["PVD",429,"Delta","",1,0],["CHS",259,"Delta","",1,0],["FSD",459,"Delta","",1,0],["BNA",174,"Southwest","Delta",2,0],["DFW",158,"Frontier","Southwest, American",3,0],["SLC",599,"Delta","",1,0],["BTV",409,"Delta","",1,0],["IAD",139,"Frontier","",1,0],["SEA",126,"Frontier","Delta, United",3,0],["CRW",304,"Delta","",1,0],["MKE",419,"Delta","",1,0],["JAC",226,"American","Delta, United",3,1]];
+</script>
+<script>
+/* ============================================================ constants + helpers */
+window.addEventListener('error',e=>{const b=document.getElementById('errBanner');if(b){b.textContent='Error: '+(e.message||'unknown')+(e.lineno?' (line '+e.lineno+')':'')+(window.ADMI_AIRPORTS?'':' | airports data did not load');b.classList.remove('hide')}});
+const DEFAULTS={rate:0.15,cs1:1.0,cs2:0.66,cs3:0.33,cs4:0.1,wp:0.5,wc:0.3,wr:0.2,ref:500,floor:100,thr:0.6,share:0.8,minDates:5,std:0,stdMin:5,tax:1,taxPct:7.5,taxFlat:15.40,smooth:1,minFpb:75,ver:5};
+const migrateParams=p=>{const old=(p&&p.ver)||1;p={...DEFAULTS,...(p||{})};if(old<2)p.minDates=5;if(old<4)p.smooth=1;p.ver=5;return p}
+// Taxes are removed by the rules of the country the flight leaves from. US: 7.5% excise + $15.40 flat (set in Scoring rules). India: 5% GST on economy fares + Rs 536 of airport charges
+// (Bengaluru user development fee Rs 300 from 1 Sep 2026 + aviation security fee Rs 236) at Rs 95.58 to the dollar (12 Oct 2026) = $5.61. Other countries: fares are left as shown.
+const INDIA_TAX={pct:5,flat:5.61};
+const taxRule=(P)=>{const o=(airports()[S.origin]||{}).country;return o==='India'?INDIA_TAX:o==='United States'?{pct:P.taxPct,flat:P.taxFlat}:null};
+const netOf=(x,P)=>{if(!(+P.tax)||x==null)return x;const r=taxRule(P);return r?Math.max(1,(x-r.flat)/(1+r.pct/100)):x};
+window.ask=msg=>new Promise(res=>{const d=document.createElement('div');d.className='modal';d.innerHTML='<div class="mbox"><p></p><div class="mrow"><button class="b alt" id="mn">Cancel</button><button class="b" id="my">Continue</button></div></div>';d.querySelector('p').textContent=msg;document.body.appendChild(d);const f=v=>{d.remove();res(v)};d.querySelector('#mn').onclick=()=>f(false);d.querySelector('#my').onclick=()=>f(true)});
+const TABS=['Tool','Sheet','Scoring rules','Methodology','Statistics','Compare','Data'];
+const CONTINENTS=['Asia','Europe','Africa','North America','South America','Oceania'];
+const S={tab:'Tool',origin:'ATL',mode:'us',region:'Asia',excludeOwn:true,customList:'',dates:[],obs:[],params:{...DEFAULTS},
+  view:'real',expanded:null,sort:{k:'admi',d:-1},custom:[],dcText:'',sheetDate:'',dcTol:5,dcRes:null,running:false,stop:false,progress:null,access:'',apiState:'unknown',msg:''};
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const $=id=>document.getElementById(id);
+const clamp01=x=>Math.max(0,Math.min(1,x));
+function airports(){const m={};for(const a of window.ADMI_AIRPORTS)m[a.iata]=a;for(const a of S.custom)m[a.iata]=a;return m}
+function hav(a,b){const R=3958.8,p=Math.PI/180;const x=Math.sin((b.lat-a.lat)*p/2)**2+Math.cos(a.lat*p)*Math.cos(b.lat*p)*Math.sin((b.lon-a.lon)*p/2)**2;return 2*R*Math.asin(Math.sqrt(x))}
+const iso=d=>d.toISOString().slice(0,10);
+const todayD=()=>{const d=new Date();return new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()))};
+const daysAhead=s=>Math.round((new Date(s+'T00:00:00Z')-todayD())/864e5);
+const wk=s=>new Date(s+'T00:00:00Z').toLocaleDateString('en-US',{weekday:'short',timeZone:'UTC'});
+
+/* ============================================================ scoring (locked formulas) */
+function csVal(n,P){return n<=1?P.cs1:n===2?P.cs2:n===3?P.cs3:P.cs4}
+function scoreRoute(dist,price,carriers,P,fpbOverride){
+  if(dist<P.floor)return null;
+  const fpb=fpbOverride==null?Math.max(dist*P.rate,+P.minFpb||0):fpbOverride;
+  const pdsRaw=(price-fpb)/fpb,cs=csVal(carriers,P);
+  let pds,rds;
+  if(+P.smooth){ // smooth: above fair price 1-e^-x (never saturates); below fair price the discount counts as it is (down to -1)
+    pds=pdsRaw>0?1-Math.exp(-pdsRaw):Math.max(-1,pdsRaw);
+    const q=Math.max(0,pds)*(P.ref/Math.max(dist,P.floor));rds=1-Math.exp(-q)}
+  else{pds=clamp01(pdsRaw);rds=clamp01(pds*(P.ref/Math.max(dist,P.floor)))}
+  return{fpb,pdsRaw,pds,cs,rds,admi:P.wp*pds+P.wc*cs+P.wr*rds};
+}
+function ols(xs,ys){const n=xs.length,mx=xs.reduce((a,b)=>a+b,0)/n,my=ys.reduce((a,b)=>a+b,0)/n;let sxx=0,sxy=0;for(let i=0;i<n;i++){sxx+=(xs[i]-mx)**2;sxy+=(xs[i]-mx)*(ys[i]-my)}const b=sxy/sxx;return{a:my-b*mx,b}}
+const mean=a=>a.reduce((x,y)=>x+y,0)/a.length;
+const sd=a=>a.length<2?null:Math.sqrt(a.reduce((s,x)=>s+(x-mean(a))**2,0)/(a.length-1));
+
+function viewObs(){return S.obs.filter(o=>o.origin===S.origin&&(S.view==='demo'?o.provider==='demo':o.provider!=='demo'))}
+function distOf(o,AP){const a=AP[o.origin],b=AP[o.dest];return a&&b?hav(a,b):null}
+function benchmark(rows,P){
+  const pts=rows.filter(r=>r.carriers>=4&&r.dist>=P.floor);
+  return pts.length>=8?{...ols(pts.map(r=>r.dist),pts.map(r=>r.price)),n:pts.length}:null;
+}
+function dateFactorsNow(){const P=S.params,AP=airports(),base=[];
+  for(const o of viewObs()){if(o.status!=='ok'||o.price==null)continue;const dist=distOf(o,AP);if(dist==null||dist<P.floor)continue;base.push({date:o.date,carriers:o.carriers,price:netOf(o.price,P),dist})}
+  const mid=a=>{const t=a.slice().sort((x,y)=>x-y),m=t.length>>1;return t.length%2?t[m]:(t[m-1]+t[m])/2};
+  const dateF={};if(+P.std){const byD={};for(const r of base)if(r.carriers>=3)(byD[r.date]=byD[r.date]||[]).push(r.price/(r.dist*P.rate));
+    for(const [d,v] of Object.entries(byD))if(v.length>=P.stdMin)dateF[d]={k:mid(v),n:v.length}}
+  const kRef=Object.keys(dateF).length>=2?mid(Object.values(dateF).map(x=>x.k)):null;return{dateF,kRef}}
+function analyse(){
+  const AP=airports(),P=S.params,obs=viewObs();
+  const base=[];
+  for(const o of obs){
+    if(o.status!=='ok'||o.price==null)continue;
+    const dist=distOf(o,AP);if(dist==null||dist<P.floor)continue;
+    base.push({...o,dist,shown:o.price,price:netOf(o.price,P)});
+  }
+  // date standardizer: k_d = median fare/FPB over competitive routes (3+ airlines) on date d; adjusted fare = fare * k_ref / k_d
+  const mid=a=>{const t=a.slice().sort((x,y)=>x-y),m=t.length>>1;return t.length%2?t[m]:(t[m-1]+t[m])/2};
+  const dateF={};
+  if(+P.std){const byD={};for(const r of base)if(r.carriers>=3)(byD[r.date]=byD[r.date]||[]).push(r.price/(r.dist*P.rate));
+    for(const [d,v] of Object.entries(byD))if(v.length>=P.stdMin)dateF[d]={k:mid(v),n:v.length}}
+  const kRef=Object.keys(dateF).length>=2?mid(Object.values(dateF).map(x=>x.k)):null;
+  const rows=[];
+  for(const r of base){
+    const f=kRef&&dateF[r.date]?kRef/dateF[r.date].k:1;
+    const price=r.price*f,s=scoreRoute(r.dist,price,r.carriers,P);if(!s)continue;
+    rows.push({...r,priceRaw:r.price,priceShown:r.shown,price,adj:f,...s});
+  }
+  const bm=benchmark(rows,P);
+  if(bm)for(const r of rows){const s=scoreRoute(r.dist,r.price,r.carriers,P,Math.max(bm.a+bm.b*r.dist,1));r.admiB=s.admi}
+  const by={};
+  for(const r of rows)(by[r.dest]=by[r.dest]||[]).push(r);
+  const routes=Object.entries(by).map(([dest,rs])=>{
+    const v=rs.map(r=>r.admi),high=v.filter(x=>x>=P.thr).length/v.length;
+    const label=v.length<P.minDates?'insufficient dates':high>=P.share?'structural':'not consistently high';
+    return{dest,info:AP[dest],dist:rs[0].dist,n:v.length,admi:mean(v),sd:sd(v),high,label,carriers:mean(rs.map(r=>r.carriers)),
+      price:mean(rs.map(r=>r.price)),admiB:bm?mean(rs.map(r=>r.admiB)):null,rs:rs.sort((a,b)=>a.date<b.date?-1:1)};
+  });
+  const noDirect=[...new Set(obs.filter(o=>o.status==='no_direct').map(o=>o.dest))];
+  const errors=obs.filter(o=>o.status!=='ok'&&o.status!=='no_direct').length;
+  return{rows,routes,bm,noDirect,errors,total:obs.length,dateF,kRef};
+}
+
+/* ============================================================ destinations + dates */
+function divisionsFor(country){return (window.ADMI_DIVISIONS||{})[country]||null}
+function destinations(){
+  const AP=airports(),o=AP[S.origin];let list=[];
+  if(S.mode==='list'){list=S.customList.split(/[\s,;]+/).map(x=>x.trim().toUpperCase()).filter(Boolean).map(c=>AP[c]||{iata:c,unknown:true})}
+  else if(S.mode==='us')list=window.ADMI_AIRPORTS.filter(a=>a.usState);
+  else if(S.mode==='within'){const dv=o&&divisionsFor(o.country);if(dv)list=dv.map(([n,c])=>AP[c]?{...AP[c],sub:n}:null).filter(Boolean)}
+  else if(S.mode==='world')list=window.ADMI_AIRPORTS.filter(a=>a.primary);
+  else list=window.ADMI_AIRPORTS.filter(a=>a.primary&&a.region===S.region);
+  list=list.filter(a=>a.iata!==S.origin);
+  if(S.excludeOwn&&o&&(S.mode==='world'||S.mode==='region'))list=list.filter(a=>a.country!==o.country);
+  return[...new Map(list.map(a=>[a.iata,a])).values()];
+}
+function thanksgiving(y){const d=new Date(Date.UTC(y,10,1));const off=(4-d.getUTCDay()+7)%7;return new Date(Date.UTC(y,10,1+off+21))}
+function suggestDates(){
+  // fill up to the minimum number of dates, keeping any already chosen: a Wednesday ~3.5 weeks out, a Saturday ~5 weeks out,
+  // the Wednesday before Thanksgiving, then a Tuesday and a Thursday. Different weekdays, lead times and one holiday-adjacent date.
+  const t=todayD(),day=864e5,want=Math.max(1,+S.params.minDates||5),out=[...S.dates];
+  const nextDow=(dow,minDays)=>{let d=new Date(t.getTime()+minDays*day);while(d.getUTCDay()!==dow)d=new Date(d.getTime()+day);return d};
+  let th=thanksgiving(t.getUTCFullYear());if(th<new Date(t.getTime()+14*day))th=thanksgiving(t.getUTCFullYear()+1);
+  const pool=[nextDow(3,24),nextDow(6,34),new Date(th.getTime()-day),nextDow(2,17),nextDow(4,27)].map(iso);
+  for(const d of pool){if(out.length>=want)break;if(!out.includes(d))out.push(d)}
+  return out.sort();
+}
+
+/* ============================================================ storage (IndexedDB, with JSON backup) */
+let DB=null;
+function idb(){return new Promise(res=>{try{if(!window.indexedDB)return res(null);const r=indexedDB.open('admi-score',1);
+  r.onupgradeneeded=()=>{r.result.createObjectStore('obs',{keyPath:'key'});r.result.createObjectStore('meta')};
+  r.onsuccess=()=>res(r.result);r.onerror=()=>res(null);r.onblocked=()=>res(null)}catch(e){res(null)}})}
+const tx=(st,mode)=>DB.transaction(st,mode).objectStore(st);
+const pr=r=>new Promise(res=>{r.onsuccess=()=>res(r.result);r.onerror=()=>res(null)});
+/* ---- shared database mirror (artifact db capability); everything still works without it ---- */
+let XDB=null,syncErr='',chain=Promise.resolve();const syncT={};
+const docId=(o,d,p)=>(o+'_'+d+'_'+p).replace(/[^A-Za-z0-9_-]/g,'-');
+function syncStatus(){const e=document.getElementById('syncst');if(!e)return;
+  e.innerHTML=XDB?(syncErr?`<span style="color:#e0524a">database sync problem (${esc(syncErr)}), data is still in this browser</span>`:'<span style="color:#38c172">&#9679; saved to the shared database</span>'):'<span style="color:var(--dim)">&#9679; saved in this browser only</span>'}
+function queueSync(origin,date,provider){if(!XDB||!provider||provider==='demo')return;const id=docId(origin,date,provider);clearTimeout(syncT[id]);syncT[id]=setTimeout(()=>pushDoc(origin,date,provider),700)}
+function pushDoc(origin,date,provider){chain=chain.then(async()=>{
+  const id=docId(origin,date,provider),recs=S.obs.filter(x=>x.origin===origin&&x.date===date&&x.provider===provider);
+  for(let t=0;t<2;t++){try{const ref=XDB.doc('obs/'+id);
+    if(!recs.length)await ref.delete();else await ref.set({origin,date,provider,n:recs.length,updatedAt:new Date().toISOString(),rows:JSON.parse(JSON.stringify(recs))});
+    syncErr='';break}catch(e){syncErr=(e&&e.code)||'error';if(!e||e.code!=='unavailable')break;await new Promise(r=>setTimeout(r,800))}}
+  syncStatus()})}
+let metaT=null;
+function queueMeta(){if(!XDB)return;clearTimeout(metaT);metaT=setTimeout(()=>{chain=chain.then(async()=>{try{await XDB.doc('meta/state').set({params:S.params,dates:S.dates,origin:S.origin,custom:S.custom,mode:S.mode,updatedAt:new Date().toISOString()});syncErr=''}catch(e){syncErr=(e&&e.code)||'error'}syncStatus()})},900)}
+async function loadShared(){
+  try{if(!(window.claude&&window.claude.use))return;
+    const db=await Promise.race([window.claude.use('db'),new Promise(r=>setTimeout(()=>r(null),4000))]);if(!db)return;XDB=db;
+    const snap=await db.collection('obs').get();const have=new Map(S.obs.map(o=>[o.key,o]));let added=[];
+    snap.docs.forEach(d=>{const x=d.data()||{};for(const r of (x.rows||[])){const cur=have.get(r.key);if(!cur||(r.fetchedAt||'')>(cur.fetchedAt||'')){have.set(r.key,r);added.push(r)}}});
+    if(added.length){S.obs=[...have.values()];if(DB){const t=DB.transaction('obs','readwrite'),st=t.objectStore('obs');added.forEach(o=>st.put(o))}}
+    const m=await db.doc('meta/state').get();
+    if(m.exists){const x=m.data();S.dates=[...new Set([...(S.dates||[]),...(x.dates||[])])].sort();
+      if(!S.paramsSaved&&x.params)S.params=migrateParams(x.params);if(!S.originSaved&&x.origin)S.origin=x.origin;
+      if(x.custom&&x.custom.length&&!(S.custom||[]).length)S.custom=x.custom}
+    // upload anything that only exists in this browser
+    const seen=new Set();for(const o of S.obs){if(o.provider==='demo')continue;const k=o.origin+'|'+o.date+'|'+o.provider;if(!seen.has(k)){seen.add(k);queueSync(o.origin,o.date,o.provider)}}
+    queueMeta();syncErr=''}catch(e){syncErr=(e&&e.code)||'error'}
+  syncStatus()}
+async function putObs(list){try{for(const o of (list||[]))queueSync(o.origin,o.date,o.provider)}catch(e){}
+  return putObsLocal(list)}
+async function putObsLocal(list){if(!DB)return;try{const t=DB.transaction('obs','readwrite'),s=t.objectStore('obs');list.forEach(o=>s.put(o));
+  return await new Promise(r=>{t.oncomplete=r;t.onerror=()=>{S.msg='Could not save to this browser\'s storage. Use Data → Backup to keep your entries.';r()};t.onabort=t.onerror;setTimeout(r,3000)})}
+  catch(e){S.msg='Could not save to this browser\'s storage ('+e.message+'). Use Data → Backup to keep your entries.'}}
+async function saveMeta(){S.paramsSaved=true;S.originSaved=true;queueMeta();if(!DB)return;tx('meta','readwrite').put({params:S.params,dates:S.dates,origin:S.origin,custom:S.custom,access:S.access},'state')}
+async function loadAll(){DB=await idb();if(!DB)return;S.obs=(await pr(tx('obs','readonly').getAll()))||[];
+  const m=await pr(tx('meta','readonly').get('state'));if(m){S.params=migrateParams(m.params);S.dates=m.dates||[];S.origin=m.origin||'ATL';S.custom=m.custom||[];S.access=m.access||'';S.paramsSaved=true;S.originSaved=true}}
+
+/* ============================================================ fetching */
+function demoResult(origin,dest,date,dist){
+  let h=0;for(const c of origin+dest+date)h=(h*31+c.charCodeAt(0))>>>0;const r=()=>{h=(h*1664525+1013904223)>>>0;return h/4294967296};
+  const k=[1,1,2,3,4][Math.floor(r()*5)],names=['Delta','American','United','Southwest','Frontier'].slice(0,k);
+  if(r()<.12)return{status:'no_direct',price:null,airlines:[]};
+  return{status:'ok',price:Math.round(dist*(0.12+r()*0.6)+40+r()*80),airlines:names};
+}
+async function fetchOne(origin,dest,date,demo,dist){
+  if(demo)return demoResult(origin,dest,date,dist);
+  let res;try{res=await fetch(`/api/search?origin=${origin}&dest=${dest}&date=${date}`,{headers:S.access?{'x-access-code':S.access}:{}})}catch(e){throw new Error('not found: live fetching only works on your deployed site (with the api folder), not from a file on your computer. Use demo data to try the tool.')}
+  if(res.status===401)throw new Error('unauthorized: check the access code');
+  if(res.status===503)throw new Error('server has no SERPAPI_KEY set');
+  if(res.status===404)throw new Error('/api/search not found: deploy the api folder (see README)');
+  return await res.json();
+}
+async function runFetch(demo){
+  const AP=airports(),o=AP[S.origin];if(!o){S.msg='Origin not in the airport table: add it under Data → Add airport.';return render()}
+  const dests=destinations().filter(d=>!d.unknown),prov=demo?'demo':'live';
+  const have=new Set(S.obs.map(x=>x.key));
+  const jobs=[];for(const d of dests)for(const dt of S.dates){const key=[S.origin,d.iata,dt,prov].join('|');if(!have.has(key))jobs.push({d,dt,key})}
+  if(!jobs.length){S.msg='Everything selected is already stored. Nothing to fetch.';return render()}
+  if(!demo&&!(await ask(`${jobs.length} new searches will be sent to your fare service (cached ones are skipped). Continue?`)))return;
+  S.running=true;S.stop=false;S.msg='';S.progress={done:0,total:jobs.length,err:0};render();
+  let idx=0;
+  const worker=async()=>{while(idx<jobs.length&&!S.stop){const j=jobs[idx++];
+    try{const dist=hav(o,j.d);const r=await fetchOne(S.origin,j.d.iata,j.dt,demo,dist);
+      const rec={key:j.key,origin:S.origin,dest:j.d.iata,date:j.dt,fetchedAt:new Date().toISOString(),daysAhead:daysAhead(j.dt),price:r.price,carriers:(r.airlines||[]).length,airlines:(r.airlines||[]).join(', '),status:r.status,provider:prov};
+      if(r.status==='ok'||r.status==='no_direct'){S.obs.push(rec);await putObs([rec])}else S.progress.err++;
+    }catch(e){S.progress.err++;S.msg=e.message;if(/unauthorized|SERPAPI|not found/.test(e.message)){S.stop=true}}
+    S.progress.done++;if(S.progress.done%4===0)render();
+    if(!demo)await new Promise(r=>setTimeout(r,250));}};
+  await Promise.all([worker(),worker(),worker()]);
+  S.running=false;S.view=demo?'demo':'real';render();
+}
+
+
+/* ============================================================ fill-in sheet (manual path) */
+const mkey=(dest,date)=>[S.origin,dest,date,'manual'].join('|');
+const getManual=(dest,date)=>S.obs.find(o=>o.key===mkey(dest,date));
+function gfLink(dest,date){return 'https://www.google.com/travel/flights?q='+encodeURIComponent(`Flights from ${S.origin} to ${dest} on ${date} one way nonstop only`)}
+function previewHTML(dist,rec){
+  const unv=rec&&rec.copied?' <span class="tag i" title="airlines were copied from another date and not confirmed">airlines unconfirmed</span>':'';
+  if(!rec)return'<span style="color:var(--dim)">-</span>';
+  if(rec.status==='no_direct')return'<span class="tag i">no nonstop</span>';
+  const F=S._af||(S._af=dateFactorsNow()),f=F.kRef&&F.dateF[rec.date]?F.kRef/F.dateF[rec.date].k:1;
+  const np=netOf(rec.price,S.params),raw=scoreRoute(dist,np,rec.carriers,S.params),sc=scoreRoute(dist,np*f,rec.carriers,S.params);
+  const adjTxt=raw&&sc&&Math.abs(f-1)>0.005?` <span style="color:var(--dim)" title="raw, before the date standardizer">raw ${raw.admi.toFixed(3)}</span>`:'';
+  const netTxt=+S.params.tax?` <span style="color:var(--dim)" title="fare with taxes removed, which is what is scored">net $${Math.round(np)}</span>`:'';
+  return sc?`<b>${sc.admi.toFixed(3)}</b> <span style="color:var(--dim)">PDS ${sc.pds.toFixed(2)}</span>${netTxt}${adjTxt}${unv}`:'<span style="color:var(--dim)">under floor, not scored</span>';
+}
+window.loadFirst=async()=>{
+  const dt=$('firstdate').value;if(!dt){S.msg='Pick the date the first dataset was searched for.';return render()}
+  const AP=airports(),recs=[];S.origin='ATL';S.mode='us';
+  for(const [dest,price,n,cheap] of window.ADMI_FIRST){if(!AP[dest])continue;
+    const base={key:mkey(dest,dt),origin:'ATL',dest,date:dt,fetchedAt:new Date().toISOString(),daysAhead:daysAhead(dt),provider:'manual'};
+    recs.push(price==null?{...base,status:'no_direct',price:null,carriers:0,airlines:''}:{...base,status:'ok',price,carriers:n,airlines:cheap||'(first dataset)',cheapest:cheap,others:''})}
+  const keys=new Set(recs.map(r=>r.key));S.obs=S.obs.filter(x=>!keys.has(x.key)).concat(recs);await putObs(recs);
+  if(!S.dates.includes(dt)){S.dates.push(dt);S.dates.sort()}S.sheetDate=dt;saveMeta();
+  S.msg=recs.length+' routes loaded from your first ATL dataset for '+dt+'. The airline named in your file is filled in as the airline on that fare; add the others in the sheet. Counts of "3+" were entered as 3. Distances are recomputed, not taken from the file.';render()};
+window.loadOct25=async()=>{
+  const dt='2026-10-25',AP=airports(),recs=[];S.origin='ATL';S.mode='us';
+  for(const [dest,price,cheap,oth,n,nd] of window.ADMI_OCT25){if(!AP[dest])continue;
+    const base={key:mkey(dest,dt),origin:'ATL',dest,date:dt,fetchedAt:new Date().toISOString(),daysAhead:daysAhead(dt),provider:'manual',cheapest:cheap,others:oth};
+    recs.push(nd?{...base,status:'no_direct',price:null,carriers:0,airlines:'',note:'fare typed: '+price}:{...base,status:'ok',price,carriers:n,airlines:[cheap,...oth.split(', ').filter(Boolean)].join(', ')})}
+  const keys=new Set(recs.map(r=>r.key));S.obs=S.obs.filter(x=>!keys.has(x.key)).concat(recs);await putObs(recs);
+  if(!S.dates.includes(dt)){S.dates.push(dt);S.dates.sort()}S.sheetDate=dt;saveMeta();
+  S.msg=recs.length+' routes loaded for 2026-10-25 from your photos. ANC, ILG, MHT and JAC are marked "no nonstop" as you had them; untick a box if that was a mistake.';render()};
+function firstPanel(){
+  if(S.origin!=='ATL'||!window.ADMI_FIRST)return'';
+  return`<div class="panel"><h2>Your first dataset (ATL, one date)</h2><p class="sub">Loads all ${window.ADMI_FIRST.length} fares from your ATL.xlsx into the sheet in one click, so you only need to collect the other dates. The 2 routes with no nonstop (ANC, ILG) load as "no nonstop".</p>
+  <div class="row"><div style="max-width:220px"><label>Date those fares were for</label><input type="date" id="firstdate" value="${S.dates[0]||''}"></div><div style="max-width:260px"><button class="b" onclick="loadFirst()">Load my first dataset</button></div></div>
+  <div class="row" style="margin-top:10px"><div><p class="sub" style="margin:0">Also saved in the tool: your <b style="color:var(--text)">Oct 25</b> fares (49 routes, read from your photos).</p></div><div style="max-width:260px"><button class="b alt" onclick="loadOct25()">Load Oct 25 data</button></div></div></div>`}
+function viewSheet(){
+  for(const k of Object.keys(S.draft||{}))if(S.draft[k]&&S.draft[k].copied)delete S.draft[k];
+  const AP=airports(),o=AP[S.origin],dests=destinations().filter(d=>!d.unknown);
+  if(!o||!dests.length||!S.dates.length)return(S.msg?`<div class="note">${esc(S.msg)}</div>`:'')+firstPanel()+`<div class="panel"><h2>Fill-in sheet</h2><p class="sub">Choose an origin, destinations and at least one date on the Tool tab first. The sheet is then built for you.</p><button class="b" onclick="go('Tool')">Go to the Tool tab</button></div>`;
+  if(!S.dates.includes(S.sheetDate))S.sheetDate=S.dates[0];
+  const date=S.sheetDate,done=dests.filter(d=>getManual(d.iata,date)).length;
+  const totalAll=dests.length*S.dates.length,doneAll=S.dates.reduce((n,dt)=>n+dests.filter(d=>getManual(d.iata,dt)).length,0);
+  return firstPanel()+`<div class="panel"><h2>Fill-in sheet: ${esc(o.city)} (${S.origin}) to ${dests.length} destinations</h2>
+    ${S.msg?`<div class="note">${esc(S.msg)}</div>`:''}<p class="sub">Work one date at a time. For each row, open the link (Google Flights, nonstop only), then type the <b style="color:var(--text)">cheapest nonstop fare</b> and the <b style="color:var(--text)">number of different airlines that fly it nonstop</b>. Tick "no nonstop" if none exist. Each entry saves instantly and the ADMI appears on the right.</p>
+    <div class="chips">${S.dates.map(d=>{const n=dests.filter(x=>getManual(x.iata,d)).length;return`<span class="chip" style="cursor:pointer;${d===date?'border-color:var(--gold)':''}" onclick="S.sheetDate='${d}';render()"><b>${d}</b> ${wk(d)} · ${n}/${dests.length}</span>`}).join('')}</div>
+    <div style="margin-top:8px"><button class="b alt" onclick="rmDate('${date}')">Remove ${date}${done?' and its '+done+' fares':''}</button></div>
+    <div class="row" style="margin-top:12px;align-items:center"><div><div class="bar"><i style="width:${100*doneAll/totalAll}%"></i></div></div><div style="max-width:380px"><span id="fcount" class="sub">${done}/${dests.length} filled for ${date} · ${doneAll}/${totalAll} overall</span></div><div style="max-width:200px"><button class="b alt" onclick="S.view='real';go('Tool')">See results →</button></div><div style="max-width:200px"><button class="b alt" onclick="saveAllRows('${date}')">Save every row shown</button></div>
+    </div>
+    <details class="more"><summary>How the score is worked out</summary><div class="note"><b style="color:var(--text)">What the score in the last column is.</b> It is the ADMI for that one route on this one date: <code>ADMI = 0.5·PDS + 0.3·CS + 0.2·RDS</code>. Fair price FPB = miles × $${S.params.rate}. PDS = (fare − FPB) ÷ FPB, held between 0 and 1 (the number shown after "PDS"). CS comes only from the airlines count: 1 airline = 1.0, 2 = 0.66, 3 = 0.33, 4 or more = 0.1. RDS = PDS × 500 ÷ miles (miles at least 100), held between 0 and 1. Example: Atlanta to Newark, 745 miles, $144, 3 airlines gives FPB $112, PDS 0.29, CS 0.33, RDS 0.19, ADMI 0.282. It is one date only; the labels on the results page need at least the minimum number of dates set in Scoring rules (5).</div>
+    <div class="note"><b>Tie rule:</b> if two airlines have the same lowest fare, mark the one with the shorter flight time as the cheapest (gold) and the other as a second airline. This only affects the label, not the score.</div><div class="note">Only "airlines" matters for the score, not the number of flights per day. Count each airline once, however many times a day it flies. Tap airline chips instead of typing: the first tap marks the airline on the cheapest fare (gold), further taps add the others (blue), tap again to remove. The count fills itself. \"Copy airlines from\" reuses another date's airlines so you only fix what changed.</div><div class="note">Fares you type are the total Google Flights shows. When taxes are removed (Scoring rules tab), the score uses the fare before tax.</div></details></div>
+  <div class="panel"><div style="overflow-x:auto"><table><tr><th>To</th><th>Miles</th><th>Look up</th><th>Cheapest fare ($)</th><th>Airlines on the route (1st tap = cheapest fare, more taps = others)</th><th>Airlines (count)</th><th>No nonstop</th><th>ADMI</th></tr>
+  ${dests.map(d=>{const dist=hav(o,d),rec=getManual(d.iata,date);
+   return`<tr><td><b>${d.iata}</b> <span style="color:var(--dim)">${esc(d.sub||d.city||'')}</span></td><td>${Math.round(dist)}</td><td><a href="${gfLink(d.iata,date)}" target="_blank" rel="noopener" style="color:var(--blue)">open ↗</a></td>
+   <td><input id="p_${d.iata}" type="number" min="1" style="width:100px" value="${rec&&rec.price||(rec&&rec.note?rec.note.replace('fare typed: ',''):'')||''}" onchange="setCell('${d.iata}','${date}')"></td>
+   <td style="min-width:360px"><input type="hidden" id="cp_${d.iata}" value="${cpOf(d.iata,date)?1:''}"><input type="hidden" id="w_${d.iata}" value="${esc(nmOf(d.iata,date).w)}"><input type="hidden" id="o_${d.iata}" value="${esc(nmOf(d.iata,date).o)}"><div id="ac_${d.iata}">${airChips(d.iata,date)}</div></td>
+   <td><input id="c_${d.iata}" type="number" min="1" style="width:70px" value="${rec&&rec.carriers||''}" onchange="setCell('${d.iata}','${date}','count')"></td>
+   <td><input id="n_${d.iata}" type="checkbox" ${rec&&rec.status==='no_direct'?'checked':''} onchange="setCell('${d.iata}','${date}')"></td>
+   <td id="a_${d.iata}">${previewHTML(dist,rec)}</td></tr>`}).join('')}</table></div></div>
+  <div class="panel"><h2>Paste many at once</h2><p class="sub">For ${date}. One line per destination: <code>BHM 169 1</code> (code, fare, airlines) or <code>ALB none</code> for no nonstop.</p>
+    <textarea id="pastebox" style="min-height:90px"></textarea><div style="margin-top:8px"><button class="b" onclick="pasteFares('${date}')">Add pasted fares</button></div></div>`;
+}
+S.draft={};
+const nmOf=(dest,date)=>{const r=getManual(dest,date);return r&&(r.cheapest||r.others)?{w:r.cheapest||'',o:r.others||''}:(S.draft[mkey(dest,date)]||{w:'',o:''})};
+const cpOf=(dest,date)=>{const r=getManual(dest,date);return r?!!r.copied:!!(S.draft[mkey(dest,date)]||{}).copied};
+const AIRLINES_BY_COUNTRY={
+'United States':['Delta','American','United','Southwest','Frontier','JetBlue','Spirit','Alaska','Allegiant','Breeze','Sun Country','Avelo','Hawaiian'],
+'India':['IndiGo','Air India','Air India Express','SpiceJet','Akasa Air','Alliance Air','Star Air','Fly91','FlyBig'],
+'Canada':['Air Canada','WestJet','Porter','Flair','Air Transat'],
+'United Kingdom':['British Airways','easyJet','Ryanair','Jet2','Virgin Atlantic','TUI Airways','Loganair','Wizz Air'],
+'Ireland':['Aer Lingus','Ryanair'],
+'Germany':['Lufthansa','Eurowings','Condor','Ryanair','easyJet','Discover Airlines'],
+'France':['Air France','Transavia','easyJet','Ryanair','Volotea'],
+'Spain':['Iberia','Vueling','Ryanair','Air Europa','Iberia Express','Binter'],
+'Italy':['ITA Airways','Ryanair','easyJet','Wizz Air','Neos'],
+'Netherlands':['KLM','Transavia','easyJet'],
+'Switzerland':['Swiss','Edelweiss','easyJet'],
+'Turkey':['Turkish Airlines','Pegasus','AJet','SunExpress'],
+'United Arab Emirates':['Emirates','flydubai','Etihad','Air Arabia'],
+'Qatar':['Qatar Airways'],'Saudi Arabia':['Saudia','flynas','flyadeal'],
+'Singapore':['Singapore Airlines','Scoot','Jetstar Asia'],
+'Malaysia':['Malaysia Airlines','AirAsia','Batik Air Malaysia','Firefly'],
+'Thailand':['Thai Airways','Thai AirAsia','Bangkok Airways','Thai Lion Air','Thai Vietjet'],
+'Indonesia':['Garuda Indonesia','Lion Air','Citilink','Batik Air','Super Air Jet'],
+'Philippines':['Philippine Airlines','Cebu Pacific','AirAsia Philippines'],
+'Vietnam':['Vietnam Airlines','VietJet Air','Bamboo Airways','Vietravel Airlines'],
+'Japan':['ANA','Japan Airlines','Peach','Jetstar Japan','Skymark','Zipair'],
+'South Korea':['Korean Air','Asiana','Jeju Air','Jin Air',"T'way Air",'Air Busan'],
+'China':['Air China','China Eastern','China Southern','Hainan Airlines','Sichuan Airlines','Spring Airlines','Shenzhen Airlines','Xiamen Airlines'],
+'Hong Kong':['Cathay Pacific','HK Express','Greater Bay Airlines'],
+'Taiwan':['EVA Air','China Airlines','Starlux','Tigerair Taiwan'],
+'Australia':['Qantas','Jetstar','Virgin Australia','Rex'],
+'New Zealand':['Air New Zealand','Jetstar'],
+'Sri Lanka':['SriLankan Airlines'],'Nepal':['Nepal Airlines','Buddha Air','Yeti Airlines','Shree Airlines'],
+'Bangladesh':['Biman Bangladesh','US-Bangla','Novoair'],'Pakistan':['PIA','Airblue','Serene Air','AirSial'],
+'Maldives':['Maldivian'],'Bhutan':['Drukair','Bhutan Airlines'],
+'Mexico':['Aeromexico','Volaris','VivaAerobus'],'Brazil':['LATAM','GOL','Azul'],'Argentina':['Aerolineas Argentinas','Flybondi','JetSMART'],
+'Chile':['LATAM','Sky Airline','JetSMART'],'Colombia':['Avianca','LATAM','Wingo','Viva Air'],'Panama':['Copa Airlines'],
+'South Africa':['South African Airways','FlySafair','Airlink','Lift'],'Kenya':['Kenya Airways','Jambojet'],'Ethiopia':['Ethiopian Airlines'],
+'Egypt':['EgyptAir','Air Cairo'],'Morocco':['Royal Air Maroc','Air Arabia Maroc'],'Nigeria':['Air Peace','Arik Air'],
+'Israel':['El Al','Israir','Arkia'],'Russia':['Aeroflot','S7 Airlines','Ural Airlines','Pobeda'],
+'Portugal':['TAP Air Portugal','Ryanair','easyJet'],'Greece':['Aegean','Ryanair','Sky Express'],'Poland':['LOT','Ryanair','Wizz Air'],
+'Austria':['Austrian','Ryanair','Wizz Air'],'Belgium':['Brussels Airlines','Ryanair','TUI fly'],
+'Denmark':['SAS','Norwegian','Ryanair'],'Sweden':['SAS','Norwegian','Ryanair'],'Norway':['SAS','Norwegian','Widerøe'],'Finland':['Finnair'],'Iceland':['Icelandair','PLAY']};
+const GLOBAL_AIRLINES=['Emirates','Qatar Airways','Etihad','Turkish Airlines','Singapore Airlines','British Airways','Lufthansa','Air France','KLM'];
+let _afc={k:'',v:null};
+function airlinesFor(dest){ // only airlines that belong to the countries in the chosen destination option
+  const AP=airports(),o=AP[S.origin],lc=x=>x.toLowerCase(),out=[],add=n=>{if(n&&!out.some(a=>lc(a)===lc(n)))out.push(n)};
+  const key=[S.origin,S.mode,S.region,S.customList,S.excludeOwn].join('|');
+  if(_afc.k!==key){let cs=new Set();
+    if(S.mode==='within')cs.add(o&&o.country);
+    else if(S.mode==='us')cs.add('United States');
+    else if(S.mode==='world'){Object.keys(AIRLINES_BY_COUNTRY).forEach(c=>cs.add(c))}
+    else{destinations().forEach(d=>cs.add(d.country));if(o)cs.add(o.country)} // the home country's airlines also fly abroad (IndiGo to Singapore)
+    let list=[];cs.forEach(c=>(AIRLINES_BY_COUNTRY[c]||[]).forEach(n=>{if(!list.some(a=>lc(a)===lc(n)))list.push(n)}));
+    if(S.mode==='world')GLOBAL_AIRLINES.forEach(n=>{if(!list.some(a=>lc(a)===lc(n)))list.push(n)});
+    if(!list.length)list=GLOBAL_AIRLINES.slice();
+    _afc={k:key,v:list}}
+  _afc.v.forEach(add);
+  for(const r of S.obs)if(r.origin===S.origin&&r.provider!=='demo'){add(r.cheapest);splitNames(r.others||'').forEach(add)} // anything already entered for this origin stays as a button
+  return out}
+
+const splitNames=t=>t.split(/[,;+\/&]| and /i).map(x=>x.trim()).filter(Boolean);
+function airChips(dest,date,live){
+  const L=live&&$('w_'+dest);
+  const w=(L?$('w_'+dest).value:nmOf(dest,date).w).trim(),oth=splitNames(L?$('o_'+dest).value:nmOf(dest,date).o);
+  const lc=x=>x.toLowerCase(),all=airlinesFor(dest);for(const n of [w,...oth])if(n&&!all.some(a=>lc(a)===lc(n)))all.push(n);
+  const q=x=>x.replace(/'/g,"\\'");
+  const cp=L?$('cp_'+dest).value==='1':cpOf(dest,date);
+  return (cp?`<div style="font:11px 'DM Mono';color:var(--gold);margin-bottom:2px">copied from another date, not checked <a href="#" style="color:var(--blue)" onclick="confirmAir('${dest}','${date}');return false">✓ confirm</a></div>`:'')+all.map(a=>{const cls=w&&lc(a)===lc(w)?'c':oth.some(o=>lc(o)===lc(a))?'o':'';return`<span class="ac ${cls}${cp?' dsh':''}" onclick="tapAir('${dest}','${date}','${q(a)}')">${esc(a)}</span>`}).join('')+`<input class="acx" placeholder="other + Enter" onkeydown="if(event.key==='Enter'){tapAir('${dest}','${date}',this.value.trim(),true);event.preventDefault()}">`}
+window.tapAir=async(dest,date,name,add)=>{
+  if(!name)return;const lc=x=>x.toLowerCase();let w=$('w_'+dest).value.trim(),oth=splitNames($('o_'+dest).value);
+  const isW=w&&lc(w)===lc(name),inO=oth.findIndex(o=>lc(o)===lc(name));
+  if(isW){w=oth.shift()||''}                 // tap the cheapest again: remove it, next one is promoted
+  else if(inO>=0){oth.splice(inO,1)}         // tap an "other": remove it
+  else if(!w)w=name;else oth.push(name);     // first tap = cheapest, then others
+  $('cp_'+dest).value='';$('w_'+dest).value=w;$('o_'+dest).value=oth.join(', ');S.draft[mkey(dest,date)]={w,o:oth.join(', ')};$('ac_'+dest).innerHTML=airChips(dest,date,1);
+  await setCell(dest,date,'names');if(add){const x=$('ac_'+dest).querySelector('.acx');if(x)x.focus()}};
+window.confirmAir=async(dest,date)=>{$('cp_'+dest).value='';const k=mkey(dest,date);if(S.draft[k])S.draft[k].copied=false;$('ac_'+dest).innerHTML=airChips(dest,date,1);await setCell(dest,date,'count')};
+window.copyAirlines=async(from,to)=>{if(!from||from===to)return;let n=0;
+  for(const d of destinations().filter(x=>!x.unknown)){const src=getManual(d.iata,from);if(!src||!(src.cheapest||src.others))continue;
+    if($('w_'+d.iata).value.trim()||$('o_'+d.iata).value.trim())continue;
+    $('w_'+d.iata).value=src.cheapest||'';$('o_'+d.iata).value=src.others||'';$('cp_'+d.iata).value='1';S.draft[mkey(d.iata,to)]={w:src.cheapest||'',o:src.others||'',copied:true};$('ac_'+d.iata).innerHTML=airChips(d.iata,to);
+    if($('p_'+d.iata).value.trim())await setCell(d.iata,to,'names');n++}
+  S.msg=n?`Airlines copied for ${n} routes from ${from}. Tap chips to correct any that changed; the count follows the chips.`:'Nothing to copy (rows already have airlines, or that date has none).';render()};
+window.setCell=async(dest,date,src)=>{
+  const AP=airports(),o=AP[S.origin],d=AP[dest],key=mkey(dest,date);
+  const p=$('p_'+dest).value.trim(),nd=$('n_'+dest).checked;let c=$('c_'+dest).value.trim();
+  const w=$('w_'+dest).value.trim(),oth=$('o_'+dest).value.trim();
+  const names=[];for(const n of [w,...oth.split(/[,;+\/&]| and /i)].map(x=>x.trim()).filter(Boolean))if(!names.some(m=>m.toLowerCase()===n.toLowerCase()))names.push(n);
+  if(src==='count')$('cp_'+dest).value='';
+  if(names.length&&(src==='names'||!c)){c=String(names.length);$('c_'+dest).value=c}
+  S.obs=S.obs.filter(x=>x.key!==key);S._af=null;let rec=null;
+  const base={key,origin:S.origin,dest,date,fetchedAt:new Date().toISOString(),daysAhead:daysAhead(date),provider:'manual'};
+  if(nd)rec={...base,status:'no_direct',price:null,carriers:0,airlines:'',cheapest:w,others:oth,note:p?'fare typed: '+p:''};
+  else if(+p>0&&+c>=1)rec={...base,status:'ok',price:+p,carriers:Math.round(+c),airlines:names.join(', ')||'(manual)',cheapest:w,others:oth,copied:$('cp_'+dest).value==='1'};
+  if(rec)S.obs.push(rec);S._af=null;
+  const cell=$('a_'+dest);if(cell&&o&&d)cell.innerHTML=previewHTML(hav(o,d),rec);
+  if(+S.params.std&&o){for(const x of destinations().filter(z=>!z.unknown&&z.iata!==dest)){const c2=$('a_'+x.iata),r2=getManual(x.iata,date);if(c2&&r2)c2.innerHTML=previewHTML(hav(o,x),r2)}}
+  const dests=destinations().filter(x=>!x.unknown),done=dests.filter(x=>getManual(x.iata,date)).length;
+  const doneAll=S.dates.reduce((n,dt)=>n+dests.filter(x=>getManual(x.iata,dt)).length,0);
+  if($('fcount'))$('fcount').textContent=`${done}/${dests.length} filled for ${date} · ${doneAll}/${dests.length*S.dates.length} overall`;
+  try{if(rec)await putObs([rec]);else{if(DB)tx('obs','readwrite').delete(key);queueSync(S.origin,date,'manual')}}catch(e){S.msg='Could not save to browser storage: '+e.message}
+};
+window.saveAllRows=async date=>{let n=0;for(const d of destinations().filter(x=>!x.unknown)){const pe=$('p_'+d.iata);if(!pe)continue;
+  if((pe.value.trim()||$('n_'+d.iata).checked)&&!getManual(d.iata,date)){await setCell(d.iata,date);n++}}
+  S.msg=n?n+' unsaved row(s) saved.':'Every row on screen is already saved.';render()};
+window.pasteFares=async date=>{
+  const AP=airports(),o=AP[S.origin],recs=[];let skipped=0;
+  for(const line of $('pastebox').value.split(/\r?\n/)){
+    if(!line.trim())continue;
+    const m=line.trim().match(/^([A-Za-z]{3})[\s,;:|]+(none|no|\$?\d+(?:\.\d+)?)(?:[\s,;:|]+(\d+))?/i);if(!m){skipped++;continue}
+    const dest=m[1].toUpperCase();if(!AP[dest]){skipped++;continue}
+    const base={key:mkey(dest,date),origin:S.origin,dest,date,fetchedAt:new Date().toISOString(),daysAhead:daysAhead(date),provider:'manual'};
+    if(/^no/i.test(m[2]))recs.push({...base,status:'no_direct',price:null,carriers:0,airlines:''});
+    else if(m[3]&&+m[3]>=1)recs.push({...base,status:'ok',price:parseFloat(m[2].replace('$','')),carriers:+m[3],airlines:'(manual)'});
+  }
+  const keys=new Set(recs.map(r=>r.key));S.obs=S.obs.filter(x=>!keys.has(x.key)).concat(recs);await putObs(recs);
+  S.msg=recs.length+' fares added'+(skipped?`, ${skipped} line(s) skipped (unknown code or unreadable)`:'');render();
+};
+
+/* ============================================================ views */
+function nav(){$('nav').innerHTML=TABS.map(t=>`<button class="${S.tab===t?'on':''}" onclick="go('${t}')">${t}</button>`).join('')+'<span id="syncst" style="margin-left:auto;font:12px DM Mono,monospace"></span>';syncStatus()}
+window.go=t=>{S.tab=t;render()};
+function ensureDates(){const have=new Set(S.dates||[]);let add=false;
+  for(const o of viewObs())if(o.date&&!have.has(o.date)){have.add(o.date);add=true}
+  if(add){S.dates=[...have].sort();saveMeta()}}
+function render(){S._af=null;ensureDates();nav();$('demoBanner').classList.toggle('hide',S.view!=='demo');
+  const f={Tool:viewTool,Sheet:viewSheet,'Scoring rules':viewRules,Methodology:viewMethod,Statistics:viewStats,Compare:viewCompare,Data:viewData}[S.tab];
+  const keep=document.activeElement&&document.activeElement.id,pos=document.activeElement&&document.activeElement.selectionStart;
+  $('main').innerHTML=f();
+  if(keep&&$(keep)&&/INPUT|TEXTAREA/.test($(keep).tagName)){$(keep).focus();try{$(keep).setSelectionRange(pos,pos)}catch(e){}}
+}
+function viewTool(){
+  const AP=airports(),o=AP[S.origin],dests=destinations(),n=dests.length*S.dates.length,A=analyse();
+  const opts=window.ADMI_AIRPORTS.concat(S.custom).sort((a,b)=>a.country<b.country?-1:1).map(a=>`<option value="${a.iata}">${esc(a.city)}, ${esc(a.country)}</option>`).join('');
+  const prog=S.progress&&S.running?`<div class="bar" style="margin-top:10px"><i style="width:${100*S.progress.done/S.progress.total}%"></i></div><p class="sub">${S.progress.done}/${S.progress.total} searches · ${S.progress.err} errors <button class="b alt" onclick="S.stop=true">Pause</button></p>`:'';
+  const unk=dests.filter(d=>d.unknown).map(d=>d.iata);
+  return`
+  <div class="panel"><h2>1 · Origin</h2><p class="sub">Any airport. Nothing is hardcoded to ATL.</p>
+    <div class="row"><div><label>Airport code</label><input id="origin" list="apl" value="${esc(S.origin)}" oninput="setOrigin(this.value)" maxlength="3" style="text-transform:uppercase"></div>
+    <div style="flex:3"><p style="margin:0;padding-bottom:9px">${o?`<b>${esc(o.city)}</b>, ${esc(o.country)} <span class="mono" style="color:var(--dim)">(${o.lat.toFixed(2)}, ${o.lon.toFixed(2)})</span>`:'<span style="color:var(--red)">Not in the table. Add it under Data → Add airport.</span>'}</p></div></div>
+    <datalist id="apl">${opts}</datalist></div>
+
+  <div class="panel"><h2>2 · Destinations</h2><p class="sub">Each region picks one most-used airport per country (edit the table under Data if you disagree).</p>
+    <div class="radios">
+      ${(()=>{const dv=o&&divisionsFor(o.country);const nm=o?o.country:'origin country';
+        return[['world','All countries of the world',1],['us','The 50 US states',1],['within','States / divisions within '+nm+(dv?' ('+dv.length+')':''),!!dv],['region','A continent',1],['list','My own list',1]].map(([v,l,ok])=>`<label style="${ok?'':'opacity:.45'}"><input type="radio" name="mode" ${S.mode===v?'checked':''} ${ok?'':'disabled'} onchange="S.mode='${v}';render()"> ${l}</label>`).join('')})()}
+    </div>
+    ${S.mode==='region'?`<label>Continent</label><select onchange="S.region=this.value;render()">${CONTINENTS.map(c=>`<option ${c===S.region?'selected':''}>${c}</option>`).join('')}</select><p class="sub">Asia includes the Middle East, Turkey and the Caucasus.</p>`:''}
+    ${S.mode==='list'?`<label>Airport codes (space or comma separated)</label><textarea id="clist" oninput="S.customList=this.value;render()">${esc(S.customList)}</textarea>`:''}
+    ${S.mode==='within'&&o&&!divisionsFor(o.country)?`<div class="note warn">No state/division list for ${esc(o.country)} yet. Use My own list.</div>`:''}
+    ${S.mode==='world'||S.mode==='region'?`<label style="text-transform:none;font-size:13px"><input type="checkbox" ${S.excludeOwn?'checked':''} onchange="S.excludeOwn=this.checked;render()"> Skip the origin's own country</label>`:''}
+    ${unk.length?`<div class="note warn">Unknown codes: ${esc(unk.join(', '))}. Add them under Data → Add airport, or remove them.</div>`:''}
+    <p class="sub" style="margin-top:8px"><b style="color:var(--text)">${dests.length}</b> destinations selected</p>
+    <div class="chips">${dests.slice(0,60).map(d=>`<span class="chip"><b>${esc(d.iata)}</b> ${esc(d.city||'')}${d.conf==='M'?' <span title="verify this is the busiest airport" style="color:var(--gold)">?</span>':''}</span>`).join('')}${dests.length>60?`<span class="chip">+${dests.length-60} more</span>`:''}</div></div>
+
+  <div class="panel"><h2>3 · Dates</h2><p class="sub">Use 5 or more departure dates (the ATL study uses 5). The suggestion cycles through every weekday and adds a holiday-adjacent date.</p>
+    <div class="row"><div><button class="b alt" onclick="S.dates=suggestDates();saveMeta();render()">Suggest dates (fill to ${S.params.minDates})</button></div>
+    <div><input type="date" id="newdate"></div><div><button class="b alt" onclick="addDate()">Add date</button></div><div><button class="b alt" onclick="clearDates()">Clear</button></div></div>
+    <div class="chips">${S.dates.map(d=>`<span class="chip"><b>${d}</b> ${wk(d)} · ${daysAhead(d)}d ahead<button onclick="rmDate('${d}')">×</button></span>`).join('')||'<span class="sub">No dates yet.</span>'}</div>
+    ${S.dates.length&&S.dates.length<S.params.minDates?`<div class="note">Fewer than ${S.params.minDates} dates: routes will be labelled "insufficient dates".</div>`:''}
+    <div class="note">Fares depend on how far ahead you search. Every date here is searched today, so each has a different lead time. Read the standard deviation with that in mind.</div></div>
+
+  <div class="panel"><h2>4 · Fetch prices</h2>
+    <p class="sub">Nonstop, one-way, cheapest fare per date. Carrier count comes from the same search. ${n} searches (${dests.length} × ${S.dates.length}).</p>
+    <div class="row"><div><label>Access code (if your server sets one)</label><input id="acc" type="password" value="${esc(S.access)}" oninput="S.access=this.value;saveMeta()"></div>
+    <div style="flex:2;display:flex;gap:8px"><button class="b" ${S.running||!n||!o?'disabled':''} onclick="runFetch(false)">Fetch live prices</button>
+    <button class="b alt" ${S.running||!n||!o?'disabled':''} onclick="runFetch(true)">Run with fake demo data</button></div></div>
+    ${prog}${S.msg?`<div class="note warn">${esc(S.msg)}</div>`:''}
+    <p class="sub">Live fetching needs the <code>/api/search</code> function deployed with your own fare-service key. <b style="color:var(--text)">No key? Fill the fares in by hand:</b> the Sheet tab builds a ready-made sheet for these destinations and dates.</p>
+    <div class="row"><div style="max-width:260px"><button class="b" ${!n||!o?'disabled':''} onclick="go('Sheet')">Open the fill-in sheet →</button></div></div></div>
+
+  <div class="panel"><div class="row" style="align-items:center"><div><h2>5 · Results</h2></div>
+    <div style="max-width:220px"><select onchange="S.view=this.value;render()"><option value="real" ${S.view==='real'?'selected':''}>Real data (live + manual)</option><option value="demo" ${S.view==='demo'?'selected':''}>Demo data (fake)</option></select></div>
+    <div style="max-width:150px"><button class="b alt" onclick="exportCSV('summary')">Export summary</button></div><div style="max-width:150px"><button class="b alt" onclick="exportCSV('detail')">Export detail</button></div></div>
+    ${resultsHTML(A)}</div>`;
+}
+function resultsHTML(A){
+  if(!A.routes.length)return'<p class="sub">No scored routes yet for this origin. Routes under the distance floor, with no nonstop flight, or with errors are not scored.</p>';
+  const P=S.params,k=S.sort.k,d=S.sort.d;
+  const dfs=Object.entries(A.dateF||{}).sort();
+  const dfNote=A.kRef&&dfs.length?`<div class="note"><b style="color:var(--text)">Date standardizer on.</b> Typical competitive-route fare ÷ FPB per date, then fares rescaled to the middle value (${A.kRef.toFixed(2)}): ${dfs.map(([d,v])=>`${d} ${v.k.toFixed(2)}× (adj ${(A.kRef/v.k).toFixed(2)})`).join(' · ')}. Dates with fewer than ${S.params.stdMin} competitive routes are left unadjusted.</div>`:'';
+  const unvN=A.rows.filter(r=>r.copied).length;
+  const unvNote=unvN?`<div class="note warn">${unvN} fare(s) use airline counts that were copied from another date and never confirmed. Confirm them on the Sheet tab (✓ confirm) before trusting these scores.</div>`:'';
+  const rs=A.routes.slice().sort((a,b)=>((a[k]??-1)-(b[k]??-1))*d||0);
+  const kp=`<div class="grid" style="margin:10px 0 14px"><div class="kpi"><b>${A.routes.length}</b><span>routes scored</span></div>
+   <div class="kpi"><b>${A.routes.filter(r=>r.label==='structural').length}</b><span>labelled structural</span></div>
+   <div class="kpi"><b>${(100*A.rows.filter(r=>r.carriers===1).length/A.rows.length).toFixed(0)}%</b><span>of priced route-dates with 1 carrier</span></div>
+   <div class="kpi"><b>${A.noDirect.length}</b><span>destinations with no nonstop</span></div></div>
+   ${A.bm?`<div class="note">Benchmark baseline fitted on ${A.bm.n} price points with 4+ carriers: <code>FPB-b = ${A.bm.a.toFixed(1)} + ${A.bm.b.toFixed(3)} × miles</code>. ADMI-b uses it in place of $${P.rate}/mile.</div>`:'<div class="note">Benchmark baseline needs at least 8 price points on routes with 4+ carriers.</div>'}`;
+  const th=(key,l)=>`<th onclick="sortBy('${key}')">${l}${k===key?(d>0?' ▲':' ▼'):''}</th>`;
+  return dfNote+unvNote+kp+`<div style="overflow-x:auto"><table><tr>${th('dest','To')}${th('dist','Miles')}${th('n','Dates')}${th('price','Mean fare')}${th('carriers','Carriers')}${th('admi','Mean ADMI')}${th('admiB','ADMI-b')}${th('sd','SD')}${th('high','% dates ≥ '+P.thr)}<th>Label</th></tr>
+  ${rs.map(r=>{const lc=r.label==='structural'?'s':r.label==='insufficient dates'?'i':'n';
+   const open=S.expanded===r.dest;
+   return`<tr class="r" onclick="S.expanded=${open?'null':`'${r.dest}'`};render()"><td><b>${r.dest}</b> <span style="color:var(--dim)">${esc(r.info?r.info.city:'')}${r.info&&r.info.sub?', '+esc(r.info.sub):r.info?', '+esc(r.info.country):''}</span></td><td>${Math.round(r.dist)}</td><td>${r.n}</td><td>$${r.price.toFixed(0)}</td><td>${r.carriers.toFixed(1)}</td><td>${r.admi.toFixed(3)}</td><td>${r.admiB==null?'':r.admiB.toFixed(3)}</td><td>${r.sd==null?'':r.sd.toFixed(3)}</td><td>${(100*r.high).toFixed(0)}%</td><td><span class="tag ${lc}">${r.label}</span></td></tr>
+   ${open?`<tr><td colspan="10" style="background:var(--soft)"><table><tr><th>Date</th><th>Days ahead</th><th>Fare</th><th>Carriers</th><th>Airlines</th><th>FPB</th><th>PDS raw</th><th>PDS</th><th>CS</th><th>RDS</th><th>ADMI</th></tr>${r.rs.map(x=>`<tr><td>${x.date} ${wk(x.date)}</td><td>${x.daysAhead}</td><td>$${x.priceRaw}${x.adj&&Math.abs(x.adj-1)>0.005?` <span style="color:var(--dim)">(adj $${x.price.toFixed(0)})</span>`:''}</td><td>${x.carriers}</td><td>${esc(x.airlines)}</td><td>$${x.fpb.toFixed(0)}</td><td>${x.pdsRaw.toFixed(2)}</td><td>${x.pds.toFixed(2)}</td><td>${x.cs}</td><td>${x.rds.toFixed(2)}</td><td>${x.admi.toFixed(3)}</td></tr>`).join('')}</table></td></tr>`:''}`}).join('')}</table></div>
+  ${A.noDirect.length?`<p class="sub" style="margin-top:12px">No nonstop found: ${esc(A.noDirect.join(', '))}</p>`:''}`;
+}
+window.sortBy=k=>{S.sort=S.sort.k===k?{k,d:-S.sort.d}:{k,d:-1};render()};
+window.setOrigin=v=>{S.origin=v.toUpperCase().trim();saveMeta();clearTimeout(window._ot);window._ot=setTimeout(render,350)};
+window.addDate=()=>{const v=$('newdate').value;if(v&&!S.dates.includes(v)){S.dates.push(v);S.dates.sort();saveMeta();render()}};
+window.rmDate=async d=>{
+  const rows=viewObs().filter(o=>o.date===d);
+  if(rows.length){if(!(await ask(`${d} has ${rows.length} saved fares. Removing the date DELETES them. Continue?`)))return;
+    const provs=[...new Set(rows.map(o=>o.provider))],keys=new Set(rows.map(o=>o.key));
+    S.obs=S.obs.filter(o=>!keys.has(o.key));
+    if(DB){try{const t=DB.transaction('obs','readwrite'),st=t.objectStore('obs');keys.forEach(k=>st.delete(k))}catch(e){}}
+    provs.forEach(p=>queueSync(S.origin,d,p))}
+  S.dates=S.dates.filter(x=>x!==d);saveMeta();render()};
+window.clearDates=()=>{const keep=S.dates.filter(d=>viewObs().some(o=>o.date===d));
+  S.dates=keep;saveMeta();S.msg=keep.length?`Dates that have saved fares stay (${keep.join(', ')}). Remove them one by one with the x if you really want their fares deleted.`:'';render()};
+
+function viewRules(){
+  const P=S.params,f=(k,l,step)=>`<div><label>${l}</label><input type="number" step="${step||0.01}" value="${P[k]}" onchange="setP('${k}',this.value)"></div>`;
+  const exAP=airports(),exA=exAP[(S.exf||S.origin||'').toUpperCase()],exB=exAP[(S.ext||'').toUpperCase()];
+  const exAuto=exA&&exB?Math.round(hav(exA,exB)):null,exDist=S.exMan&&$('exd')?+$('exd').value:(exAuto!=null?exAuto:+($('exd')?.value||300));
+  const ex=scoreRoute(exDist,+($('exp')?.value||250),+($('exc')?.value||1),P);
+  return`<div class="panel"><h2>Scoring rules</h2><div class="note"><b>Model locked on Oct 11, 2026.</b> Final settings: taxes removed, $75 fixed-cost floor, smooth scoring, date standardizer off, 5 dates, threshold 0.6 on 80% of dates. Changing a value below changes every published number, so only do it to run a labelled comparison.</div><p class="sub">Setting Smooth scoring to 0 reproduces the original methodology's verification table exactly. Change a value and every result recalculates; reset restores the defaults.</p>
+  <h3 style="font-size:16px;margin-top:14px">Fair price baseline</h3><p class="sub">$0.15 a mile is the low end of the $0.15 to $0.20 range reported for US airline revenue per passenger-mile. Use the Statistics tab's stress test to see $0.175 and $0.20.</p><div class="row">${f('rate','Dollars per mile',0.01)}${f('floor','Distance floor (miles)',1)}${f('ref','RDS reference (miles)',1)}</div>
+  <h3 style="font-size:16px;margin-top:14px">Fixed cost floor</h3><div class="row">${f('minFpb','Minimum fair price per nonstop ($, 0 = off)',1)}</div><p class="sub">A flight has costs that do not shrink with distance, so a 134-mile hop cannot be fairly priced at 134 × $0.15 = $20. The fair price is the larger of miles × rate and this floor. It only matters for routes shorter than floor ÷ rate (500 miles at $75). $75 is an assumption, not a measured number; set 0 to remove it.</p>
+  <h3 style="font-size:16px;margin-top:14px">Concentration score by carriers on the route</h3><div class="row">${f('cs1','1 carrier')}${f('cs2','2 carriers')}${f('cs3','3 carriers')}${f('cs4','4+ carriers')}</div>
+  <h3 style="font-size:16px;margin-top:14px">Score shape</h3><div class="row">${f('smooth','Smooth scoring (1 = on, 0 = original hard 0 to 1 cut-offs)',1)}</div><p class="sub">Original: PDS is cut off at 0 and 1, so every cheap route scores the same low number and every very expensive route scores exactly 1.000. Smooth: PDS = 1 − e^(−x) above the fair price (x = (fare − FPB) ÷ FPB), so a fare 2× fair scores 0.63, 3× scores 0.86 and it never quite hits 1. Below the fair price the discount counts as it is (a fare at half of FPB gives PDS −0.5), so cheap competitive routes get different, possibly negative, scores. RDS uses the same smooth curve. A negative ADMI means the fare sits below what distance justifies.</p>
+  <h3 style="font-size:16px;margin-top:14px">Combination weights</h3><div class="row">${f('wp','PDS weight')}${f('wc','CS weight')}${f('wr','RDS weight')}</div>
+  ${Math.abs(P.wp+P.wc+P.wr-1)>1e-9?'<div class="note warn">Weights do not sum to 1.</div>':''}
+  <h3 style="font-size:16px;margin-top:14px">Taxes and fees</h3><div class="row">${f('tax','Remove taxes from fares (1 = on, 0 = off)',1)}${f('taxPct','Excise tax %',0.1)}${f('taxFlat','Flat fees per ticket ($)',0.1)}</div><p class="sub">Google Flights shows the total with taxes. Taxes do not reflect pricing power, so by default the score uses the fare before them: (shown fare − $15.40) ÷ 1.075. That is the 7.5% federal excise tax, plus a flat $15.40 made of the $5.30 segment tax, the $5.60 security fee and a $4.50 airport charge (PFC, the maximum, which Atlanta charges). Other US origins may charge less than $4.50, so lower the flat amount for them. The numbers above apply to flights leaving the United States. For flights leaving India the tool uses 5% GST (economy fares) plus a flat $5.61: Rs 300 Bengaluru user development fee (from 1 Sep 2026) and Rs 236 aviation security fee, at Rs 95.58 to the dollar on 12 Oct 2026. The fuel surcharge is part of the airline's own fare and is not removed. Any other country: fares are used as shown.</p>
+  <h3 style="font-size:16px;margin-top:14px">Date standardizer</h3><div class="row">${f('std','Standardize fares across dates (1 = on, 0 = off)',1)}${f('stdMin','Competitive routes needed per date',1)}</div><p class="sub">Every date is searched today, so each has a different lead time and day of week. That moves all fares together. The standardizer rescales each date so the typical competitive route costs the same on every date. See the Methodology tab.</p>
+  <h3 style="font-size:16px;margin-top:14px">Consistency rule (multi-date)</h3><div class="row">${f('thr','ADMI threshold')}${f('share','Share of dates required')}${f('minDates','Minimum dates',1)}</div>
+  <div class="row" style="margin-top:14px"><button class="b alt" onclick="S.params={...DEFAULTS};saveMeta();render()">Reset to locked defaults</button></div></div>
+  <div class="panel"><h2>Try one route</h2><p class="sub">Type two airport codes and the distance fills in by itself. You can still overwrite the miles.</p><div class="row"><div><label>From</label><input id="exf" maxlength="3" value="${esc((S.exf||S.origin||'').toUpperCase())}" style="text-transform:uppercase" onchange="S.exf=this.value.toUpperCase();S.exMan=false;render()"></div><div><label>To</label><input id="ext" maxlength="3" value="${esc((S.ext||'').toUpperCase())}" style="text-transform:uppercase" onchange="S.ext=this.value.toUpperCase();S.exMan=false;render()"></div><div><label>Distance (mi)${S.exMan?'':exAuto!=null?' · auto':''}</label><input id="exd" type="number" value="${exDist}" oninput="S.exMan=true;render()"></div><div><label>Fare ($)</label><input id="exp" type="number" value="${$('exp')?.value||250}" oninput="render()"></div><div><label>Carriers</label><input id="exc" type="number" value="${$('exc')?.value||1}" oninput="render()"></div></div>
+  ${ex?`<div class="grid" style="margin-top:12px"><div class="kpi"><b>$${ex.fpb.toFixed(0)}</b><span>FPB</span></div><div class="kpi"><b>${ex.pds.toFixed(3)}</b><span>PDS (raw ${ex.pdsRaw.toFixed(2)})</span></div><div class="kpi"><b>${ex.cs}</b><span>CS</span></div><div class="kpi"><b>${ex.rds.toFixed(3)}</b><span>RDS</span></div><div class="kpi"><b>${ex.admi.toFixed(3)}</b><span>ADMI</span></div></div>`:'<div class="note">Under the distance floor: excluded from scoring.</div>'}
+  <p class="sub" style="margin-top:10px">Check: 300 mi, $250, 1 carrier gives 1.000. 2000 mi, $350, 3 carriers gives 0.191.</p></div>`;
+}
+window.setP=(k,v)=>{S.params[k]=parseFloat(v);saveMeta();render()};
+
+function viewMethod(){return`<div class="panel method">
+<h2>Methodology</h2>
+<div class="note">The idea, the question and the data are the author's own. The component formulas (PDS, CS, RDS, and how they combine) were derived collaboratively with Claude and are stated that way wherever the project is described.</div>
+<h3>What ADMI measures</h3><p>For a nonstop route, how far the fare rises above what distance alone would justify, weighted by how few carriers compete on the route. A route priced at its distance baseline with many carriers scores near 0. A short route with one carrier and a steep fare scores near 1.</p>
+<h3>Scope: read before citing any finding</h3><ul><li>The existing dataset departs only from Atlanta (ATL), Delta's largest hub. State findings as "49% of direct routes from Atlanta are monopoly-priced", never as a statement about U.S. air travel.</li><li>The constants (<code>$0.15/mile</code>, the CS tiers, 500 and 100 miles) were set for U.S. domestic fares in dollars. Running other origins or international routes is exploratory: the tool computes the numbers, but the baseline has not been validated there.</li><li>Many airport pairs have no nonstop flight. Those are recorded as "no nonstop" and not scored.</li></ul>
+<h3>0 · Inclusion floor</h3><p>Routes under 100 miles are excluded: below that, flying competes with driving, a different decision. The 100-mile figure follows the proximity literature (Bouba-Olga &amp; Ferru, 2012; Laursen et al., 2011).</p>
+<h3>1 · Fair Price Baseline (FPB)</h3><div class="formula">FPB = distance × $0.15</div><p>What the route would cost if priced on distance alone. The $0.15 is a stated assumption, not a law of nature. Weakness: fixed costs per flight make short routes cost more per mile, so a flat rate makes short routes look overpriced. For this reason a <b>benchmark baseline</b> is also computed: a line fitted through fares on routes with 4+ carriers, <code>FPB-b = a + b × distance</code>. Report both.</p>
+<h3>2 · Price Distortion Score (PDS)</h3><div class="formula">PDS = clamp₀₁( (Fare − FPB) / FPB )</div><p>Underpriced routes score 0. The clamp means 2× the baseline and 5× look the same, so the tool shows the unclamped value too.</p>
+<h3>3 · Concentration Score (CS)</h3><div class="formula">1 carrier = 1.0 · 2 = 0.66 · 3 = 0.33 · 4+ = 0.1</div><p>Chosen over a continuous index for interpretability. The values are design choices; the Herfindahl-Hirschman Index is the standard formal analogue. A sensitivity check with other tier values is recommended.</p>
+<h3>4 · Route Distortion Score (RDS)</h3><div class="formula">RDS = clamp₀₁( PDS × 500 / max(distance, 100) )</div><p>Amplifies price distortion on short routes. This makes short routes score higher by construction, so the verification table shows the formula behaves as designed, not independent confirmation. The independent evidence is the raw per-mile fare comparison.</p>
+<h3>5 · Combining</h3><div class="formula">ADMI = 0.5 × PDS + 0.3 × CS + 0.2 × RDS</div><p>Weights are design choices, never optimised on data. PDS appears twice (directly and inside RDS), so on short routes its effective weight is above 0.5.</p>
+<h3>6a · Choosing the dates</h3><p>Dates are chosen once, before looking at any multi-date result, and not changed afterwards. Aim for 5 or more departure dates (5 for the ATL study; with 5, the 80% rule means at least 4 of 5 dates, and standard deviations are rough) that (1) cover every day of the week at least once, because weekday and weekend demand differ, (2) are spread across lead times from about 2 weeks to about 8 weeks ahead, so no single booking window drives the result, (3) include at least one holiday-adjacent date, to see whether holiday demand changes which routes look distorted, and (4) are not all one season. Dates are ordinary single-day one-way searches, never picked because a fare looked interesting. The reason for spreading them is that one date can be unrepresentative: a structural pattern should show up across many dates, not on one.</p>
+<h3>6e · Fixed cost floor</h3><p>FPB = max(miles × $0.15, $75). Without it a 134-mile route has a fair price of $20, so any real fare scores as extreme distortion and every short monopoly route piles up near 1.0. The $75 floor is an assumption (roughly what a nonstop flight costs to operate before distance matters), not an estimate from the data; a line fitted to the ATL routes with 3+ airlines gave about $12 + $0.087 per mile, but there are too few short competitive routes to pin the fixed part down. Report results with the floor on and off.</p>
+<h3>6d · Smooth scoring</h3><p>The original PDS cut-offs (0 and 1) made scores pile up: every fare at or below the fair price scored the same, and every fare above twice the fair price scored exactly 1.000. Smooth scoring replaces the cut-offs with PDS = 1 − e<sup>−x</sup> above the fair price and PDS = x (down to −1) below it, with x = (fare − FPB) ÷ FPB. RDS = 1 − e<sup>−q</sup>, with q = max(0, PDS) × 500 ÷ distance. Weights, CS tiers and the 0.6 threshold are unchanged. ADMI can now be negative, meaning the fare is below what distance justifies. State in the post which mode the published numbers use.</p>
+<h3>6c · Ties on the lowest fare</h3><p>When two airlines show the same lowest nonstop fare, the airline with the shorter travel time is recorded as the cheapest. The tie rule changes only which airline is named; the fare and the airline count, which are all the score uses, are unchanged.</p>
+<h3>6b · The date standardizer</h3><p>Every fare is searched on the same day, so each departure date has a different lead time, and fares rise or fall with it on every route at once. That common movement is not route-specific distortion, so it should not decide a route's score. For each date d, take the competitive routes (3 or more airlines) and compute their median of fare ÷ FPB. Call it k<sub>d</sub>. Let k<sub>ref</sub> be the median of k<sub>d</sub> across all dates. Each fare is then multiplied by k<sub>ref</sub> ÷ k<sub>d</sub> before scoring, so the typical competitive route costs the same on every date. Both the raw and the adjusted fare are kept in the detail export.</p><p><b>Assumptions and limits.</b> It assumes lead-time and day-of-week effects move competitive and monopoly routes by about the same proportion, which is not guaranteed: monopoly routes may be more sensitive to lead time. It needs at least 5 competitive routes on a date, otherwise that date is left unadjusted. It removes date-level swings only, not differences between routes. It uses the same competitive routes the benchmark uses, so the two checks are not independent. The label rule uses adjusted fares; raw ADMI is shown next to it.</p>
+<h3>6 · Multi-date consistency</h3><p>One day's fares can be noise. Each route is scored on at least 5 departure dates and labelled <b>structural</b> only if its ADMI is at or above 0.6 on at least 80% of dates. The rule is fixed before running. Because each search happens today, lead time varies across dates, which also moves fares.</p>
+<h3>Limitations</h3><ul><li>Cheapest fare per date, one-way, nonstop only.</li><li>Carrier counts come from the search results; codeshares can add a carrier.</li><li>Chosen weights, reference distances and baseline rate were not tested against alternatives.</li><li>No causal claim is made.</li></ul></div>`}
+
+function withParams(ov,fn){const old=S.params;S.params={...old,...ov};try{return fn()}finally{S.params=old}}
+const spearman=(a,b)=>{const rk=v=>{const o=v.map((x,i)=>[x,i]).sort((p,q)=>p[0]-q[0]),r=[];o.forEach(([x,i],k)=>r[i]=k);return r},ra=rk(a),rb=rk(b),n=a.length;let d=0;for(let i=0;i<n;i++)d+=(ra[i]-rb[i])**2;return 1-6*d/(n*(n*n-1))};
+function stressRows(){
+  const nd=S.dates.filter(d=>viewObs().some(o=>o.date===d&&o.status==='ok')).length,md=Math.max(1,Math.min(S.params.minDates,nd));
+  const run=ov=>withParams({minDates:md,...ov},()=>analyse().routes);
+  const base=run({}),bm=Object.fromEntries(base.map(r=>[r.dest,r.admi])),bs=base.filter(r=>r.label==='structural').length;
+  const cfg=[['Locked model',{}],['Fair price $0.175 a mile',{rate:.175}],['Fair price $0.20 a mile',{rate:.20}],['No minimum fair price',{minFpb:0}],['Minimum fair price $100',{minFpb:100}],['Original hard 0-to-1 cut-offs',{smooth:0,minFpb:0}],['Equal weights (1/3 each)',{wp:1/3,wc:1/3,wr:1/3}],['Weights 0.6 / 0.3 / 0.1',{wp:.6,wc:.3,wr:.1}],['Competition as 1 ÷ airlines',{cs1:1,cs2:.5,cs3:1/3,cs4:.25}],['Taxes not removed',{tax:0}],['Distance reference 300',{ref:300}],['Distance reference 1000',{ref:1000}],['Threshold 0.5',{thr:.5}],['Threshold 0.7',{thr:.7}]];
+  return{md,rows:cfg.map(([name,ov])=>{const r=run(ov),ds=r.map(x=>x.dest).filter(d=>d in bm);return{name,corr:spearman(ds.map(d=>bm[d]),ds.map(d=>r.find(x=>x.dest===d).admi)),st:r.filter(x=>x.label==='structural').length}}),bs}}
+function viewStats(){
+  const A=analyse();if(!A.routes.length)return'<div class="panel"><h2>Statistics</h2><p class="sub">Score some routes first.</p></div>';
+  const W=900,H=340,m={l:46,r:14,t:14,b:34},mx=Math.max(...A.routes.map(r=>r.dist))*1.05;
+  const X=v=>m.l+v/mx*(W-m.l-m.r),Y0=-0.5,Y=v=>H-m.b-((Math.max(Y0,v)-Y0)/(1-Y0))*(H-m.t-m.b);
+  let svg=`<svg viewBox="0 0 ${W} ${H}" width="100%">`;
+  for(const t of [-0.5,0,0.5,1]){const y=Y(t);svg+=`<line x1="${m.l}" x2="${W-m.r}" y1="${y}" y2="${y}" stroke="var(--line)"/><text x="6" y="${y+3}">${t.toFixed(1)}</text>`}
+  for(let i=0;i<=6;i++){const v=mx*i/6;svg+=`<text x="${X(v)-8}" y="${H-12}">${Math.round(v)}</text>`}
+  A.routes.forEach((r,i)=>{svg+=`<circle cx="${X(r.dist)}" cy="${Y(r.admi)}" r="5" fill="${r.carriers<1.5?'var(--red)':r.carriers<3?'var(--blue)':'var(--green)'}" opacity=".85"><title>${r.dest}: ${r.admi.toFixed(3)}</title></circle>`});
+  svg+=`<text x="${W/2-40}" y="${H-1}">distance (miles)</text></svg>`;
+  const SR=stressRows(),med=a=>{const t=a.slice().sort((x,y)=>x-y),k=t.length>>1;return t.length%2?t[k]:(t[k-1]+t[k])/2},grp=[[1,'1 airline'],[2,'2 airlines'],[3,'3 airlines'],[4,'4 or more']].map(([n,l])=>{const v=A.rows.filter(r=>n===4?r.carriers>=4:r.carriers===n);return{l,n:v.length,m:v.length?med(v.map(r=>r.price/r.dist)):null}});
+  const ppm=`<div class="panel"><h2>Price per mile by number of airlines</h2><p class="sub">This is the test that does not depend on the score: the median fare after taxes, divided by miles, for routes grouped by how many airlines fly them. Every route and date counts once. Medians only, no significance test.</p><table><tr><th>Airlines on the route</th><th>Route-dates</th><th>Median price per mile</th></tr>${grp.map(g=>`<tr><td>${g.l}</td><td>${g.n}</td><td>${g.m==null?'-':'$'+g.m.toFixed(3)}</td></tr>`).join('')}</table></div>`;
+  const stress=`<div class="panel"><h2>Stress test: how much do my choices matter?</h2><p class="sub">Each row changes one choice and recomputes everything. "Route order" is how similar the ranking of routes stays to the locked model (1.00 = identical). "Structural" is how many routes pass the consistency rule${SR.md<S.params.minDates?` (using ${SR.md} dates for this table)`:''}.</p><div style="overflow-x:auto"><table><tr><th>Change</th><th>Route order</th><th>Structural routes</th></tr>${SR.rows.map(r=>`<tr><td style="font-family:'DM Sans',system-ui,sans-serif">${r.name}</td><td>${r.corr.toFixed(3)}</td><td>${r.st}</td></tr>`).join('')}</table></div></div>`;
+  const top=A.routes.slice().sort((a,b)=>b.admi-a.admi).slice(0,15);
+  return`<div class="panel"><h2>Mean ADMI vs distance</h2><p class="sub">Each dot is a route. Red: about 1 carrier, blue: 2, green: 3+. A cluster of red dots at short distances would show the short-monopoly pattern.</p>${svg}</div>
+  <div class="panel"><h2>Highest mean ADMI</h2>${top.map(r=>`<div style="display:flex;gap:10px;align-items:center;margin:6px 0"><span class="mono" style="width:44px">${r.dest}</span><div class="bar" style="flex:1"><i style="width:${Math.max(0,r.admi)*100}%"></i></div><span class="mono" style="width:60px">${r.admi.toFixed(3)}</span></div>`).join('')}</div>`+ppm+stress;
+}
+
+/* ============================================================ compare markets (ratios and shares only, never raw prices) */
+const medOf=a=>{if(!a.length)return null;const t=a.slice().sort((x,y)=>x-y),k=t.length>>1;return t.length%2?t[k]:(t[k-1]+t[k])/2};
+function rankAvg(v){const o=v.map((x,i)=>[x,i]).sort((p,q)=>p[0]-q[0]),r=[];let i=0;while(i<o.length){let j=i;while(j+1<o.length&&o[j+1][0]===o[i][0])j++;for(let k=i;k<=j;k++)r[o[k][1]]=(i+j)/2;i=j+1}return r}
+function corr(a,b){const n=a.length;if(n<3)return null;const ma=mean(a),mb=mean(b);let sab=0,saa=0,sbb=0;for(let i=0;i<n;i++){sab+=(a[i]-ma)*(b[i]-mb);saa+=(a[i]-ma)**2;sbb+=(b[i]-mb)**2}return saa&&sbb?sab/Math.sqrt(saa*sbb):null}
+function marketsWithData(){const m=new Map();for(const o of S.obs){if(o.provider==='demo'||o.status!=='ok'||o.price==null)continue;m.set(o.origin,(m.get(o.origin)||0)+1)}return[...m.keys()].sort()}
+function marketStats(origin,excl,same){
+  const old=S.origin;S.origin=origin;
+  try{
+    const AP=airports(),o=AP[origin],cur='$',usRule=!(o&&o.country==='India');
+    return withParams(same?{tax:0}:{},()=>{
+      const P=S.params,obsAll=S.obs.filter(x=>x.origin===origin&&x.provider!=='demo'&&!excl.includes(x.date));
+      const rows=[];
+      for(const x of obsAll){if(x.status!=='ok'||x.price==null)continue;const dist=distOf(x,AP);if(dist==null||dist<P.floor)continue;rows.push({dest:x.dest,date:x.date,carriers:x.carriers,dist,price:netOf(x.price,P)})}
+      const dates=[...new Set(obsAll.map(x=>x.date))].sort(),tried=new Set(obsAll.map(x=>x.dest)).size,withFlights=new Set(rows.map(r=>r.dest)).size;
+      for(const r of rows)r.ppm=r.price/r.dist;
+      const grp=[[1,'1 airline'],[2,'2 airlines'],[3,'3 airlines'],[4,'4 or more']].map(([n,l])=>{const v=rows.filter(r=>n===4?r.carriers>=4:r.carriers===n);return{l,n:v.length,m:medOf(v.map(r=>r.ppm))}});
+      const m1=medOf(rows.filter(r=>r.carriers===1).map(r=>r.ppm)),m3=medOf(rows.filter(r=>r.carriers>=3).map(r=>r.ppm));
+      const n1=rows.filter(r=>r.carriers===1).length,n3=rows.filter(r=>r.carriers>=3).length;
+      const bands=[['under 500 miles',r=>r.dist<500],['500 to 1,000 miles',r=>r.dist>=500&&r.dist<=1000],['over 1,000 miles',r=>r.dist>1000]].map(([l,f])=>{
+        const b=rows.filter(f),a1=b.filter(r=>r.carriers===1),a3=b.filter(r=>r.carriers>=3);
+        const x1=a1.length>=3?medOf(a1.map(r=>r.ppm)):null,x3=a3.length>=3?medOf(a3.map(r=>r.ppm)):null;
+        return{l,n:b.length,n1:a1.length,n3:a3.length,ratio:x1!=null&&x3!=null?x1/x3:null,all:b.length>=3?medOf(b.map(r=>r.ppm)):null}});
+      const sh=rows.filter(r=>r.dist<500),lg=rows.filter(r=>r.dist>1000);
+      const shortLong=sh.length>=3&&lg.length>=3?medOf(sh.map(r=>r.ppm))/medOf(lg.map(r=>r.ppm)):null;
+      const rho=rows.length>=8?corr(rankAvg(rows.map(r=>r.carriers)),rankAvg(rows.map(r=>r.ppm))):null;
+      // yardstick fitted from this market's own routes with 3+ airlines (2+ if fewer than 8 such routes)
+      let min=3,pts=rows.filter(r=>r.carriers>=3);if(new Set(pts.map(r=>r.dest)).size<8){min=2;pts=rows.filter(r=>r.carriers>=2)}
+      const fit=new Set(pts.map(r=>r.dest)).size>=8&&pts.length>=8?ols(pts.map(r=>r.dist),pts.map(r=>r.price)):null;
+      let structural=null,routes=0,meanAdmi=null;
+      if(fit){
+        const md=Math.max(1,Math.min(P.minDates,dates.length)),by={};
+        for(const r of rows){const fpb=Math.max(fit.a+fit.b*Math.max(r.dist,P.floor),1),s=scoreRoute(r.dist,r.price,r.carriers,P,fpb);if(s)(by[r.dest]=by[r.dest]||[]).push(s.admi)}
+        const rs=Object.values(by).filter(v=>v.length>=md);routes=rs.length;
+        structural=rs.filter(v=>v.filter(x=>x>=P.thr).length/v.length>=P.share).length;
+        meanAdmi=rs.length?mean(rs.map(v=>mean(v))):null;
+      }
+      let headline=null;
+      const hy=o&&o.country==='United States'?{rate:.15}:o&&o.country==='India'?{rate:.09,minFpb:0}:null; // headline yardsticks: US low end of $0.15-0.20; India low end of $0.09-0.13 (no $75 floor: India fares are far lower)
+      if(hy){const A=withParams(hy,()=>analyse());headline={rate:hy.rate,n:A.routes.length,st:A.routes.filter(r=>r.label==='structural').length}}
+      return{origin,city:o?o.city:origin,cur,usRule:!same,dates,tried,withFlights,rows:rows.length,grp,m1,m3,n1,n3,ratio:m1!=null&&m3!=null?m1/m3:null,bands,shortLong,rho,fit,fitMin:min,structural,routes,meanAdmi,headline};
+    });
+  }finally{S.origin=old}
+}
+window.cmpSameSet=v=>{S.cmpSame=v;render()};
+window.cmpToggle=d=>{const a=S.cmpExcl||[];S.cmpExcl=a.includes(d)?a.filter(x=>x!==d):a.concat(d);render()};
+function viewCompare(){
+  const ms=marketsWithData(),excl=S.cmpExcl||[],same=S.cmpSame!==false;
+  if(ms.length<2)return`<div class="panel"><h2>Compare markets</h2><p class="sub">This tab compares two or more origins side by side, using ratios and shares so currencies never meet. ${ms.length?`Only ${esc(ms[0])} has fares so far.`:'No fares yet.'} Switch the origin on the Tool tab (for example BLR), enter its fares, and come back.</p></div>`;
+  const R=ms.map(m=>marketStats(m,excl,same)),allDates=[...new Set(S.obs.filter(o=>o.provider!=='demo'&&ms.includes(o.origin)).map(o=>o.date))].sort();
+  const fx=(v,d=2)=>v==null?'-':v.toFixed(d),pm=(v,c)=>v==null?'-':c+v.toFixed(c==='$'?3:2);
+  const col=f=>R.map(r=>`<td>${f(r)}</td>`).join('');
+  const row=(l,f)=>`<tr><td style="font-family:'DM Sans',system-ui,sans-serif">${l}</td>${col(f)}</tr>`;
+  const head=`<tr><th></th>${R.map(r=>`<th>${esc(r.city)} (${esc(r.origin)})</th>`).join('')}</tr>`;
+  const sep=t=>`<tr><th colspan="${R.length+1}" style="padding-top:14px">${t}</th></tr>`;
+  const verdict=r=>r.ratio==null?'not enough data':(r.ratio>1&&(r.rho==null||r.rho<0))?'yes':'no';
+  const body=head+
+   sep('What was collected')+
+   row('Dates used',r=>r.dates.length)+row('Destinations tried',r=>r.tried)+row('Destinations with a nonstop',r=>r.withFlights)+row('Route-dates priced',r=>r.rows)+row('Currency and taxes',r=>r.usRule?'US dollars, local taxes removed':'US dollars as shown, taxes left in')+
+   sep('H1: do routes with fewer airlines cost more per mile?')+
+   R[0].grp.map((g,i)=>row('Median price per mile, '+g.l,r=>`${pm(r.grp[i].m,r.cur)} <span class="dim">(${r.grp[i].n})</span>`)).join('')+
+   row('<b>Monopoly-to-competitive ratio</b> (1 airline ÷ 3+ airlines)',r=>r.ratio==null?'-':`<b>${fx(r.ratio)}×</b> <span class="dim">(${r.n1} vs ${r.n3})</span>`)+
+   row('Rank correlation, airlines vs price per mile',r=>r.rho==null?'-':fx(r.rho))+
+   row('Pattern holds?',r=>verdict(r))+
+   sep('Same ratio inside each distance band (needs 3+ route-dates on both sides)')+
+   R[0].bands.map((b,i)=>row(b.l,r=>r.bands[i].ratio==null?`<span class="dim">too few (${r.bands[i].n1} vs ${r.bands[i].n3})</span>`:`${fx(r.bands[i].ratio)}× <span class="dim">(${r.bands[i].n1} vs ${r.bands[i].n3})</span>`)).join('')+
+   sep('H3: do short routes cost more per mile?')+
+   row('Median price per mile, under 500 ÷ over 1,000 miles',r=>r.shortLong==null?'-':`<b>${fx(r.shortLong)}×</b>`)+
+   sep('Score, with each market judged against its own fitted fair price')+
+   row('Fair price fitted from',r=>r.fit?`routes with ${r.fitMin}+ airlines`:'not enough routes')+
+   row('Fair price: base + per mile',r=>r.fit?`${pm(r.fit.a,r.cur)} + ${pm(r.fit.b,r.cur)}/mi`:'-')+
+   row('Mean ADMI',r=>fx(r.meanAdmi,3))+
+   row('Structural routes',r=>r.structural==null?'-':`${r.structural} of ${r.routes} <span class="dim">(${Math.round(100*r.structural/Math.max(1,r.routes))}%)</span>`)+
+   row('Structural under the headline yardstick ($0.15 a mile US, $0.09 India)',r=>r.headline?`${r.headline.st} of ${r.headline.n} <span class="dim">($${r.headline.rate.toFixed(2)} a mile)</span>`:'<span class="dim">not used</span>');
+  return`<div class="panel"><h2>Compare markets</h2><p class="sub">Currencies and taxes differ, so this tab never sets one market's prices against another's. It compares ratios inside each market (monopoly to competitive, short to long) and the share of routes flagged. The plan was set before the second market's data was entered: each market gets its own fair price, fitted the same way, and every result is reported, including the ones that go against the idea.</p>
+  <label style="display:flex;gap:8px;align-items:flex-start;margin:6px 0 12px"><input type="checkbox" ${same?'checked':''} onchange="cmpSameSet(this.checked)"><span>Leave taxes in for every market (like for like). Untick to remove each market's own taxes (US: 7.5% and $15.40; India: 5% GST and $5.61). A fixed charge is a bigger share of a cheap fare, so removing it from one market and not the other can change the gap between monopoly and competitive routes.</span></label>
+  <div style="overflow-x:auto"><table class="mono-t">${body}</table></div>
+  <p class="sub" style="margin-top:12px">Numbers in brackets are how many route-dates sit behind each figure. A ratio built on a handful of route-dates is weak. The fitted yardstick is a straight line of fare against miles through the market's own competitive routes, with its value held at the 100-mile floor for shorter routes.</p></div>
+  <div class="panel"><h2>Festival and holiday check</h2><p class="sub">Untick a date to leave it out of every market, then watch whether the ratios move. Diwali is around Nov 8 and US Thanksgiving is Nov 26, so Nov 3, Nov 12 and Nov 25 are the ones to test. Report results with and without any date that moves them.</p>
+  ${allDates.map(d=>`<label style="display:inline-flex;gap:6px;align-items:center;margin:4px 14px 4px 0"><input type="checkbox" ${excl.includes(d)?'':'checked'} onchange="cmpToggle('${d}')"> ${d}</label>`).join('')}</div>
+  <div class="panel"><h2>What this can and cannot say</h2><p class="sub">At most: in both markets, routes with fewer airlines cost more per mile, and the gap is X in one and Y in the other. It cannot say which market is more competitive overall, since an airline count means something different where one carrier dominates, and it cannot say why. Two origins and five dates is a snapshot, not a trend.</p></div>`;
+}
+
+function viewData(){
+  return`  <div class="panel"><h2>Distance checker</h2><p class="sub">Distances are always computed automatically from airport coordinates (great-circle miles from your origin). Paste only airport codes to get the distance, or paste your own distances to compare: one line per route, such as <code>BHM, 134</code> or rows copied straight from your sheet. Origin is <b>${esc(S.origin)}</b>.</p>
+  <textarea id="dcin" style="min-height:90px" oninput="S.dcText=this.value">${esc(S.dcText)}</textarea>
+  <div class="row" style="margin-top:8px"><div style="max-width:200px"><label>Flag if off by more than (%)</label><input id="dctol" type="number" value="${S.dcTol}" onchange="S.dcTol=+this.value||5"></div><div style="max-width:160px"><button class="b" onclick="checkDist()">Check distances</button></div><div style="max-width:300px"><label>or load a CSV file</label><input type="file" accept=".csv,.txt" onchange="loadDC(this.files[0])"></div></div>
+  ${S.dcRes?dcHTML():''}</div>
+<div class="panel"><h2>Enter a fare by hand</h2><p class="sub">For a fare you found yourself. Manual entries count as real data.</p>
+  <div class="row"><div><label>To</label><input id="mdest" maxlength="3" style="text-transform:uppercase"></div><div><label>Date</label><input id="mdate" type="date"></div><div><label>Fare ($)</label><input id="mprice" type="number"></div><div><label>Carriers</label><input id="mcar" type="number" value="1"></div><div><button class="b" onclick="addManual()">Add</button></div></div></div>
+  <div class="panel"><h2>Add airport</h2><p class="sub">For a code that is not in the table, or to correct one.</p>
+  <div class="row"><div><label>Code</label><input id="ac" maxlength="3"></div><div><label>City</label><input id="acity"></div><div><label>Country</label><input id="acountry"></div><div><label>Latitude</label><input id="alat" type="number" step="any"></div><div><label>Longitude</label><input id="alon" type="number" step="any"></div><div><button class="b" onclick="addAirport()">Add</button></div></div></div>
+  <div class="panel"><h2>Backup and restore</h2><p class="sub">Data lives in this browser. Export a backup after every fetch session, since clearing site data deletes it.</p>
+  <div class="row"><div><button class="b" onclick="backup()">Download backup (JSON)</button></div><div><label>Restore from backup</label><input type="file" accept=".json" onchange="restore(this.files[0])"></div><div><button class="b alt" onclick="wipe()">Delete all stored prices</button></div></div>
+  <p class="sub" style="margin-top:10px">${S.obs.length} stored observations · ${S.obs.filter(o=>o.provider==='demo').length} demo</p></div>
+  <div class="panel"><h2>Airport table check</h2><p class="sub">Destinations marked "?" are airports I was least sure were the busiest in their country (${window.ADMI_AIRPORTS.filter(a=>a.conf==='M').map(a=>a.iata+' '+a.country).join(', ')}). Replace any you disagree with using Add airport, then pick the code in My own list.</p></div>`;
+}
+window.addManual=async()=>{const d=$('mdest').value.toUpperCase(),dt=$('mdate').value,p=+$('mprice').value,c=+$('mcar').value;if(!d||!dt||!p){return}
+  const rec={key:[S.origin,d,dt,'manual'].join('|'),origin:S.origin,dest:d,date:dt,fetchedAt:new Date().toISOString(),daysAhead:daysAhead(dt),price:p,carriers:c,airlines:'(manual)',status:'ok',provider:'manual'};
+  S.obs=S.obs.filter(o=>o.key!==rec.key);S.obs.push(rec);await putObs([rec]);S.view='real';render()};
+window.addAirport=()=>{const a={iata:$('ac').value.toUpperCase(),city:$('acity').value,country:$('acountry').value,region:'',sub:'',lat:+$('alat').value,lon:+$('alon').value,primary:false,usState:false,conf:'H'};
+  if(!/^[A-Z]{3}$/.test(a.iata)||isNaN(a.lat)||isNaN(a.lon))return;S.custom=S.custom.filter(x=>x.iata!==a.iata).concat(a);saveMeta();render()};
+window.backup=()=>dl('admi-backup.json',JSON.stringify({obs:S.obs,params:S.params,dates:S.dates,custom:S.custom}),'application/json');
+window.restore=f=>{if(!f)return;const r=new FileReader();r.onload=async()=>{const j=JSON.parse(r.result);S.obs=j.obs||[];S.params=migrateParams(j.params);S.dates=j.dates||[];S.custom=j.custom||[];await putObs(S.obs);saveMeta();render()};r.readAsText(f)};
+window.wipe=async()=>{if(!(await ask('Delete every stored price in this browser?')))return;S.obs=[];if(DB)tx('obs','readwrite').clear();render()};
+function dl(name,text,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;a.click()}
+window.exportCSV=kind=>{const A=analyse(),q=v=>`"${String(v==null?'':v).replace(/"/g,'""')}"`;let rows;
+  if(kind==='summary')rows=[['origin','dest','miles','dates','mean_fare','mean_carriers','mean_admi','mean_admi_b','sd','share_dates_high','label']].concat(A.routes.map(r=>[S.origin,r.dest,r.dist.toFixed(0),r.n,r.price.toFixed(2),r.carriers.toFixed(2),r.admi.toFixed(4),r.admiB==null?'':r.admiB.toFixed(4),r.sd==null?'':r.sd.toFixed(4),r.high.toFixed(2),r.label]));
+  else rows=[['origin','dest','date','days_ahead','miles','fare_shown','fare_net','fare_adjusted','carriers','airlines','fpb','pds_raw','pds','cs','rds','admi','provider']].concat(A.rows.map(r=>[r.origin,r.dest,r.date,r.daysAhead,r.dist.toFixed(0),r.priceShown,r.priceRaw.toFixed(2),r.price.toFixed(2),r.carriers,r.airlines,r.fpb.toFixed(2),r.pdsRaw.toFixed(3),r.pds.toFixed(3),r.cs,r.rds.toFixed(3),r.admi.toFixed(4),r.provider]));
+  dl(`admi-${kind}-${S.origin}${S.view==='demo'?'-DEMO':''}.csv`,rows.map(r=>r.map(q).join(',')).join('\n'),'text/csv')};
+
+
+const ALIAS={FDS:'FSD'};
+window.loadDC=f=>{if(!f)return;const r=new FileReader();r.onload=()=>{S.dcText=r.result;render()};r.readAsText(f)};
+window.checkDist=()=>{
+  const AP=airports(),o=AP[S.origin],out=[];
+  for(const line of S.dcText.split(/\r?\n/)){
+    const m=line.match(/\b[A-Z]{3}\b/);if(!m)continue;let code=m[0];
+    const rest=line.slice(m.index+3);
+    let d=(line.match(/(\d[\d,]*\.?\d*)\s*mi(les)?\b/i)||[])[1];
+    if(!d){const nums=rest.match(/\d[\d,]*\.?\d*/g);d=nums&&nums[nums.length-1]}
+    const fixed=ALIAS[code],a=AP[code]||AP[fixed];
+    if(!d){if(a&&o&&a.iata!==o.iata)out.push({code:a.iata,asTyped:code,yours:null,calc:hav(o,a),diff:0,flag:false,auto:true});continue}
+    d=parseFloat(d.replace(/,/g,''));
+    if(!a||!o){out.push({code,yours:d,unknown:true,hint:fixed&&!AP[code]?fixed:null});continue}
+    const c=hav(o,a),diff=100*(d-c)/c;
+    out.push({code:a.iata,asTyped:code,yours:d,calc:c,diff,flag:Math.abs(diff)>S.dcTol});
+  }
+  S.dcRes=out;render();
+};
+function dcHTML(){const r=S.dcRes;if(!r.length)return'<div class="note warn">No known airport codes were found.</div>';
+  const bad=r.filter(x=>x.flag||x.unknown);
+  return`<div class="note ${bad.length?'warn':''}">${r.length} routes checked: ${bad.length?bad.length+' need attention':'all within '+S.dcTol+'%'}.</div>
+  <div style="overflow-x:auto"><table><tr><th>Code</th><th>Your miles</th><th>Computed</th><th>Difference</th><th></th></tr>
+  ${r.slice().sort((a,b)=>(b.flag?1:0)-(a.flag?1:0)).map(x=>x.unknown?`<tr><td>${esc(x.code)}</td><td>${x.yours}</td><td colspan="2">code not in airport table${x.hint?' (did you mean '+x.hint+'?)':''}</td><td><span class="tag i">check</span></td></tr>`
+   :`<tr><td>${x.code}${x.asTyped&&x.asTyped!==x.code?' <span style="color:var(--dim)">(typed '+esc(x.asTyped)+')</span>':''}</td><td>${x.auto?'<span style="color:var(--dim)">not given</span>':x.yours}</td><td>${x.calc.toFixed(0)}</td><td>${x.auto?'':(x.diff>0?'+':'')+x.diff.toFixed(1)+'%'}</td><td>${x.auto?'<span class="tag n">auto</span>':x.flag?'<span class="tag s">check</span>':'<span class="tag n">ok</span>'}</td></tr>`).join('')}</table></div>
+  <p class="sub" style="margin-top:8px">Great-circle distance is the straight line between airports. Flown or road distance can run a few percent higher, so use a tolerance of 3 to 5%.</p>`}
+
+loadAll().catch(()=>{}).then(render).then(()=>loadShared()).catch(()=>{}).then(render);
+</script>
+</body>
+</html>
