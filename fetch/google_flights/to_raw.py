@@ -5,6 +5,7 @@ per-date JSON documents analysis/admi.py reads, in two versions:
 
   bags/      cheapest fare WITH 1 carry-on   (price_bag)
   no_bags/   cheapest fare without bags      (price_plain)
+  paste/     the bags/ fares as lines for the tool's "Paste many at once" box
 
 The two folders differ only in which price column is used, so comparing
 them isolates the effect of the carry-on fee.
@@ -76,6 +77,14 @@ def main(folder):
                        collected_on=scraped, price_column=col, n=len(rows), rows=rows)
             with open(os.path.join(out_dir, f"ATL_{d}_googleflights.json"), "w") as fh:
                 json.dump(doc, fh, indent=1)
+            # Lines for the tool's "Paste many at once" box (Sheet tab):
+            # airport, fare, number of airlines; "none" where no nonstop flew.
+            if version == "bags":
+                os.makedirs(os.path.join(folder, "paste"), exist_ok=True)
+                with open(os.path.join(folder, "paste", f"ATL_{d}.txt"), "w") as fh:
+                    for r in rows:
+                        fh.write(f"{r['dest']} {r['price']:g} {r['carriers']}\n" if r["status"] == "ok"
+                                 else f"{r['dest']} none\n")
         print(f"{version}: {len(dates)} documents in {out_dir}")
 
 
