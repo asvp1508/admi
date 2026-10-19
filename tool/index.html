@@ -109,7 +109,7 @@ const netOf=(x,P)=>{if(!(+P.tax)||x==null)return x;const r=taxRule(P);return r?M
 window.ask=msg=>new Promise(res=>{const d=document.createElement('div');d.className='modal';d.innerHTML='<div class="mbox"><p></p><div class="mrow"><button class="b alt" id="mn">Cancel</button><button class="b" id="my">Continue</button></div></div>';d.querySelector('p').textContent=msg;document.body.appendChild(d);const f=v=>{d.remove();res(v)};d.querySelector('#mn').onclick=()=>f(false);d.querySelector('#my').onclick=()=>f(true)});
 const TABS=['Tool','Sheet','Scoring rules','Methodology','Statistics','Compare','Data'];
 const CONTINENTS=['Asia','Europe','Africa','North America','South America','Oceania'];
-const S={tab:'Tool',origin:'ATL',mode:'us',region:'Asia',excludeOwn:true,customList:'',dates:[],obs:[],params:{...DEFAULTS},
+const S={tab:'Tool',origin:'ATL',mode:'us',region:'Asia',excludeOwn:true,customList:'',dates:[],obs:[],params:{...DEFAULTS},sheetMode:'date',sheetDest:'',
   view:'real',expanded:null,sort:{k:'admi',d:-1},custom:[],dcText:'',sheetDate:'',dcTol:5,dcRes:null,running:false,stop:false,progress:null,access:'',apiState:'unknown',msg:''};
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const $=id=>document.getElementById(id);
@@ -199,13 +199,27 @@ function destinations(){
   return[...new Map(list.map(a=>[a.iata,a])).values()];
 }
 function thanksgiving(y){const d=new Date(Date.UTC(y,10,1));const off=(4-d.getUTCDay()+7)%7;return new Date(Date.UTC(y,10,1+off+21))}
-function suggestDates(){
-  // fill up to the minimum number of dates, keeping any already chosen: a Wednesday ~3.5 weeks out, a Saturday ~5 weeks out,
-  // the Wednesday before Thanksgiving, then a Tuesday and a Thursday. Different weekdays, lead times and one holiday-adjacent date.
-  const t=todayD(),day=864e5,want=Math.max(1,+S.params.minDates||5),out=[...S.dates];
-  const nextDow=(dow,minDays)=>{let d=new Date(t.getTime()+minDays*day);while(d.getUTCDay()!==dow)d=new Date(d.getTime()+day);return d};
-  let th=thanksgiving(t.getUTCFullYear());if(th<new Date(t.getTime()+14*day))th=thanksgiving(t.getUTCFullYear()+1);
-  const pool=[nextDow(3,24),nextDow(6,34),new Date(th.getTime()-day),nextDow(2,17),nextDow(4,27)].map(iso);
+function suggestDates(fresh){
+  // Lead times are spread across the advance-purchase windows airlines actually price in. Fares step at fences
+  // near 7, 14 and 21 days before departure, so two dates inside one window largely re-measure the same pricing
+  // state and waste an observation. Targets are spaced wider as they get further out, because fares move
+  // proportionally less the earlier you look. Weekdays are varied and deliberately not in step with lead time,
+  // so a day-of-week effect cannot be mistaken for a lead-time effect.
+  const t=todayD(),day=864e5,want=Math.max(1,+S.params.minDates||5),out=fresh?[]:[...S.dates];
+  const LEAD=[7,17,28,45,70,100,140];        // days before departure
+  const DOW =[3,6,2,5,4,1,0];                // Wed, Sat, Tue, Fri, Thu, Mon, Sun
+  // High-demand windows are skipped: fares there are driven by the holiday, not by the route's own structure.
+  // US-centric (Thanksgiving, Christmas to New Year, Independence Day). Indian festival dates move each year and
+  // are not covered, so check them by hand when the origin is in India.
+  const inBlackout=d=>{const m=d.getUTCMonth()+1,dd=d.getUTCDate();
+    return (m===11&&dd>=20)||(m===12&&dd>=18)||(m===12&&dd<=2)||(m===1&&dd<=5)||(m===7&&dd<=7)};
+  const pool=[];
+  for(let i=0;i<LEAD.length;i++){
+    let d=new Date(t.getTime()+LEAD[i]*day),k=0;
+    while(d.getUTCDay()!==DOW[i]&&k<7){d=new Date(d.getTime()+day);k++}
+    let shift=0;while(inBlackout(d)&&shift<5){d=new Date(d.getTime()+7*day);shift++}  // keep the weekday, move a week
+    const s=iso(d);if(!pool.includes(s))pool.push(s);
+  }
   for(const d of pool){if(out.length>=want)break;if(!out.includes(d))out.push(d)}
   return out.sort();
 }
@@ -293,7 +307,10 @@ async function runFetch(demo){
 /* ============================================================ fill-in sheet (manual path) */
 const mkey=(dest,date)=>[S.origin,dest,date,'manual'].join('|');
 const getManual=(dest,date)=>S.obs.find(o=>o.key===mkey(dest,date));
+// Row inputs are keyed by whichever thing varies down the page: destination in date mode, date in route mode.
+const rowId=(dest,date)=>S.sheetMode==='route'?('d'+String(date).replace(/-/g,'')):dest;
 function gfLink(dest,date){return 'https://www.google.com/travel/flights?q='+encodeURIComponent(`Flights from ${S.origin} to ${dest} on ${date} one way nonstop only`)}
+function ssLink(dest,date){const [y,m,d]=date.split('-');return `https://www.skyscanner.com/transport/flights/${S.origin.toLowerCase()}/${dest.toLowerCase()}/${y.slice(2)}${m}${d}/?adultsv2=1&cabinclass=economy&preferdirects=true&rtn=0`}
 function previewHTML(dist,rec){
   const unv=rec&&rec.copied?' <span class="tag i" title="airlines were copied from another date and not confirmed">airlines unconfirmed</span>':'';
   if(!rec)return'<span style="color:var(--dim)">-</span>';
@@ -326,24 +343,75 @@ function firstPanel(){
   return`<div class="panel"><h2>Your first dataset (ATL, one date)</h2><p class="sub">Loads all ${window.ADMI_FIRST.length} fares from your ATL.xlsx into the sheet in one click, so you only need to collect the other dates. The 2 routes with no nonstop (ANC, ILG) load as "no nonstop".</p>
   <div class="row"><div style="max-width:220px"><label>Date those fares were for</label><input type="date" id="firstdate" value="${S.dates[0]||''}"></div><div style="max-width:260px"><button class="b" onclick="loadFirst()">Load my first dataset</button></div></div>
   <div class="row" style="margin-top:10px"><div><p class="sub" style="margin:0">Also saved in the tool: your <b style="color:var(--text)">Oct 25</b> fares (49 routes, read from your photos).</p></div><div style="max-width:260px"><button class="b alt" onclick="loadOct25()">Load Oct 25 data</button></div></div></div>`}
+function sheetToggle(){
+  return `<div class="chips" style="margin-bottom:10px">
+    <span class="chip" style="cursor:pointer;${S.sheetMode!=='route'?'border-color:var(--gold)':''}" onclick="setSheetMode('date')"><b>By date</b> · one date, every airport</span>
+    <span class="chip" style="cursor:pointer;${S.sheetMode==='route'?'border-color:var(--gold)':''}" onclick="setSheetMode('route')"><b>By airport</b> · one airport, every date</span>
+  </div>`}
+function viewSheetRoute(){
+  if(!S._keepDrafts)for(const k of Object.keys(S.draft||{}))if(S.draft[k]&&S.draft[k].copied)delete S.draft[k];
+  S._keepDrafts=false;
+  const AP=airports(),o=AP[S.origin],dests=destinations().filter(d=>!d.unknown);
+  if(!o||!dests.length||!S.dates.length)return(S.msg?`<div class="note">${esc(S.msg)}</div>`:'')+firstPanel()+`<div class="panel"><h2>Fill-in sheet</h2><p class="sub">Choose an origin, destinations and at least one date on the Tool tab first.</p><button class="b" onclick="go('Tool')">Go to the Tool tab</button></div>`;
+  if(!dests.some(d=>d.iata===S.sheetDest))S.sheetDest=dests[0].iata;
+  const dest=S.sheetDest,d=AP[dest],dist=hav(o,d);
+  const dn=S.dates.filter(dt=>getManual(dest,dt)).length;
+  const totalAll=dests.length*S.dates.length,doneAll=S.dates.reduce((n,dt)=>n+dests.filter(x=>getManual(x.iata,dt)).length,0);
+  const idx=dests.findIndex(x=>x.iata===dest);
+  return firstPanel()+`<div class="panel"><h2>${esc(o.city)} (${S.origin}) to ${esc(d.city||dest)} (${dest})</h2>
+    ${S.msg?`<div class="note">${esc(S.msg)}</div>`:''}${sheetToggle()}
+    <p class="sub">One airport, all ${S.dates.length} dates. Open the link on the first row, then just change the date on the site for the rows below. ${Math.round(dist)} miles.</p>
+    <div class="row" style="align-items:flex-end">
+      <div style="max-width:320px"><label>Airport (${idx+1} of ${dests.length})</label>
+        <select onchange="setSheetDest(this.value)">${dests.map(x=>`<option value="${x.iata}" ${x.iata===dest?'selected':''}>${x.iata} · ${esc(x.sub||x.city||'')}${S.dates.every(dt=>getManual(x.iata,dt))?' ✓':''}</option>`).join('')}</select></div>
+      <div style="max-width:90px"><button class="b alt" onclick="stepDest(-1)">← Prev</button></div>
+      <div style="max-width:90px"><button class="b alt" onclick="stepDest(1)">Next →</button></div>
+      <div style="max-width:200px"><button class="b alt" onclick="saveAllDates('${dest}')">Save every row shown</button></div>
+    </div>
+    <div class="row" style="margin-top:12px;align-items:center"><div><div class="bar"><i style="width:${100*doneAll/totalAll}%"></i></div></div>
+      <div style="max-width:420px"><span id="fcount" class="sub">${dn}/${S.dates.length} dates filled for ${dest} · ${doneAll}/${totalAll} overall</span></div></div>
+    <div class="note">Airlines usually stay the same across dates on one route. Fill the first row's chips, then use <b>Copy airlines down</b> and correct only what changed.</div>
+    <div style="margin-top:8px"><button class="b alt" onclick="copyAirDown('${dest}')">Copy airlines down from the first filled date</button></div></div>
+  <div class="panel"><div style="overflow-x:auto"><table><tr><th>Date</th><th>Days ahead</th><th>Look up <span style="font-weight:400;color:var(--dim)">(G = Google)</span></th><th>Cheapest fare ($)</th><th>Airlines on the route (1st tap = cheapest fare, more taps = others)</th><th>Airlines (count)</th><th>No nonstop</th><th>ADMI</th></tr>
+  ${S.dates.map(date=>{const rec=getManual(dest,date),R=rowId(dest,date);
+   return`<tr><td><b>${date}</b> <span style="color:var(--dim)">${wk(date)}</span></td><td>${daysAhead(date)}d</td>
+   <td style="white-space:nowrap"><a href="${ssLink(dest,date)}" target="_blank" rel="noopener" style="color:var(--blue)">open ↗</a><a href="${gfLink(dest,date)}" target="_blank" rel="noopener" title="Open this route in Google Flights instead" style="margin-left:7px;font:11px 'DM Mono',monospace;color:var(--dim);text-decoration:none;vertical-align:1px">G</a></td>
+   <td><input id="p_${R}" type="number" min="1" style="width:100px" value="${rec&&rec.price||(rec&&rec.note?rec.note.replace('fare typed: ',''):'')||''}" onchange="setCell('${dest}','${date}')"></td>
+   <td style="min-width:360px"><input type="hidden" id="cp_${R}" value="${cpOf(dest,date)?1:''}"><input type="hidden" id="w_${R}" value="${esc(nmOf(dest,date).w)}"><input type="hidden" id="o_${R}" value="${esc(nmOf(dest,date).o)}"><div id="ac_${R}">${airChips(dest,date)}</div></td>
+   <td><input id="c_${R}" type="number" min="1" style="width:70px" value="${rec&&rec.carriers||''}" onchange="setCell('${dest}','${date}','count')"></td>
+   <td><input id="n_${R}" type="checkbox" ${rec&&rec.status==='no_direct'?'checked':''} onchange="setCell('${dest}','${date}')"></td>
+   <td id="a_${R}">${previewHTML(dist,rec)}</td></tr>`}).join('')}</table></div></div>`;
+}
+window.copyAirDown=async dest=>{
+  let src=null;for(const dt of S.dates){const r=getManual(dest,dt);if(r&&(r.cheapest||r.others)){src=r;break}}
+  if(!src){S.msg='No airlines saved yet on any date for '+dest+'. Fill one row first.';return render()}
+  let n=0;
+  for(const dt of S.dates){const R=rowId(dest,dt);if(!$('w_'+R))continue;
+    if($('w_'+R).value.trim()||$('o_'+R).value.trim())continue;
+    $('w_'+R).value=src.cheapest||'';$('o_'+R).value=src.others||'';$('cp_'+R).value='1';
+    S.draft[mkey(dest,dt)]={w:src.cheapest||'',o:src.others||'',copied:true};$('ac_'+R).innerHTML=airChips(dest,dt);
+    if($('p_'+R).value.trim())await setCell(dest,dt,'names');n++}
+  S._keepDrafts=true;S.msg=n?`Airlines copied to ${n} date(s) for ${dest}. Tap chips to correct any that changed.`:'Every date already has airlines.';render()};
 function viewSheet(){
-  for(const k of Object.keys(S.draft||{}))if(S.draft[k]&&S.draft[k].copied)delete S.draft[k];
+  if(S.sheetMode==='route')return viewSheetRoute();
+  if(!S._keepDrafts)for(const k of Object.keys(S.draft||{}))if(S.draft[k]&&S.draft[k].copied)delete S.draft[k];
+  S._keepDrafts=false;
   const AP=airports(),o=AP[S.origin],dests=destinations().filter(d=>!d.unknown);
   if(!o||!dests.length||!S.dates.length)return(S.msg?`<div class="note">${esc(S.msg)}</div>`:'')+firstPanel()+`<div class="panel"><h2>Fill-in sheet</h2><p class="sub">Choose an origin, destinations and at least one date on the Tool tab first. The sheet is then built for you.</p><button class="b" onclick="go('Tool')">Go to the Tool tab</button></div>`;
   if(!S.dates.includes(S.sheetDate))S.sheetDate=S.dates[0];
   const date=S.sheetDate,done=dests.filter(d=>getManual(d.iata,date)).length;
   const totalAll=dests.length*S.dates.length,doneAll=S.dates.reduce((n,dt)=>n+dests.filter(d=>getManual(d.iata,dt)).length,0);
   return firstPanel()+`<div class="panel"><h2>Fill-in sheet: ${esc(o.city)} (${S.origin}) to ${dests.length} destinations</h2>
-    ${S.msg?`<div class="note">${esc(S.msg)}</div>`:''}<p class="sub">Work one date at a time. For each row, open the link (Google Flights, nonstop only), then type the <b style="color:var(--text)">cheapest nonstop fare</b> and the <b style="color:var(--text)">number of different airlines that fly it nonstop</b>. Tick "no nonstop" if none exist. Each entry saves instantly and the ADMI appears on the right.</p>
+    ${S.msg?`<div class="note">${esc(S.msg)}</div>`:''}${sheetToggle()}<p class="sub">Work one date at a time. For each row, open either link (nonstop only), then type the <b style="color:var(--text)">cheapest nonstop fare</b> and the <b style="color:var(--text)">number of different airlines that fly it nonstop</b>. Tick "no nonstop" if none exist. Each entry saves instantly and the ADMI appears on the right.</p>
     <div class="chips">${S.dates.map(d=>{const n=dests.filter(x=>getManual(x.iata,d)).length;return`<span class="chip" style="cursor:pointer;${d===date?'border-color:var(--gold)':''}" onclick="S.sheetDate='${d}';render()"><b>${d}</b> ${wk(d)} · ${n}/${dests.length}</span>`}).join('')}</div>
     <div style="margin-top:8px"><button class="b alt" onclick="rmDate('${date}')">Remove ${date}${done?' and its '+done+' fares':''}</button></div>
     <div class="row" style="margin-top:12px;align-items:center"><div><div class="bar"><i style="width:${100*doneAll/totalAll}%"></i></div></div><div style="max-width:380px"><span id="fcount" class="sub">${done}/${dests.length} filled for ${date} · ${doneAll}/${totalAll} overall</span></div><div style="max-width:200px"><button class="b alt" onclick="S.view='real';go('Tool')">See results →</button></div><div style="max-width:200px"><button class="b alt" onclick="saveAllRows('${date}')">Save every row shown</button></div>
     </div>
     <details class="more"><summary>How the score is worked out</summary><div class="note"><b style="color:var(--text)">What the score in the last column is.</b> It is the ADMI for that one route on this one date: <code>ADMI = 0.5·PDS + 0.3·CS + 0.2·RDS</code>. Fair price FPB = miles × $${S.params.rate}. PDS = (fare − FPB) ÷ FPB, held between 0 and 1 (the number shown after "PDS"). CS comes only from the airlines count: 1 airline = 1.0, 2 = 0.66, 3 = 0.33, 4 or more = 0.1. RDS = PDS × 500 ÷ miles (miles at least 100), held between 0 and 1. Example: Atlanta to Newark, 745 miles, $144, 3 airlines gives FPB $112, PDS 0.29, CS 0.33, RDS 0.19, ADMI 0.282. It is one date only; the labels on the results page need at least the minimum number of dates set in Scoring rules (5).</div>
-    <div class="note"><b>Tie rule:</b> if two airlines have the same lowest fare, mark the one with the shorter flight time as the cheapest (gold) and the other as a second airline. This only affects the label, not the score.</div><div class="note">Only "airlines" matters for the score, not the number of flights per day. Count each airline once, however many times a day it flies. Tap airline chips instead of typing: the first tap marks the airline on the cheapest fare (gold), further taps add the others (blue), tap again to remove. The count fills itself. \"Copy airlines from\" reuses another date's airlines so you only fix what changed.</div><div class="note">Fares you type are the total Google Flights shows. When taxes are removed (Scoring rules tab), the score uses the fare before tax.</div></details></div>
-  <div class="panel"><div style="overflow-x:auto"><table><tr><th>To</th><th>Miles</th><th>Look up</th><th>Cheapest fare ($)</th><th>Airlines on the route (1st tap = cheapest fare, more taps = others)</th><th>Airlines (count)</th><th>No nonstop</th><th>ADMI</th></tr>
+    <div class="note"><b>Tie rule:</b> if two airlines have the same lowest fare, mark the one with the shorter flight time as the cheapest (gold) and the other as a second airline. This only affects the label, not the score.</div><div class="note">Only "airlines" matters for the score, not the number of flights per day. Count each airline once, however many times a day it flies. Tap airline chips instead of typing: the first tap marks the airline on the cheapest fare (gold), further taps add the others (blue), tap again to remove. The count fills itself. \"Copy airlines from\" reuses another date's airlines so you only fix what changed.</div><div class="note">Fares you type are the total the site shows. When taxes are removed (Scoring rules tab), the score uses the fare before tax.</div></details></div>
+  <div class="panel"><div style="overflow-x:auto"><table><tr><th>To</th><th>Miles</th><th>Look up <span style="font-weight:400;color:var(--dim)">(G = Google)</span></th><th>Cheapest fare ($)</th><th>Airlines on the route (1st tap = cheapest fare, more taps = others)</th><th>Airlines (count)</th><th>No nonstop</th><th>ADMI</th></tr>
   ${dests.map(d=>{const dist=hav(o,d),rec=getManual(d.iata,date);
-   return`<tr><td><b>${d.iata}</b> <span style="color:var(--dim)">${esc(d.sub||d.city||'')}</span></td><td>${Math.round(dist)}</td><td><a href="${gfLink(d.iata,date)}" target="_blank" rel="noopener" style="color:var(--blue)">open ↗</a></td>
+   return`<tr><td><b>${d.iata}</b> <span style="color:var(--dim)">${esc(d.sub||d.city||'')}</span></td><td>${Math.round(dist)}</td><td style="white-space:nowrap"><a href="${ssLink(d.iata,date)}" target="_blank" rel="noopener" style="color:var(--blue)">open ↗</a><a href="${gfLink(d.iata,date)}" target="_blank" rel="noopener" title="Open this route in Google Flights instead" style="margin-left:7px;font:11px 'DM Mono',monospace;color:var(--dim);text-decoration:none;vertical-align:1px">G</a></td>
    <td><input id="p_${d.iata}" type="number" min="1" style="width:100px" value="${rec&&rec.price||(rec&&rec.note?rec.note.replace('fare typed: ',''):'')||''}" onchange="setCell('${d.iata}','${date}')"></td>
    <td style="min-width:360px"><input type="hidden" id="cp_${d.iata}" value="${cpOf(d.iata,date)?1:''}"><input type="hidden" id="w_${d.iata}" value="${esc(nmOf(d.iata,date).w)}"><input type="hidden" id="o_${d.iata}" value="${esc(nmOf(d.iata,date).o)}"><div id="ac_${d.iata}">${airChips(d.iata,date)}</div></td>
    <td><input id="c_${d.iata}" type="number" min="1" style="width:70px" value="${rec&&rec.carriers||''}" onchange="setCell('${d.iata}','${date}','count')"></td>
@@ -414,49 +482,63 @@ function airlinesFor(dest){ // only airlines that belong to the countries in the
 
 const splitNames=t=>t.split(/[,;+\/&]| and /i).map(x=>x.trim()).filter(Boolean);
 function airChips(dest,date,live){
-  const L=live&&$('w_'+dest);
-  const w=(L?$('w_'+dest).value:nmOf(dest,date).w).trim(),oth=splitNames(L?$('o_'+dest).value:nmOf(dest,date).o);
+  const R=rowId(dest,date);
+  const L=live&&$('w_'+R);
+  const w=(L?$('w_'+R).value:nmOf(dest,date).w).trim(),oth=splitNames(L?$('o_'+R).value:nmOf(dest,date).o);
   const lc=x=>x.toLowerCase(),all=airlinesFor(dest);for(const n of [w,...oth])if(n&&!all.some(a=>lc(a)===lc(n)))all.push(n);
   const q=x=>x.replace(/'/g,"\\'");
-  const cp=L?$('cp_'+dest).value==='1':cpOf(dest,date);
+  const cp=L?$('cp_'+R).value==='1':cpOf(dest,date);
   return (cp?`<div style="font:11px 'DM Mono';color:var(--gold);margin-bottom:2px">copied from another date, not checked <a href="#" style="color:var(--blue)" onclick="confirmAir('${dest}','${date}');return false">✓ confirm</a></div>`:'')+all.map(a=>{const cls=w&&lc(a)===lc(w)?'c':oth.some(o=>lc(o)===lc(a))?'o':'';return`<span class="ac ${cls}${cp?' dsh':''}" onclick="tapAir('${dest}','${date}','${q(a)}')">${esc(a)}</span>`}).join('')+`<input class="acx" placeholder="other + Enter" onkeydown="if(event.key==='Enter'){tapAir('${dest}','${date}',this.value.trim(),true);event.preventDefault()}">`}
 window.tapAir=async(dest,date,name,add)=>{
-  if(!name)return;const lc=x=>x.toLowerCase();let w=$('w_'+dest).value.trim(),oth=splitNames($('o_'+dest).value);
+  if(!name)return;const R=rowId(dest,date);const lc=x=>x.toLowerCase();let w=$('w_'+R).value.trim(),oth=splitNames($('o_'+R).value);
   const isW=w&&lc(w)===lc(name),inO=oth.findIndex(o=>lc(o)===lc(name));
   if(isW){w=oth.shift()||''}                 // tap the cheapest again: remove it, next one is promoted
   else if(inO>=0){oth.splice(inO,1)}         // tap an "other": remove it
   else if(!w)w=name;else oth.push(name);     // first tap = cheapest, then others
-  $('cp_'+dest).value='';$('w_'+dest).value=w;$('o_'+dest).value=oth.join(', ');S.draft[mkey(dest,date)]={w,o:oth.join(', ')};$('ac_'+dest).innerHTML=airChips(dest,date,1);
-  await setCell(dest,date,'names');if(add){const x=$('ac_'+dest).querySelector('.acx');if(x)x.focus()}};
-window.confirmAir=async(dest,date)=>{$('cp_'+dest).value='';const k=mkey(dest,date);if(S.draft[k])S.draft[k].copied=false;$('ac_'+dest).innerHTML=airChips(dest,date,1);await setCell(dest,date,'count')};
+  $('cp_'+R).value='';$('w_'+R).value=w;$('o_'+R).value=oth.join(', ');S.draft[mkey(dest,date)]={w,o:oth.join(', ')};$('ac_'+R).innerHTML=airChips(dest,date,1);
+  await setCell(dest,date,'names');if(add){const x=$('ac_'+R).querySelector('.acx');if(x)x.focus()}};
+window.confirmAir=async(dest,date)=>{const R=rowId(dest,date);$('cp_'+R).value='';const k=mkey(dest,date);if(S.draft[k])S.draft[k].copied=false;$('ac_'+R).innerHTML=airChips(dest,date,1);await setCell(dest,date,'count')};
 window.copyAirlines=async(from,to)=>{if(!from||from===to)return;let n=0;
   for(const d of destinations().filter(x=>!x.unknown)){const src=getManual(d.iata,from);if(!src||!(src.cheapest||src.others))continue;
     if($('w_'+d.iata).value.trim()||$('o_'+d.iata).value.trim())continue;
     $('w_'+d.iata).value=src.cheapest||'';$('o_'+d.iata).value=src.others||'';$('cp_'+d.iata).value='1';S.draft[mkey(d.iata,to)]={w:src.cheapest||'',o:src.others||'',copied:true};$('ac_'+d.iata).innerHTML=airChips(d.iata,to);
     if($('p_'+d.iata).value.trim())await setCell(d.iata,to,'names');n++}
-  S.msg=n?`Airlines copied for ${n} routes from ${from}. Tap chips to correct any that changed; the count follows the chips.`:'Nothing to copy (rows already have airlines, or that date has none).';render()};
+  S._keepDrafts=true;S.msg=n?`Airlines copied for ${n} routes from ${from}. Tap chips to correct any that changed; the count follows the chips.`:'Nothing to copy (rows already have airlines, or that date has none).';render()};
 window.setCell=async(dest,date,src)=>{
-  const AP=airports(),o=AP[S.origin],d=AP[dest],key=mkey(dest,date);
-  const p=$('p_'+dest).value.trim(),nd=$('n_'+dest).checked;let c=$('c_'+dest).value.trim();
-  const w=$('w_'+dest).value.trim(),oth=$('o_'+dest).value.trim();
+  const AP=airports(),o=AP[S.origin],d=AP[dest],key=mkey(dest,date),R=rowId(dest,date);
+  const p=$('p_'+R).value.trim(),nd=$('n_'+R).checked;let c=$('c_'+R).value.trim();
+  const w=$('w_'+R).value.trim(),oth=$('o_'+R).value.trim();
   const names=[];for(const n of [w,...oth.split(/[,;+\/&]| and /i)].map(x=>x.trim()).filter(Boolean))if(!names.some(m=>m.toLowerCase()===n.toLowerCase()))names.push(n);
-  if(src==='count')$('cp_'+dest).value='';
-  if(names.length&&(src==='names'||!c)){c=String(names.length);$('c_'+dest).value=c}
+  if(src==='count')$('cp_'+R).value='';
+  if(names.length&&(src==='names'||!c)){c=String(names.length);$('c_'+R).value=c}
   S.obs=S.obs.filter(x=>x.key!==key);S._af=null;let rec=null;
   const base={key,origin:S.origin,dest,date,fetchedAt:new Date().toISOString(),daysAhead:daysAhead(date),provider:'manual'};
   if(nd)rec={...base,status:'no_direct',price:null,carriers:0,airlines:'',cheapest:w,others:oth,note:p?'fare typed: '+p:''};
-  else if(+p>0&&+c>=1)rec={...base,status:'ok',price:+p,carriers:Math.round(+c),airlines:names.join(', ')||'(manual)',cheapest:w,others:oth,copied:$('cp_'+dest).value==='1'};
+  else if(+p>0&&+c>=1)rec={...base,status:'ok',price:+p,carriers:Math.round(+c),airlines:names.join(', ')||'(manual)',cheapest:w,others:oth,copied:$('cp_'+R).value==='1'};
   if(rec)S.obs.push(rec);S._af=null;
-  const cell=$('a_'+dest);if(cell&&o&&d)cell.innerHTML=previewHTML(hav(o,d),rec);
-  if(+S.params.std&&o){for(const x of destinations().filter(z=>!z.unknown&&z.iata!==dest)){const c2=$('a_'+x.iata),r2=getManual(x.iata,date);if(c2&&r2)c2.innerHTML=previewHTML(hav(o,x),r2)}}
-  const dests=destinations().filter(x=>!x.unknown),done=dests.filter(x=>getManual(x.iata,date)).length;
+  const cell=$('a_'+R);if(cell&&o&&d)cell.innerHTML=previewHTML(hav(o,d),rec);
+  if(+S.params.std&&o){
+    if(S.sheetMode==='route'){for(const dt of S.dates){if(dt===date)continue;const c2=$('a_'+rowId(dest,dt)),r2=getManual(dest,dt);if(c2&&d)c2.innerHTML=previewHTML(hav(o,d),r2)}}
+    else{for(const x of destinations().filter(z=>!z.unknown&&z.iata!==dest)){const c2=$('a_'+x.iata),r2=getManual(x.iata,date);if(c2&&r2)c2.innerHTML=previewHTML(hav(o,x),r2)}}}
+  const dests=destinations().filter(x=>!x.unknown);
   const doneAll=S.dates.reduce((n,dt)=>n+dests.filter(x=>getManual(x.iata,dt)).length,0);
-  if($('fcount'))$('fcount').textContent=`${done}/${dests.length} filled for ${date} · ${doneAll}/${dests.length*S.dates.length} overall`;
+  if($('fcount')){
+    if(S.sheetMode==='route'){const dn=S.dates.filter(dt=>getManual(dest,dt)).length;
+      $('fcount').textContent=`${dn}/${S.dates.length} dates filled for ${dest} · ${doneAll}/${dests.length*S.dates.length} overall`}
+    else{const done=dests.filter(x=>getManual(x.iata,date)).length;
+      $('fcount').textContent=`${done}/${dests.length} filled for ${date} · ${doneAll}/${dests.length*S.dates.length} overall`}}
   try{if(rec)await putObs([rec]);else{if(DB)tx('obs','readwrite').delete(key);queueSync(S.origin,date,'manual')}}catch(e){S.msg='Could not save to browser storage: '+e.message}
 };
 window.saveAllRows=async date=>{let n=0;for(const d of destinations().filter(x=>!x.unknown)){const pe=$('p_'+d.iata);if(!pe)continue;
   if((pe.value.trim()||$('n_'+d.iata).checked)&&!getManual(d.iata,date)){await setCell(d.iata,date);n++}}
   S.msg=n?n+' unsaved row(s) saved.':'Every row on screen is already saved.';render()};
+window.saveAllDates=async dest=>{let n=0;for(const dt of S.dates){const R=rowId(dest,dt),pe=$('p_'+R);if(!pe)continue;
+  if((pe.value.trim()||$('n_'+R).checked)&&!getManual(dest,dt)){await setCell(dest,dt);n++}}
+  S.msg=n?n+' unsaved date(s) saved for '+dest+'.':'Every date on screen is already saved.';render()};
+window.setSheetMode=m=>{S.sheetMode=m;render()};
+window.setSheetDest=v=>{S.sheetDest=v;render()};
+window.stepDest=k=>{const ds=destinations().filter(x=>!x.unknown).map(x=>x.iata);
+  const i=ds.indexOf(S.sheetDest);S.sheetDest=ds[Math.max(0,Math.min(ds.length-1,(i<0?0:i)+k))]||ds[0];render()};
 window.pasteFares=async date=>{
   const AP=airports(),o=AP[S.origin],recs=[];let skipped=0;
   for(const line of $('pastebox').value.split(/\r?\n/)){
@@ -507,8 +589,10 @@ function viewTool(){
     <p class="sub" style="margin-top:8px"><b style="color:var(--text)">${dests.length}</b> destinations selected</p>
     <div class="chips">${dests.slice(0,60).map(d=>`<span class="chip"><b>${esc(d.iata)}</b> ${esc(d.city||'')}${d.conf==='M'?' <span title="verify this is the busiest airport" style="color:var(--gold)">?</span>':''}</span>`).join('')}${dests.length>60?`<span class="chip">+${dests.length-60} more</span>`:''}</div></div>
 
-  <div class="panel"><h2>3 · Dates</h2><p class="sub">Use 5 or more departure dates (the ATL study uses 5). The suggestion cycles through every weekday and adds a holiday-adjacent date.</p>
-    <div class="row"><div><button class="b alt" onclick="S.dates=suggestDates();saveMeta();render()">Suggest dates (fill to ${S.params.minDates})</button></div>
+  <div class="panel"><h2>3 · Dates</h2><p class="sub">Use 5 or more departure dates (the ATL study uses 5). Every date is searched on the same day, so each one carries a different lead time.</p>
+    <div class="note">Dates are spread across the advance-purchase windows airlines price in, aiming for lead times near 7, 17, 28, 45 and 70 days. Fares step at fences around 21, 14 and 7 days out, so two dates inside one window measure the same pricing state. Each date gets a different weekday, chosen so weekday does not trend with lead time, and holiday weeks are skipped. Full reasoning in Methodology 6a. <b>Add dates</b> only fills empty slots and leaves the dates you already have, so it does nothing once you have ${S.params.minDates}. <b>Replace with a fresh spread</b> rebuilds the whole set, and asks first if any date being dropped holds saved fares.</div>
+    <div class="row"><div><button class="b alt" onclick="S.dates=suggestDates();saveMeta();render()">Add dates until I have ${S.params.minDates}</button></div>
+    <div><button class="b alt" onclick="freshDates()">Replace with a fresh spread</button></div>
     <div><input type="date" id="newdate"></div><div><button class="b alt" onclick="addDate()">Add date</button></div><div><button class="b alt" onclick="clearDates()">Clear</button></div></div>
     <div class="chips">${S.dates.map(d=>`<span class="chip"><b>${d}</b> ${wk(d)} · ${daysAhead(d)}d ahead<button onclick="rmDate('${d}')">×</button></span>`).join('')||'<span class="sub">No dates yet.</span>'}</div>
     ${S.dates.length&&S.dates.length<S.params.minDates?`<div class="note">Fewer than ${S.params.minDates} dates: routes will be labelled "insufficient dates".</div>`:''}
@@ -552,6 +636,22 @@ function resultsHTML(A){
 window.sortBy=k=>{S.sort=S.sort.k===k?{k,d:-S.sort.d}:{k,d:-1};render()};
 window.setOrigin=v=>{S.origin=v.toUpperCase().trim();saveMeta();clearTimeout(window._ot);window._ot=setTimeout(render,350)};
 window.addDate=()=>{const v=$('newdate').value;if(v&&!S.dates.includes(v)){S.dates.push(v);S.dates.sort();saveMeta();render()}};
+window.freshDates=async()=>{
+  const want=suggestDates(true);
+  const keepWithData=S.dates.filter(d=>viewObs().some(o=>o.date===d));
+  const drop=S.dates.filter(d=>!want.includes(d));
+  const dropWithData=drop.filter(d=>keepWithData.includes(d));
+  if(dropWithData.length){
+    const n=viewObs().filter(o=>dropWithData.includes(o.date)).length;
+    if(!(await ask(`${dropWithData.length} of your current dates hold ${n} saved fares (${dropWithData.join(', ')}). Replacing the dates DELETES those fares. Continue?`)))return;
+    const keys=new Set(viewObs().filter(o=>dropWithData.includes(o.date)).map(o=>o.key));
+    S.obs=S.obs.filter(o=>!keys.has(o.key));
+    if(DB)for(const k of keys)tx('obs','readwrite').delete(k);
+    for(const d of dropWithData)queueSync(S.origin,d,'manual');
+  }
+  S.dates=want;S._af=null;saveMeta();
+  S.msg='Dates replaced with a fresh spread: '+want.map(d=>d+' ('+daysAhead(d)+'d)').join(', ')+'.';
+  render()};
 window.rmDate=async d=>{
   const rows=viewObs().filter(o=>o.date===d);
   if(rows.length){if(!(await ask(`${d} has ${rows.length} saved fares. Removing the date DELETES them. Continue?`)))return;
@@ -575,7 +675,7 @@ function viewRules(){
   <h3 style="font-size:16px;margin-top:14px">Score shape</h3><div class="row">${f('smooth','Smooth scoring (1 = on, 0 = original hard 0 to 1 cut-offs)',1)}</div><p class="sub">Original: PDS is cut off at 0 and 1, so every cheap route scores the same low number and every very expensive route scores exactly 1.000. Smooth: PDS = 1 − e^(−x) above the fair price (x = (fare − FPB) ÷ FPB), so a fare 2× fair scores 0.63, 3× scores 0.86 and it never quite hits 1. Below the fair price the discount counts as it is (a fare at half of FPB gives PDS −0.5), so cheap competitive routes get different, possibly negative, scores. RDS uses the same smooth curve. A negative ADMI means the fare sits below what distance justifies.</p>
   <h3 style="font-size:16px;margin-top:14px">Combination weights</h3><div class="row">${f('wp','PDS weight')}${f('wc','CS weight')}${f('wr','RDS weight')}</div>
   ${Math.abs(P.wp+P.wc+P.wr-1)>1e-9?'<div class="note warn">Weights do not sum to 1.</div>':''}
-  <h3 style="font-size:16px;margin-top:14px">Taxes and fees</h3><div class="row">${f('tax','Remove taxes from fares (1 = on, 0 = off)',1)}${f('taxPct','Excise tax %',0.1)}${f('taxFlat','Flat fees per ticket ($)',0.1)}</div><p class="sub">Google Flights shows the total with taxes. Taxes do not reflect pricing power, so by default the score uses the fare before them: (shown fare − $15.40) ÷ 1.075. That is the 7.5% federal excise tax, plus a flat $15.40 made of the $5.30 segment tax, the $5.60 security fee and a $4.50 airport charge (PFC, the maximum, which Atlanta charges). Other US origins may charge less than $4.50, so lower the flat amount for them. The numbers above apply to flights leaving the United States. For flights leaving India the tool uses 5% GST (economy fares) plus a flat $5.61: Rs 300 Bengaluru user development fee (from 1 Sep 2026) and Rs 236 aviation security fee, at Rs 95.58 to the dollar on 12 Oct 2026. The fuel surcharge is part of the airline's own fare and is not removed. Any other country: fares are used as shown.</p>
+  <h3 style="font-size:16px;margin-top:14px">Taxes and fees</h3><div class="row">${f('tax','Remove taxes from fares (1 = on, 0 = off)',1)}${f('taxPct','Excise tax %',0.1)}${f('taxFlat','Flat fees per ticket ($)',0.1)}</div><p class="sub">Both sites show the total with taxes. Taxes do not reflect pricing power, so by default the score uses the fare before them: (shown fare − $15.40) ÷ 1.075. That is the 7.5% federal excise tax, plus a flat $15.40 made of the $5.30 segment tax, the $5.60 security fee and a $4.50 airport charge (PFC, the maximum, which Atlanta charges). Other US origins may charge less than $4.50, so lower the flat amount for them. The numbers above apply to flights leaving the United States. For flights leaving India the tool uses 5% GST (economy fares) plus a flat $5.61: Rs 300 Bengaluru user development fee (from 1 Sep 2026) and Rs 236 aviation security fee, at Rs 95.58 to the dollar on 12 Oct 2026. The fuel surcharge is part of the airline's own fare and is not removed. Any other country: fares are used as shown.</p>
   <h3 style="font-size:16px;margin-top:14px">Date standardizer</h3><div class="row">${f('std','Standardize fares across dates (1 = on, 0 = off)',1)}${f('stdMin','Competitive routes needed per date',1)}</div><p class="sub">Every date is searched today, so each has a different lead time and day of week. That moves all fares together. The standardizer rescales each date so the typical competitive route costs the same on every date. See the Methodology tab.</p>
   <h3 style="font-size:16px;margin-top:14px">Consistency rule (multi-date)</h3><div class="row">${f('thr','ADMI threshold')}${f('share','Share of dates required')}${f('minDates','Minimum dates',1)}</div>
   <div class="row" style="margin-top:14px"><button class="b alt" onclick="S.params={...DEFAULTS};saveMeta();render()">Reset to locked defaults</button></div></div>
@@ -596,7 +696,11 @@ function viewMethod(){return`<div class="panel method">
 <h3>3 · Concentration Score (CS)</h3><div class="formula">1 carrier = 1.0 · 2 = 0.66 · 3 = 0.33 · 4+ = 0.1</div><p>Chosen over a continuous index for interpretability. The values are design choices; the Herfindahl-Hirschman Index is the standard formal analogue. A sensitivity check with other tier values is recommended.</p>
 <h3>4 · Route Distortion Score (RDS)</h3><div class="formula">RDS = clamp₀₁( PDS × 500 / max(distance, 100) )</div><p>Amplifies price distortion on short routes. This makes short routes score higher by construction, so the verification table shows the formula behaves as designed, not independent confirmation. The independent evidence is the raw per-mile fare comparison.</p>
 <h3>5 · Combining</h3><div class="formula">ADMI = 0.5 × PDS + 0.3 × CS + 0.2 × RDS</div><p>Weights are design choices, never optimised on data. PDS appears twice (directly and inside RDS), so on short routes its effective weight is above 0.5.</p>
-<h3>6a · Choosing the dates</h3><p>Dates are chosen once, before looking at any multi-date result, and not changed afterwards. Aim for 5 or more departure dates (5 for the ATL study; with 5, the 80% rule means at least 4 of 5 dates, and standard deviations are rough) that (1) cover every day of the week at least once, because weekday and weekend demand differ, (2) are spread across lead times from about 2 weeks to about 8 weeks ahead, so no single booking window drives the result, (3) include at least one holiday-adjacent date, to see whether holiday demand changes which routes look distorted, and (4) are not all one season. Dates are ordinary single-day one-way searches, never picked because a fare looked interesting. The reason for spreading them is that one date can be unrepresentative: a structural pattern should show up across many dates, not on one.</p>
+<h3>6a · Choosing the dates</h3><p>Dates are chosen once, before looking at any multi-date result, and not changed afterwards. They are ordinary single-day one-way searches, never picked because a fare looked interesting.</p>
+<p><b>Why the dates are spread, and by how much.</b> Airlines do not price continuously with lead time. Revenue management sells from fare buckets behind advance-purchase fences, and the common ones sit near 21, 14 and 7 days before departure, with fares stepping up as each is crossed. Two dates inside the same window therefore measure nearly the same pricing state, and the second one adds little. The suggested set targets lead times of roughly <b>7, 17, 28, 45 and 70 days</b>, which places one date in each of the windows that matter and leaves gaps of ten days or more between neighbours. Targets widen as they go out because fares move proportionally less the earlier you look, so equal spacing would waste observations at the far end.</p>
+<p><b>Weekday is varied on purpose, and not in step with lead time.</b> Departure weekday moves fares independently of lead time: midweek departures are typically cheaper than Friday and Sunday ones. With only five dates you cannot balance both factors, so lead time is treated as the primary axis and each date is given a different weekday, assigned so that weekday does not trend with lead time. If the short-lead dates were all Fridays, a weekday effect and a lead-time effect would be impossible to tell apart.</p>
+<p><b>High-demand windows are skipped.</b> Fares around Thanksgiving, Christmas to New Year, and Independence Day are driven by the holiday rather than by the route's own structure, so a candidate landing in one is pushed forward a week, keeping its weekday. Indian festival dates move each year and are not covered by this rule, so they have to be checked by hand when the origin is in India. A holiday date can still be added deliberately, but it should be reported separately rather than mixed into the main set.</p>
+<p><b>What this does not fix.</b> Every fare is still searched on one day, so the whole set shares one market snapshot. Spreading departure dates separates lead-time effects from route effects; it does not protect against something that moved prices everywhere on the day of collection.</p>
 <h3>6e · Fixed cost floor</h3><p>FPB = max(miles × $0.15, $75). Without it a 134-mile route has a fair price of $20, so any real fare scores as extreme distortion and every short monopoly route piles up near 1.0. The $75 floor is an assumption (roughly what a nonstop flight costs to operate before distance matters), not an estimate from the data; a line fitted to the ATL routes with 3+ airlines gave about $12 + $0.087 per mile, but there are too few short competitive routes to pin the fixed part down. Report results with the floor on and off.</p>
 <h3>6d · Smooth scoring</h3><p>The original PDS cut-offs (0 and 1) made scores pile up: every fare at or below the fair price scored the same, and every fare above twice the fair price scored exactly 1.000. Smooth scoring replaces the cut-offs with PDS = 1 − e<sup>−x</sup> above the fair price and PDS = x (down to −1) below it, with x = (fare − FPB) ÷ FPB. RDS = 1 − e<sup>−q</sup>, with q = max(0, PDS) × 500 ÷ distance. Weights, CS tiers and the 0.6 threshold are unchanged. ADMI can now be negative, meaning the fare is below what distance justifies. State in the post which mode the published numbers use.</p>
 <h3>6c · Ties on the lowest fare</h3><p>When two airlines show the same lowest nonstop fare, the airline with the shorter travel time is recorded as the cheapest. The tie rule changes only which airline is named; the fare and the airline count, which are all the score uses, are unchanged.</p>

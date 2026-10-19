@@ -7,7 +7,9 @@ Two markets are measured with the same method: Atlanta (ATL) to one airport in e
 Everything here is reproducible from the raw data in this repository with the standard library alone:
 
 ```bash
-python3 analysis/admi.py
+python3 analysis/admi.py                                          # hand-collected data
+python3 analysis/admi.py data/googleflights_2026-10-19/bags       # scripted re-collection, 1 carry-on included
+python3 analysis/admi.py data/googleflights_2026-10-19/no_bags    # same re-collection, no bags
 ```
 
 ---
@@ -25,6 +27,18 @@ From Atlanta, the median price per mile falls by a factor of four as soon as a r
 
 Scoring with the locked model, **18 of 46 Atlanta routes** clear the structural bar, and all 18 clear it on all five dates rather than the four the rule requires. Across 16 variations of the model the count moves between 11 and 24; the list of routes barely changes, because single-airline routes score high under every baseline tested.
 
+### A second, independent collection
+
+The Atlanta fares were collected a second time on 19 October 2026, by a script instead of by hand, on five different travel dates. Each search was run twice, once with no bags and once with one carry-on added, and the script only accepted a search when the Frontier fare actually rose with the bag. It also showed that United's cheapest fares exclude a carry-on (71 of 72 rose by $50–55).
+
+| Collection | Structural routes | 1 airline vs 3+, per mile |
+|---|---:|---:|
+| By hand (Oct 11–13), no bags | 18 | 4.17× |
+| Script (Oct 19), no bags | 18 | 4.40× |
+| Script (Oct 19), **1 carry-on included** | **18** | **3.18×** |
+
+All three produce the **same 18 routes**. The gap also reproduces without bags (4.17× by hand, 4.40× by script). Adding the carry-on fee that Frontier and United charge separately lowers it to 3.18×, so a little over a quarter of the raw gap comes from fares that leave the bag out, not from competition. The bag-inclusive figure is the fairer comparison and should be quoted next to the other.
+
 The comparison market produces a different and more interesting answer. **Not one priced nonstop out of Bengaluru is flown by a single airline.** The thinnest route in that sample has two. The same gradient measured the same way is 1.15× at Bengaluru against 4.17× at Atlanta. On the evidence so far the Atlanta pattern is a property of a concentrated hub market rather than of air travel in general — though see the limitations before leaning on this.
 
 ---
@@ -37,7 +51,7 @@ ADMI = 0.5 · PDS + 0.3 · CS + 0.2 · RDS
 
 | Term | Definition |
 |---|---|
-| **FPB** | Fair price baseline, `max(miles × $0.15, $75)`. The floor exists because a flight has costs that do not shrink with distance. |
+| **FPB** | Fair price baseline, `max(miles × $0.15, $75)`. The $0.15 matches DOT's published industry expense per available seat mile of 15.095¢. The floor exists because a flight has costs that do not shrink with distance, mirroring the fixed terminal charge in DOT's own SIFL formula. |
 | **PDS** | Price distortion, `1 − e^(−x)` where `x = (net fare − FPB) / FPB`. Below the fair price PDS is `x` itself, down to −1, so cheap competitive routes score negative instead of piling up at zero. |
 | **CS** | Competition, from the airline count alone: 1 airline = 1.00, 2 = 0.66, 3 = 0.33, 4 or more = 0.10. |
 | **RDS** | Route distance, `1 − e^(−q)` where `q = max(0, PDS) × 500 / max(miles, 100)`, so the same overcharge counts for more on a short route. |
@@ -61,7 +75,7 @@ Fares are collected as displayed, which includes tax. The index compares fares a
 
 | Market | Components | Net fare |
 |---|---|---|
-| United States | 7.5% excise tax, $5.60 security fee, $4.50 passenger facility charge | `(shown − 15.40) / 1.075` |
+| United States | 7.5% excise tax, $5.30 domestic segment tax, $5.60 security fee, $4.50 passenger facility charge | `(shown − 15.40) / 1.075` |
 | India | 5% GST on economy, ₹300 BLR user development fee (from 1 Sep 2026), ₹236 aviation security fee, at ₹95.58/$ | `(shown − 5.61) / 1.05` |
 | Elsewhere | no rule written | unchanged |
 
@@ -75,6 +89,13 @@ data/
   admi_scored.csv             244 scored rows with every intermediate column
   airports.csv                84 airports with coordinates, for distances
   raw/                        the six source documents as JSON
+  googleflights_2026-10-19/
+    admi_fares.csv            scripted re-collection, one row per flight, both prices
+    bags/  no_bags/           the same data as JSON documents for analysis/admi.py
+fetch/
+  google_flights/
+    admi_collect.py           the collector that produced googleflights_2026-10-19
+    to_raw.py                 turns admi_fares.csv into the bags/ and no_bags/ documents
 analysis/
   admi.py                     reference implementation; reproduces every figure
 tool/
@@ -120,6 +141,13 @@ Every fare is the cheapest **nonstop, one-way, economy** fare for a single trave
 | ATL | 2026-11-12 | 49 | 45 | 32 | Gemini-assisted, **not hand-verified** |
 | ATL | 2026-11-25 | 49 | 45 | 45 | Gemini-assisted, **not hand-verified** |
 | BLR | 2026-10-25 | 33 | 18 | 14 | manual |
+| ATL | 2026-10-28 | 48 | 45 | 9 | script, Google Flights |
+| ATL | 2026-11-07 | 48 | 46 | 19 | script, Google Flights |
+| ATL | 2026-11-17 | 48 | 45 | 29 | script, Google Flights |
+| ATL | 2026-12-04 | 48 | 45 | 46 | script, Google Flights |
+| ATL | 2027-01-07 | 48 | 46 | 80 | script, Google Flights |
+
+The scripted collection (`fetch/google_flights/admi_collect.py`) searches every route twice on the same page, first with no bags and then with one carry-on added, and saves both prices for every flight. A search is accepted only if a Frontier or Spirit fare went up when the bag was added, or if neither airline flies the route; otherwise it is retried, up to three times, and recorded as failed. The check is made on prices, not on page text, so the script cannot mark a bag as added when it was not. All 77 route-dates with Frontier passed.
 
 Fares fall as the departure date moves further out: the median net fare is $254 at 14 days ahead and $171 at 45 days. This is the opposite of the usual last-minute story and is reported as found, not corrected for.
 
@@ -138,9 +166,17 @@ Without those variables the tool still runs; fares are entered by hand, which is
 
 ---
 
+## How this sits against the published evidence
+
+Measured against DOT's industry expense per available seat mile of 15.095¢, Atlanta's competitive routes price at **59%** of that figure and its single-airline routes at **244%**. Cost per ASM is a system-wide average and short-haul flying costs more per mile, so this is suggestive rather than conclusive, but the spread is large.
+
+The relevant federal study, [GAO-26-107740](https://files.gao.gov/reports/GAO-26-107740/index.html) (June 2026), cuts both ways and is engaged with directly in METHODOLOGY.md §13. It supports the premise in one respect: concentration has risen specifically on the thinnest routes, and 58% of the least-travelled routes have no effective low-cost competitor. It complicates the premise in two others: inflation-adjusted domestic fares are about 15% *lower* than in 2007, and the merger literature finds that losing a route competitor raises fares by roughly 1 to 8 percent, not several hundred.
+
+Those are different quantities — a causal effect on one route versus a cross-sectional comparison between routes — and this project claims only the second. It does not claim to have measured what would happen to a route's fares if a carrier left it.
+
 ## Limitations in one paragraph
 
-Two of the five Atlanta tables were extracted with AI assistance and have not been hand-checked against a live search, though they are labelled verified inside the tool. Three fares are implausible and were never rechecked (PHL at $14, IAD at $27, JAC at $221); the PHL fare nets to the $1 clamp, which is a visible symptom rather than a hidden one. The $0.15–$0.20 per mile range, the $0.09 India figure, and the 100-mile cutoff have no citation yet and are stated as assumptions. All fares come from one provider at one moment with no independent cross-check. The Bengaluru market has one date, so nothing there can carry a structural label, and 15 of its 33 destinations are recorded as having no nonstop when several almost certainly do. Air India and Air India Express are counted as separate carriers, which inflates the airline count on several Bengaluru routes. Full detail in [LIMITATIONS.md](LIMITATIONS.md).
+Two of the five Atlanta tables were extracted with AI assistance and have not been hand-checked against a live search, though they are labelled verified inside the tool. Three fares are implausible and were never rechecked (PHL at $14, IAD at $27, JAC at $221); the PHL fare nets to the $1 clamp, which is a visible symptom rather than a hidden one. The $0.15–$0.20 per mile range is now sourced to DOT cost data, but the $0.09 India figure and the 100-mile cutoff remain uncited, and the India figure is the one the whole cross-market comparison rests on. The scripted re-collection reproduces the 18 structural routes on five different dates, but both collections come from Google Flights, so there is still no cross-check against a second source. The Bengaluru market has one date, so nothing there can carry a structural label, and 15 of its 33 destinations are recorded as having no nonstop when several almost certainly do. Air India and Air India Express are counted as separate carriers, which inflates the airline count on several Bengaluru routes. Full detail in [LIMITATIONS.md](LIMITATIONS.md).
 
 ---
 

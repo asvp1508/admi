@@ -1,0 +1,9 @@
+{
+  "_comment": "One-way carry-on fee to add to that carrier's fare, so an unbundled fare compares with a bundled one. Fill each from the airline's published schedule and record the date you checked. Delete any carrier that includes a carry-on. Leaving a null here stops the run rather than guessing.",
+  "_checked_on": null,
+  "frontier": null,
+  "spirit": null,
+  "allegiant": null,
+  "avelo": null,
+  "breeze": null
+}
