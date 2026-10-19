@@ -5,7 +5,9 @@ ADMI reference implementation and analysis.
 Reproduces every published figure from the raw observations in data/raw/.
 Standard library only. Run from the repository root:
 
-    python3 analysis/admi.py
+    python3 analysis/admi.py                                          # hand-collected data
+    python3 analysis/admi.py data/googleflights_2026-10-19/bags       # scraped, with 1 carry-on
+    python3 analysis/admi.py data/googleflights_2026-10-19/no_bags    # scraped, no bags
 
 The model configuration below was locked on 2026-10-11, after the Atlanta
 data was collected and before any result was published. Do not change it
@@ -253,12 +255,12 @@ def band(miles):
     return "over 1000 mi"
 
 
-def report():
+def report(data_dir="data/raw"):
     airports = load_airports()
-    obs = load_observations()
+    obs = load_observations(data_dir)
 
     print("=" * 74)
-    print("ADMI  |  locked model, 2026-10-11")
+    print("ADMI  |  locked model, 2026-10-11  |  data: %s" % data_dir)
     print("=" * 74)
     print("FPB  = max(miles x $%.2f, $%.0f)" % (LOCKED["rate"], LOCKED["min_fpb"]))
     print("PDS  = 1 - e^-x   where x = (net fare - FPB) / FPB   [x itself if x <= 0]")
@@ -377,9 +379,12 @@ def report():
 
     print()
     print("=" * 74)
-    print("Figures above are reproduced from data/raw/. See LIMITATIONS.md before")
-    print("quoting any of them: the 12 and 25 November Atlanta tables are not")
-    print("hand-verified, and the Bengaluru market has one date only.")
+    print("Figures above are reproduced from %s/. See LIMITATIONS.md before" % data_dir)
+    if data_dir == "data/raw":
+        print("quoting any of them: the 12 and 25 November Atlanta tables are not")
+        print("hand-verified, and the Bengaluru market has one date only.")
+    else:
+        print("quoting any of them.")
     print("=" * 74)
 
 
@@ -387,6 +392,7 @@ if __name__ == "__main__":
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     if os.path.isdir(os.path.join(root, "data")):
         os.chdir(root)
-    if not os.path.isdir("data/raw"):
-        sys.exit("run this from the repository root: python3 analysis/admi.py")
-    report()
+    data_dir = sys.argv[1].rstrip("/") if len(sys.argv) > 1 else "data/raw"
+    if not os.path.isdir(data_dir):
+        sys.exit("no such folder: %s  (run from the repository root)" % data_dir)
+    report(data_dir)

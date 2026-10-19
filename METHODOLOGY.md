@@ -24,11 +24,15 @@ FPB = max(miles × $0.15, $75)
 
 What the route would cost if priced on distance alone.
 
-**The $0.15 rate** is an assumption, not a measured value. Published figures for US domestic cost per available seat mile cluster in a range that supports $0.15 to $0.20; $0.15 is chosen as the conservative end, because a lower baseline makes fewer routes look distorted. *This figure still needs a citation; see LIMITATIONS.md.*
+**The $0.15 rate** is now sourced rather than assumed. The US Department of Transportation publishes industry expense per available seat mile (ASM) in Appendix A of its semi-annual Standard Industry Fare Level filing: **15.095 cents**, applicable 1 April 2025. The $0.15 rate matches that figure to within 1%.
+
+The wider $0.15 to $0.20 range is derived rather than asserted. Cost per *available* seat mile assumes every seat sells. At the actual US domestic load factor of **82.4%** (May 2026, BTS), the break-even fare per *sold* seat mile is 15.095 ÷ 0.824 = **18.3 cents**. So the range brackets two real quantities: cost per available seat mile at the low end, break-even per sold seat at the high end. ADMI uses the low end, which is the conservative choice.
+
+One caveat that must travel with this figure: expense per ASM is a system-wide average across short-haul, long-haul and widebody flying. Short-haul operations cost more per mile than the average, so a flat $0.15 understates the fair price on short routes. That is exactly what the fixed-cost floor below is for.
 
 **The $75 floor** exists because a flight has costs that do not shrink with distance: crew, gate, turnaround, ground handling. Without it, the 134-mile Atlanta to Birmingham route has a fair price of $20, and any real fare scores as extreme distortion. Every short monopoly route would then pile up near 1.0 and the index would be measuring distance, not competition. The floor only affects routes shorter than 500 miles, where `miles × 0.15 < 75`.
 
-The $75 value is an assumption about what a nonstop costs to operate before distance enters. It is **not** estimated from this data. For a sense of scale, an OLS line through Atlanta fares on routes with 3 or more airlines gives:
+The structure has federal precedent. DOT's SIFL formula is itself a fixed **terminal charge** plus a per-mile rate, and the terminal charge for the second half of calendar 2026 is **$58.95**. ADMI's $75 floor is the same device at a slightly higher, more conservative value. The specific $75 figure remains a judgement, not an estimate from this data. For a sense of scale, an OLS line through Atlanta fares on routes with 3 or more airlines gives:
 
 ```
 FPB_fitted = $12.3 + $0.0827 × miles      (n = 74)
@@ -36,9 +40,17 @@ FPB_fitted = $12.3 + $0.0827 × miles      (n = 74)
 
 That implies competitive routes price near $0.083 per mile, roughly half the $0.15 assumption, with a fixed part near $12. The fixed part is poorly identified because there are too few short competitive routes in the sample to pin it down, which is exactly why the floor is set by assumption rather than fitted. Results are reported with the floor on and off, and with the fitted line substituted entirely (see §8).
 
-### An alternative that was tried and rejected
+### An alternative that was tried, and a correction to why
 
-An earlier draft used a **distance-tapered** baseline, `0.15 × (d/900)^−0.5` per mile, so that the per-mile rate fell with distance. It was dropped for two reasons. It conflates the fixed-cost effect with the distance effect in one term, making the result hard to interpret; and a flat rate plus an explicit floor states the same intuition with one assumption instead of an exponent. Anyone wanting to compare should add it to `STRESS_TESTS` rather than to `LOCKED`. **Any figure computed under the tapered baseline is not comparable to the figures in this repository.**
+An earlier draft used a **distance-tapered** baseline, `0.15 × (d/900)^−0.5` per mile, so that the per-mile rate fell with distance. It was dropped because it conflates the fixed-cost effect with the distance effect in one term, and because a flat rate plus an explicit floor states the same intuition with one assumption instead of an exponent. **Any figure computed under the tapered baseline is not comparable to the figures in this repository.**
+
+That reasoning stands, but the earlier framing of a taper as unprincipled was wrong. DOT's own SIFL formula bands the per-mile rate by distance — for the second half of 2026, $0.3225 per mile to 500 miles, $0.2459 from 501 to 1,500, and $0.2364 beyond — so a declining per-mile rate is established federal practice, not an invention. A banded variant belongs in `STRESS_TESTS` as a named alternative.
+
+### Why SIFL itself is not used as the baseline
+
+SIFL was tested as a complete substitute for FPB and the result is reported here because it is instructive. Under a full SIFL baseline the structural count collapses from 18 to **3** and mean ADMI falls from 0.372 to 0.083.
+
+That is not evidence against the index; it is evidence that SIFL measures something else. SIFL exists to impute the taxable value of employer-provided and non-commercial aircraft flights, and its per-mile rates sit far above commercial economy fares — $0.3225 per mile for a short hop, against an observed median of $0.090 on competitive routes. Benchmarking scheduled economy fares against a private-aviation valuation formula would make nearly every fare look like a bargain. **Only the expense-per-ASM figure inside the SIFL filing, and the terminal-charge structure, are used here.**
 
 ---
 
@@ -109,7 +121,7 @@ Price is the thing being measured, so it carries half. Competition is the explan
 
 The index compares fares against an operating-cost baseline, so government taxes and airport fees are stripped before scoring. The rule is keyed on the origin airport's country.
 
-**United States** — 7.5% federal excise tax on the base fare, $5.60 September 11th Security Fee per one-way trip, $4.50 Passenger Facility Charge per enplanement:
+**United States** — 7.5% federal excise tax on the base fare, $5.30 domestic segment tax, $5.60 September 11th Security Fee, and $4.50 Passenger Facility Charge. The three flat charges sum to the $15.40 constant:
 
 ```
 net = (shown − 15.40) / 1.075
@@ -192,7 +204,9 @@ Both ratios must be computed the same way for the cross-market number to mean an
 
 **Measured:** cheapest nonstop, one-way, economy fare for one traveller; number of airlines operating that nonstop; great-circle distance between airport coordinates.
 
-**Excluded:** connecting itineraries; round trips; premium cabins; bag, seat and change fees; schedule quality and time of day; aircraft type and capacity; seat or market share; load factors; actual airline costs.
+**Excluded:** connecting itineraries; round trips; premium cabins; seat and change fees; checked bags; schedule quality and time of day; aircraft type and capacity; seat or market share; load factors; actual airline costs.
+
+**Carry-on bags** are excluded from the hand-collected data and from `no_bags/`, and included in `bags/`, where the scripted collection searched each route a second time with one carry-on added (README, Data collection).
 
 Distance is great-circle, not flown distance. Flown distance is longer and varies with routing and weather, so every per-mile figure here is a slight overstatement, uniformly across routes.
 
@@ -201,7 +215,33 @@ Distance is great-circle, not flown distance. Flown distance is longer and varie
 ## 12. Reproducing the figures
 
 ```bash
-python3 analysis/admi.py
+python3 analysis/admi.py                                          # hand-collected
+python3 analysis/admi.py data/googleflights_2026-10-19/bags       # scripted, 1 carry-on
+python3 analysis/admi.py data/googleflights_2026-10-19/no_bags    # scripted, no bags
 ```
 
-No dependencies beyond the Python standard library. The script reads `data/raw/`, recomputes every figure in the README and in this document, and prints the stress-test table. Any discrepancy between a published number and this script's output should be treated as the published number being wrong.
+No dependencies beyond the Python standard library. The script reads `data/raw/` (or the folder given), recomputes every figure in the README and in this document, and prints the stress-test table. Any discrepancy between a published number and this script's output should be treated as the published number being wrong.
+
+---
+
+## 13. Sources
+
+| Figure used | Value | Source |
+|---|---|---|
+| US industry expense per available seat mile | 15.095¢, at 1 Apr 2025 | US DOT, *Standard Industry Fare Level Methodology*, Appendix A (Jan–Jun 2025 filing) |
+| SIFL terminal charge | $58.95, Jul–Dec 2026 | US DOT SIFL rates, second half of calendar 2026 |
+| SIFL per-mile rates | $0.3225 / $0.2459 / $0.2364 by distance band, Jul–Dec 2026 | as above |
+| US domestic load factor | 82.4%, May 2026 | Bureau of Transportation Statistics, via FRED series LOADFACTORD |
+| Fare effects of losing a route competitor | roughly 1–8% increase | GAO-26-107740, *Airline Competition*, 25 June 2026 |
+| Concentration on thin routes | HHI up 5–8% on 4th/5th-quintile routes, 2007–2022; 58% of fifth-quintile routes had no effective low-cost competitor | GAO-26-107740 |
+| Long-run fare trend | inflation-adjusted fares ~15% lower in 2024 than 2007; yields down ~19% | GAO-26-107740 |
+
+### What the GAO report means for this project
+
+GAO-26-107740 is the most relevant published work to ADMI's question, and it does not uniformly support the project's framing. It must be engaged with directly rather than cited selectively.
+
+**Where it supports this work.** Concentration has risen specifically on the thinnest routes, and most of them have no low-cost competitor at all. That is the population ADMI's structural routes are drawn from.
+
+**Where it complicates this work.** Inflation-adjusted domestic fares are about 15% lower than in 2007 and yields are down about 19%, so air travel as a whole has become cheaper, not more expensive. And the merger literature finds that removing a direct competitor raises fares by roughly 1 to 8 percent, while ADMI observes a 4.2× gap in price per mile between monopoly and competitive routes.
+
+**These are not contradictory, and the difference must be stated.** The GAO figure is a *causal* estimate of what happens to a given route's fares when it loses a carrier. The ADMI figure is a *cross-sectional* comparison of different routes that differ in many ways besides competition — distance, aircraft size, demand density, seasonality. A route is thin and expensive for reasons that overlap with, but are not identical to, having one airline. Any claim that ADMI has measured the causal effect of monopoly would be contradicted by the published literature, and this project does not make that claim.

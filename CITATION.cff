@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+title: "ADMI: Airline Distortion and Market Index"
+abstract: >-
+  A quantitative index separating the portion of an airfare explained by
+  distance from the portion explained by the absence of a competing carrier,
+  applied to 49 Atlanta-origin routes across five departure dates and to
+  domestic routes from Bengaluru as a comparison market.
+message: "If you use this dataset or index, please cite it."
+type: dataset
+authors:
+  - family-names: Pathi
+    given-names: Arjun
+    email: pathiarjun15@gmail.com
+version: "1.0.0"
+date-released: "2026-10-13"
+license: MIT
+license-url: "https://github.com/asvp1508/admi/blob/main/LICENSE"
+keywords:
+  - airline pricing
+  - market concentration
+  - competition
+  - index construction
+  - airfare

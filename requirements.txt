@@ -1,2 +1,4 @@
-# No third-party packages required.
-# analysis/admi.py uses the Python standard library only (3.8+).
+# analysis/admi.py and fetch/google_flights/to_raw.py use the Python standard library only (3.8+).
+# Only the Google Flights collector needs a package:
+#   pip install playwright && playwright install chromium
+playwright>=1.40
