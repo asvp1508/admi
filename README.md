@@ -91,6 +91,7 @@ data/
   raw/                        the six source documents as JSON
   googleflights_2026-10-19/
     admi_fares.csv            scripted re-collection, one row per flight, both prices
+    admi_search_log.csv       every search attempt, with the reason it passed or failed
     bags/  no_bags/           the same data as JSON documents for analysis/admi.py
 fetch/
   google_flights/
@@ -147,7 +148,7 @@ Every fare is the cheapest **nonstop, one-way, economy** fare for a single trave
 | ATL | 2026-12-04 | 48 | 45 | 46 | script, Google Flights |
 | ATL | 2027-01-07 | 48 | 46 | 80 | script, Google Flights |
 
-The scripted collection (`fetch/google_flights/admi_collect.py`) searches every route twice on the same page, first with no bags and then with one carry-on added, and saves both prices for every flight. A search is accepted only if a Frontier or Spirit fare went up when the bag was added, or if neither airline flies the route; otherwise it is retried, up to three times, and recorded as failed. The check is made on prices, not on page text, so the script cannot mark a bag as added when it was not. All 77 route-dates with Frontier passed.
+The scripted collection (`fetch/google_flights/admi_collect.py`) searches every route twice on the same page, first with no bags and then with one carry-on added, and saves both prices for every flight. A search is accepted only if a Frontier or Spirit fare went up when the bag was added, or if neither airline flies the route; otherwise it is retried, up to three times, and recorded as failed. The check is made on prices, not on page text, so the script cannot mark a bag as added when it was not. All 77 route-dates with Frontier passed. `admi_search_log.csv` records all 249 attempts: 8 bag checks failed on the first try and passed on a retry, and 13 searches found no nonstop (Manchester on every date, Anchorage and Jackson Hole on four).
 
 Fares fall as the departure date moves further out: the median net fare is $254 at 14 days ahead and $171 at 45 days. This is the opposite of the usual last-minute story and is reported as found, not corrected for.
 

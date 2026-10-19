@@ -1,0 +1,527 @@
+time_utc,travel_date,dest,attempt,result,flights,detail
+2026-10-19T01:47:13+00:00,2026-10-28,BHM,1,not_needed,10,"bag toggle failed: Locator.click: Timeout 3000ms exceeded.
+Call log:
+  - waiting for locator(""button[aria-label*='Close' i], button[aria-label*='Dismiss' i]"").first
+    - locator resolved to <button jsname=""plIjzf"" jscontroller=""soHxf"" aria-label=""Close dialog"" data-tooltip-id=""tt-c627"" data-tooltip-enabled=""true"" data-idom-class=""nCP5yc AjY5Oe LQeN7 nJawce WRU6Yd"" class=""VfPpkd-LgbsSe VfPpkd-LgbsSe-OWXEXe-k8QpJ VfPpkd-LgbsSe-OWXEXe-Bz112c-M1Soyc VfPpkd-LgbsSe-OWXEXe-dgl2Hf nCP5yc AjY5Oe LQeN7 nJawce WRU6Yd"" jsaction=""click:cOuCgd; mousedown:UX7yZ; mouseup:lbsD7e; mouseenter:tfO1Yc; mouseleave:JywGue; touchstart:p6p2H; touchmove:FwuNnf; touchend:yfqBxc; touchcancel:JMtRjd; focus:AHmuwe; b…>…</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    5 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+; DOM changed=False; Unbundled fares increased=0"
+2026-10-19T01:47:36+00:00,2026-10-28,ANC,1,no_flights,0,No nonstop flights found
+2026-10-19T01:47:53+00:00,2026-10-28,PHX,1,not_needed,9,"bag toggle failed: Locator.click: Timeout 3000ms exceeded.
+Call log:
+  - waiting for locator(""button[aria-label*='Close' i], button[aria-label*='Dismiss' i]"").first
+    - locator resolved to <button jsname=""plIjzf"" jscontroller=""soHxf"" aria-label=""Close dialog"" data-tooltip-id=""tt-c567"" data-tooltip-enabled=""true"" data-idom-class=""nCP5yc AjY5Oe LQeN7 nJawce WRU6Yd"" class=""VfPpkd-LgbsSe VfPpkd-LgbsSe-OWXEXe-k8QpJ VfPpkd-LgbsSe-OWXEXe-Bz112c-M1Soyc VfPpkd-LgbsSe-OWXEXe-dgl2Hf nCP5yc AjY5Oe LQeN7 nJawce WRU6Yd"" jsaction=""click:cOuCgd; mousedown:UX7yZ; mouseup:lbsD7e; mouseenter:tfO1Yc; mouseleave:JywGue; touchstart:p6p2H; touchmove:FwuNnf; touchend:yfqBxc; touchcancel:JMtRjd; focus:AHmuwe; b…>…</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    5 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+; DOM changed=False; Unbundled fares increased=0"
+2026-10-19T01:48:11+00:00,2026-10-28,LIT,1,not_needed,6,"bag toggle failed: Locator.click: Timeout 6000ms exceeded.
+Call log:
+  - waiting for locator(""button:has-text('Bags')"").first
+    - locator resolved to <button jsname=""LgbsSe"" jscontroller=""soHxf"" aria-haspopup=""true"" data-disable-idom=""true"" aria-label=""Bags, Not selected"" class=""VfPpkd-LgbsSe VfPpkd-LgbsSe-OWXEXe-INsAgc VfPpkd-LgbsSe-OWXEXe-dgl2Hf Rj2Mlf OLiIxf PDpWxe LQeN7 nCOOmf WAWozd J1HS6b"" jsaction=""click:cOuCgd; mousedown:UX7yZ; mouseup:lbsD7e; mouseenter:tfO1Yc; mouseleave:JywGue; touchstart:p6p2H; touchmove:FwuNnf; touchend:yfqBxc; touchcancel:JMtRjd; focus:AHmuwe; blur:O22p3e; contextmenu:mg9Pef;mlnRJb:fLiPzd;"">…</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class=""dYRJB eoY5cb"">…</div> from <div class=""rIZzse"">…</div> subtree intercepts pointer events
+    - retrying click action
+    - waiting 20ms
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <div class=""dYRJB eoY5cb"">…</div> from <div class=""rIZzse"">…</div> subtree intercepts pointer events
+  2 × retrying click action
+      - waiting 100ms
+      - waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class=""VfPpkd-RLmnJb""></div> from <c-wiz c-wiz="""" id=""ow6"" jsshadow="""" jsname=""d2Q2jb"" jsmodel=""hc6Ubd"" __is_owner=""true"" jsrenderer=""eixcv"" jsdata=""deferred-i2"" jscontroller=""CWvKEd"" data-node-index=""0;0"" jsaction=""rcuQ6b:npT2md;F8PQfd:XC9dqb;NiEu1e:um7RNb;RTRBwf:xT0n9e;"" data-p=""%.@.[[[[""Explore"",18,null,null,null,null,""/travel/explore?hl\u003den\u0026gl\u003dus\u0026authuser"",""travel_explore""],[""Flights"",7,null,null,null,null,""/travel/flights?hl\u003den\u0026gl\u003dus\u0026authuser"",""flight""],[""Hotels"",8,null,null,null,null,""/tra…>…</c-wiz> subtree intercepts pointer events
+  2 × retrying click action
+      - waiting 500ms
+      - waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class=""dYRJB eoY5cb"">…</div> from <div class=""rIZzse"">…</div> subtree intercepts pointer events
+    - retrying click action
+      - waiting 500ms
+      - waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class=""dYRJB eoY5cb"">…</div> from <div class=""rIZzse"">…</div> subtree intercepts pointer events
+    - retrying click action
+      - waiting 500ms
+      - waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class=""VfPpkd-RLmnJb""></div> from <c-wiz c-wiz="""" id=""ow6"" jsshadow="""" jsname=""d2Q2jb"" jsmodel=""hc6Ubd"" __is_owner=""true"" jsrenderer=""eixcv"" jsdata=""deferred-i2"" jscontroller=""CWvKEd"" data-node-index=""0;0"" jsaction=""rcuQ6b:npT2md;F8PQfd:XC9dqb;NiEu1e:um7RNb;RTRBwf:xT0n9e;"" data-p=""%.@.[[[[""Explore"",18,null,null,null,null,""/travel/explore?hl\u003den\u0026gl\u003dus\u0026authuser"",""travel_explore""],[""Flights"",7,null,null,null,null,""/travel/flights?hl\u003den\u0026gl\u003dus\u0026authuser"",""flight""],[""Hotels"",8,null,null,null,null,""/tra…>…</c-wiz> subtree intercepts pointer events
+    - retrying click action
+      - waiting 500ms
+      - waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class=""VfPpkd-RLmnJb""></div> from <c-wiz c-wiz="""" id=""ow6"" jsshadow="""" jsname=""d2Q2jb"" jsmodel=""hc6Ubd"" __is_owner=""true"" jsrenderer=""eixcv"" jsdata=""deferred-i2"" jscontroller=""CWvKEd"" data-node-index=""0;0"" jsaction=""rcuQ6b:npT2md;F8PQfd:XC9dqb;NiEu1e:um7RNb;RTRBwf:xT0n9e;"" data-p=""%.@.[[[[""Explore"",18,null,null,null,null,""/travel/explore?hl\u003den\u0026gl\u003dus\u0026authuser"",""travel_explore""],[""Flights"",7,null,null,null,null,""/travel/flights?hl\u003den\u0026gl\u003dus\u0026authuser"",""flight""],[""Hotels"",8,null,null,null,null,""/tra…>…</c-wiz> subtree intercepts pointer events
+  2 × retrying click action
+      - waiting 500ms
+      - waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class=""dYRJB eoY5cb"">…</div> from <div class=""rIZzse"">…</div> subtree intercepts pointer events
+  - retrying click action
+    - waiting 500ms
+; DOM changed=False; Unbundled fares increased=0"
+2026-10-19T01:48:24+00:00,2026-10-28,LAX,1,yes,13,"bag toggle failed: Locator.click: Timeout 3000ms exceeded.
+Call log:
+  - waiting for locator(""button[aria-label*='Close' i], button[aria-label*='Dismiss' i]"").first
+    - locator resolved to <button jsname=""plIjzf"" jscontroller=""soHxf"" aria-label=""Close dialog"" data-tooltip-id=""tt-c807"" data-tooltip-enabled=""true"" data-idom-class=""nCP5yc AjY5Oe LQeN7 nJawce WRU6Yd"" class=""VfPpkd-LgbsSe VfPpkd-LgbsSe-OWXEXe-k8QpJ VfPpkd-LgbsSe-OWXEXe-Bz112c-M1Soyc VfPpkd-LgbsSe-OWXEXe-dgl2Hf nCP5yc AjY5Oe LQeN7 nJawce WRU6Yd"" jsaction=""click:cOuCgd; mousedown:UX7yZ; mouseup:lbsD7e; mouseenter:tfO1Yc; mouseleave:JywGue; touchstart:p6p2H; touchmove:FwuNnf; touchend:yfqBxc; touchcancel:JMtRjd; focus:AHmuwe; b…>…</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    5 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+; DOM changed=True; Unbundled fares increased=2"
+2026-10-19T01:48:39+00:00,2026-10-28,DEN,1,yes,15,"bag toggle failed: Locator.click: Timeout 3000ms exceeded.
+Call log:
+  - waiting for locator(""button[aria-label*='Close' i], button[aria-label*='Dismiss' i]"").first
+    - locator resolved to <button jsname=""plIjzf"" jscontroller=""soHxf"" aria-label=""Close dialog"" data-tooltip-id=""tt-c930"" data-tooltip-enabled=""true"" data-idom-class=""nCP5yc AjY5Oe LQeN7 nJawce WRU6Yd"" class=""VfPpkd-LgbsSe VfPpkd-LgbsSe-OWXEXe-k8QpJ VfPpkd-LgbsSe-OWXEXe-Bz112c-M1Soyc VfPpkd-LgbsSe-OWXEXe-dgl2Hf nCP5yc AjY5Oe LQeN7 nJawce WRU6Yd"" jsaction=""click:cOuCgd; mousedown:UX7yZ; mouseup:lbsD7e; mouseenter:tfO1Yc; mouseleave:JywGue; touchstart:p6p2H; touchmove:FwuNnf; touchend:yfqBxc; touchcancel:JMtRjd; focus:AHmuwe; b…>…</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    5 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+; DOM changed=True; Unbundled fares increased=2"
+2026-10-19T01:48:56+00:00,2026-10-28,BDL,1,not_needed,6,"bag toggle failed: Locator.click: Timeout 6000ms exceeded.
+Call log:
+  - waiting for locator(""button:has-text('Bags')"").first
+    - locator resolved to <button jsname=""LgbsSe"" jscontroller=""soHxf"" aria-haspopup=""true"" data-disable-idom=""true"" aria-label=""Bags, Not selected"" class=""VfPpkd-LgbsSe VfPpkd-LgbsSe-OWXEXe-INsAgc VfPpkd-LgbsSe-OWXEXe-dgl2Hf Rj2Mlf OLiIxf PDpWxe LQeN7 nCOOmf WAWozd J1HS6b"" jsaction=""click:cOuCgd; mousedown:UX7yZ; mouseup:lbsD7e; mouseenter:tfO1Yc; mouseleave:JywGue; touchstart:p6p2H; touchmove:FwuNnf; touchend:yfqBxc; touchcancel:JMtRjd; focus:AHmuwe; blur:O22p3e; contextmenu:mg9Pef;mlnRJb:fLiPzd;"">…</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class=""dYRJB eoY5cb"">…</div> from <div class=""rIZzse"">…</div> subtree intercepts pointer events
+    - retrying click action
+    - waiting 20ms
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <div class=""dYRJB eoY5cb"">…</div> from <div class=""rIZzse"">…</div> subtree intercepts pointer events
+  2 × retrying click action
+      - waiting 100ms
+      - waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class=""VfPpkd-RLmnJb""></div> from <c-wiz c-wiz="""" id=""ow6"" jsshadow="""" jsname=""d2Q2jb"" jsmodel=""hc6Ubd"" __is_owner=""true"" jsrenderer=""eixcv"" jsdata=""deferred-i2"" jscontroller=""CWvKEd"" data-node-index=""0;0"" jsaction=""rcuQ6b:npT2md;F8PQfd:XC9dqb;NiEu1e:um7RNb;RTRBwf:xT0n9e;"" data-p=""%.@.[[[[""Explore"",18,null,null,null,null,""/travel/explore?hl\u003den\u0026gl\u003dus\u0026authuser"",""travel_explore""],[""Flights"",7,null,null,null,null,""/travel/flights?hl\u003den\u0026gl\u003dus\u0026authuser"",""flight""],[""Hotels"",8,null,null,null,null,""/tra…>…</c-wiz> subtree intercepts pointer events
+  2 × retrying click action
+      - waiting 500ms
+      - waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class=""dYRJB eoY5cb"">…</div> from <div class=""rIZzse"">…</div> subtree intercepts pointer events
+    - retrying click action
+      - waiting 500ms
+      - waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class=""dYRJB eoY5cb"">…</div> from <div class=""rIZzse"">…</div> subtree intercepts pointer events
+    - retrying click action
+      - waiting 500ms
+      - waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class=""VfPpkd-RLmnJb""></div> from <c-wiz c-wiz="""" id=""ow6"" jsshadow="""" jsname=""d2Q2jb"" jsmodel=""hc6Ubd"" __is_owner=""true"" jsrenderer=""eixcv"" jsdata=""deferred-i2"" jscontroller=""CWvKEd"" data-node-index=""0;0"" jsaction=""rcuQ6b:npT2md;F8PQfd:XC9dqb;NiEu1e:um7RNb;RTRBwf:xT0n9e;"" data-p=""%.@.[[[[""Explore"",18,null,null,null,null,""/travel/explore?hl\u003den\u0026gl\u003dus\u0026authuser"",""travel_explore""],[""Flights"",7,null,null,null,null,""/travel/flights?hl\u003den\u0026gl\u003dus\u0026authuser"",""flight""],[""Hotels"",8,null,null,null,null,""/tra…>…</c-wiz> subtree intercepts pointer events
+    - retrying click action
+      - waiting 500ms
+      - waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class=""VfPpkd-RLmnJb""></div> from <c-wiz c-wiz="""" id=""ow6"" jsshadow="""" jsname=""d2Q2jb"" jsmodel=""hc6Ubd"" __is_owner=""true"" jsrenderer=""eixcv"" jsdata=""deferred-i2"" jscontroller=""CWvKEd"" data-node-index=""0;0"" jsaction=""rcuQ6b:npT2md;F8PQfd:XC9dqb;NiEu1e:um7RNb;RTRBwf:xT0n9e;"" data-p=""%.@.[[[[""Explore"",18,null,null,null,null,""/travel/explore?hl\u003den\u0026gl\u003dus\u0026authuser"",""travel_explore""],[""Flights"",7,null,null,null,null,""/travel/flights?hl\u003den\u0026gl\u003dus\u0026authuser"",""flight""],[""Hotels"",8,null,null,null,null,""/tra…>…</c-wiz> subtree intercepts pointer events
+  2 × retrying click action
+      - waiting 500ms
+      - waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class=""dYRJB eoY5cb"">…</div> from <div class=""rIZzse"">…</div> subtree intercepts pointer events
+  - retrying click action
+    - waiting 500ms
+; DOM changed=False; Unbundled fares increased=0"
+2026-10-19T01:49:12+00:00,2026-10-28,MCO,1,yes,22,"bag toggle failed: Locator.click: Timeout 3000ms exceeded.
+Call log:
+  - waiting for locator(""button[aria-label*='Close' i], button[aria-label*='Dismiss' i]"").first
+    - locator resolved to <button jsname=""plIjzf"" jscontroller=""soHxf"" aria-label=""Close dialog"" data-tooltip-id=""tt-c1347"" data-tooltip-enabled=""true"" data-idom-class=""nCP5yc AjY5Oe LQeN7 nJawce WRU6Yd"" class=""VfPpkd-LgbsSe VfPpkd-LgbsSe-OWXEXe-k8QpJ VfPpkd-LgbsSe-OWXEXe-Bz112c-M1Soyc VfPpkd-LgbsSe-OWXEXe-dgl2Hf nCP5yc AjY5Oe LQeN7 nJawce WRU6Yd"" jsaction=""click:cOuCgd; mousedown:UX7yZ; mouseup:lbsD7e; mouseenter:tfO1Yc; mouseleave:JywGue; touchstart:p6p2H; touchmove:FwuNnf; touchend:yfqBxc; touchcancel:JMtRjd; focus:AHmuwe; …>…</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    4 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+; DOM changed=True; Unbundled fares increased=4"
+2026-10-19T01:49:28+00:00,2026-10-28,HNL,1,not_needed,1,"bag toggle failed: Locator.click: Timeout 3000ms exceeded.
+Call log:
+  - waiting for locator(""button[aria-label*='Close' i], button[aria-label*='Dismiss' i]"").first
+    - locator resolved to <button jsname=""plIjzf"" jscontroller=""soHxf"" data-tooltip-id=""tt-c81"" aria-label=""Close dialog"" data-tooltip-enabled=""true"" data-idom-class=""nCP5yc AjY5Oe LQeN7 nJawce WRU6Yd"" class=""VfPpkd-LgbsSe VfPpkd-LgbsSe-OWXEXe-k8QpJ VfPpkd-LgbsSe-OWXEXe-Bz112c-M1Soyc VfPpkd-LgbsSe-OWXEXe-dgl2Hf nCP5yc AjY5Oe LQeN7 nJawce WRU6Yd"" jsaction=""click:cOuCgd; mousedown:UX7yZ; mouseup:lbsD7e; mouseenter:tfO1Yc; mouseleave:JywGue; touchstart:p6p2H; touchmove:FwuNnf; touchend:yfqBxc; touchcancel:JMtRjd; focus:AHmuwe; bl…>…</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    5 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+; DOM changed=False; Unbundled fares increased=0"
+2026-10-19T01:49:45+00:00,2026-10-28,BOI,1,not_needed,1,"bag toggle failed: Locator.click: Timeout 3000ms exceeded.
+Call log:
+  - waiting for locator(""button[aria-label*='Close' i], button[aria-label*='Dismiss' i]"").first
+    - locator resolved to <button jsname=""plIjzf"" jscontroller=""soHxf"" data-tooltip-id=""tt-c81"" aria-label=""Close dialog"" data-tooltip-enabled=""true"" data-idom-class=""nCP5yc AjY5Oe LQeN7 nJawce WRU6Yd"" class=""VfPpkd-LgbsSe VfPpkd-LgbsSe-OWXEXe-k8QpJ VfPpkd-LgbsSe-OWXEXe-Bz112c-M1Soyc VfPpkd-LgbsSe-OWXEXe-dgl2Hf nCP5yc AjY5Oe LQeN7 nJawce WRU6Yd"" jsaction=""click:cOuCgd; mousedown:UX7yZ; mouseup:lbsD7e; mouseenter:tfO1Yc; mouseleave:JywGue; touchstart:p6p2H; touchmove:FwuNnf; touchend:yfqBxc; touchcancel:JMtRjd; focus:AHmuwe; bl…>…</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    5 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+; DOM changed=False; Unbundled fares increased=0"
+2026-10-19T01:51:20+00:00,2026-10-28,ORD,1,yes,21,bag toggle applied; DOM changed=True; Unbundled fares increased=2
+2026-10-19T01:51:31+00:00,2026-10-28,IND,1,yes,10,bag toggle applied; DOM changed=True; Unbundled fares increased=1
+2026-10-19T01:51:45+00:00,2026-10-28,DSM,1,not_needed,4,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T01:51:59+00:00,2026-10-28,ICT,1,not_needed,4,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T01:52:13+00:00,2026-10-28,SDF,1,not_needed,8,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T01:52:25+00:00,2026-10-28,MSY,1,yes,11,bag toggle applied; DOM changed=True; Unbundled fares increased=1
+2026-10-19T01:52:39+00:00,2026-10-28,PWM,1,not_needed,2,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T01:52:52+00:00,2026-10-28,BWI,1,yes,16,bag toggle applied; DOM changed=True; Unbundled fares increased=3
+2026-10-19T01:53:05+00:00,2026-10-28,BOS,1,yes,15,bag toggle applied; DOM changed=True; Unbundled fares increased=1
+2026-10-19T01:53:16+00:00,2026-10-28,DTW,1,yes,14,bag toggle applied; DOM changed=True; Unbundled fares increased=2
+2026-10-19T01:53:28+00:00,2026-10-28,MSP,1,yes,10,bag toggle applied; DOM changed=True; Unbundled fares increased=1
+2026-10-19T01:53:41+00:00,2026-10-28,JAN,1,not_needed,7,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T01:53:53+00:00,2026-10-28,STL,1,yes,11,bag toggle applied; DOM changed=True; Unbundled fares increased=1
+2026-10-19T01:54:07+00:00,2026-10-28,BZN,1,not_needed,1,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T01:54:20+00:00,2026-10-28,OMA,1,not_needed,5,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T01:54:32+00:00,2026-10-28,LAS,1,yes,13,bag toggle applied; DOM changed=True; Unbundled fares increased=2
+2026-10-19T01:54:54+00:00,2026-10-28,MHT,1,no_flights,0,No nonstop flights found
+2026-10-19T01:55:05+00:00,2026-10-28,EWR,1,yes,17,bag toggle applied; DOM changed=True; Unbundled fares increased=2
+2026-10-19T01:55:19+00:00,2026-10-28,ABQ,1,not_needed,3,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T01:55:30+00:00,2026-10-28,LGA,1,yes,24,bag toggle applied; DOM changed=True; Unbundled fares increased=3
+2026-10-19T01:55:44+00:00,2026-10-28,CLT,1,not_needed,12,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T01:55:58+00:00,2026-10-28,FAR,1,not_needed,1,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T01:56:11+00:00,2026-10-28,CMH,1,not_needed,8,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T01:56:24+00:00,2026-10-28,OKC,1,not_needed,5,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T01:56:37+00:00,2026-10-28,PDX,1,not_needed,5,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T01:56:48+00:00,2026-10-28,PHL,1,yes,30,bag toggle applied; DOM changed=True; Unbundled fares increased=3
+2026-10-19T01:57:01+00:00,2026-10-28,PVD,1,not_needed,4,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T01:57:15+00:00,2026-10-28,CHS,1,not_needed,9,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T01:57:30+00:00,2026-10-28,FSD,1,not_needed,1,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T01:57:45+00:00,2026-10-28,BNA,1,not_needed,12,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T01:57:57+00:00,2026-10-28,DFW,1,yes,25,bag toggle applied; DOM changed=True; Unbundled fares increased=3
+2026-10-19T01:58:11+00:00,2026-10-28,SLC,1,not_needed,8,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T01:58:26+00:00,2026-10-28,BTV,1,not_needed,1,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T01:58:42+00:00,2026-10-28,DCA,1,not_needed,20,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T01:58:55+00:00,2026-10-28,SEA,1,not_needed,10,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T01:59:09+00:00,2026-10-28,CRW,1,not_needed,4,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T01:59:22+00:00,2026-10-28,MKE,1,not_needed,6,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T01:59:44+00:00,2026-10-28,JAC,1,no_flights,0,No nonstop flights found
+2026-10-19T01:59:58+00:00,2026-11-07,BHM,1,not_needed,9,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:00:12+00:00,2026-11-07,ANC,1,not_needed,1,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:00:26+00:00,2026-11-07,PHX,1,not_needed,9,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:00:40+00:00,2026-11-07,LIT,1,not_needed,5,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:00:51+00:00,2026-11-07,LAX,1,yes,13,bag toggle applied; DOM changed=True; Unbundled fares increased=2
+2026-10-19T02:01:03+00:00,2026-11-07,DEN,1,yes,13,bag toggle applied; DOM changed=True; Unbundled fares increased=2
+2026-10-19T02:01:17+00:00,2026-11-07,BDL,1,not_needed,5,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:01:30+00:00,2026-11-07,MCO,1,yes,21,bag toggle applied; DOM changed=True; Unbundled fares increased=4
+2026-10-19T02:01:44+00:00,2026-11-07,HNL,1,not_needed,1,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:01:58+00:00,2026-11-07,BOI,1,not_needed,1,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:02:11+00:00,2026-11-07,ORD,1,yes,19,bag toggle applied; DOM changed=True; Unbundled fares increased=2
+2026-10-19T02:02:22+00:00,2026-11-07,IND,1,yes,9,bag toggle applied; DOM changed=True; Unbundled fares increased=1
+2026-10-19T02:02:37+00:00,2026-11-07,DSM,1,not_needed,3,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:02:52+00:00,2026-11-07,ICT,1,not_needed,3,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:03:06+00:00,2026-11-07,SDF,1,not_needed,7,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:03:18+00:00,2026-11-07,MSY,1,yes,9,bag toggle applied; DOM changed=True; Unbundled fares increased=1
+2026-10-19T02:03:31+00:00,2026-11-07,PWM,1,not_needed,2,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:03:42+00:00,2026-11-07,BWI,1,yes,13,bag toggle applied; DOM changed=True; Unbundled fares increased=3
+2026-10-19T02:03:54+00:00,2026-11-07,BOS,1,yes,12,bag toggle applied; DOM changed=True; Unbundled fares increased=1
+2026-10-19T02:04:07+00:00,2026-11-07,DTW,1,yes,13,bag toggle applied; DOM changed=True; Unbundled fares increased=2
+2026-10-19T02:04:19+00:00,2026-11-07,MSP,1,yes,10,bag toggle applied; DOM changed=True; Unbundled fares increased=1
+2026-10-19T02:04:33+00:00,2026-11-07,JAN,1,not_needed,6,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:04:47+00:00,2026-11-07,STL,1,not_needed,8,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:05:01+00:00,2026-11-07,BZN,1,not_needed,1,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:05:16+00:00,2026-11-07,OMA,1,not_needed,4,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:05:28+00:00,2026-11-07,LAS,1,yes,13,bag toggle applied; DOM changed=True; Unbundled fares increased=2
+2026-10-19T02:05:50+00:00,2026-11-07,MHT,1,no_flights,0,No nonstop flights found
+2026-10-19T02:06:02+00:00,2026-11-07,EWR,1,yes,14,bag toggle applied; DOM changed=True; Unbundled fares increased=2
+2026-10-19T02:06:15+00:00,2026-11-07,ABQ,1,not_needed,2,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:06:26+00:00,2026-11-07,LGA,1,yes,15,bag toggle applied; DOM changed=True; Unbundled fares increased=3
+2026-10-19T02:06:41+00:00,2026-11-07,CLT,1,not_needed,11,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:06:55+00:00,2026-11-07,FAR,1,not_needed,1,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:07:09+00:00,2026-11-07,CMH,1,not_needed,6,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:07:24+00:00,2026-11-07,OKC,1,not_needed,4,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:07:39+00:00,2026-11-07,PDX,1,not_needed,5,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:07:50+00:00,2026-11-07,PHL,1,yes,28,bag toggle applied; DOM changed=True; Unbundled fares increased=3
+2026-10-19T02:08:04+00:00,2026-11-07,PVD,1,not_needed,3,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:08:18+00:00,2026-11-07,CHS,1,not_needed,8,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:08:34+00:00,2026-11-07,FSD,1,not_needed,1,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:08:48+00:00,2026-11-07,BNA,1,not_needed,9,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:09:00+00:00,2026-11-07,DFW,1,yes,22,bag toggle applied; DOM changed=True; Unbundled fares increased=3
+2026-10-19T02:09:14+00:00,2026-11-07,SLC,1,not_needed,8,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:09:29+00:00,2026-11-07,BTV,1,not_needed,1,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:09:44+00:00,2026-11-07,DCA,1,not_needed,14,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:09:59+00:00,2026-11-07,SEA,1,not_needed,8,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:10:13+00:00,2026-11-07,CRW,1,not_needed,3,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:10:27+00:00,2026-11-07,MKE,1,not_needed,6,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:10:50+00:00,2026-11-07,JAC,1,no_flights,0,No nonstop flights found
+2026-10-19T02:11:05+00:00,2026-11-17,BHM,1,not_needed,10,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:11:28+00:00,2026-11-17,ANC,1,no_flights,0,No nonstop flights found
+2026-10-19T02:11:41+00:00,2026-11-17,PHX,1,not_needed,10,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:11:56+00:00,2026-11-17,LIT,1,not_needed,7,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:12:07+00:00,2026-11-17,LAX,1,yes,13,bag toggle applied; DOM changed=True; Unbundled fares increased=2
+2026-10-19T02:12:19+00:00,2026-11-17,DEN,1,yes,15,bag toggle applied; DOM changed=True; Unbundled fares increased=2
+2026-10-19T02:12:33+00:00,2026-11-17,BDL,1,not_needed,6,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:12:46+00:00,2026-11-17,MCO,1,yes,23,bag toggle applied; DOM changed=True; Unbundled fares increased=4
+2026-10-19T02:13:01+00:00,2026-11-17,HNL,1,not_needed,1,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:13:15+00:00,2026-11-17,BOI,1,not_needed,1,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:13:26+00:00,2026-11-17,ORD,1,yes,20,bag toggle applied; DOM changed=True; Unbundled fares increased=1
+2026-10-19T02:13:40+00:00,2026-11-17,IND,1,not_needed,9,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:13:54+00:00,2026-11-17,DSM,1,not_needed,4,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:14:07+00:00,2026-11-17,ICT,1,not_needed,3,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:14:21+00:00,2026-11-17,SDF,1,not_needed,7,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:14:34+00:00,2026-11-17,MSY,1,yes,11,bag toggle applied; DOM changed=True; Unbundled fares increased=1
+2026-10-19T02:14:48+00:00,2026-11-17,PWM,1,not_needed,2,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:15:01+00:00,2026-11-17,BWI,1,yes,15,bag toggle applied; DOM changed=True; Unbundled fares increased=3
+2026-10-19T02:15:13+00:00,2026-11-17,BOS,1,yes,15,bag toggle applied; DOM changed=True; Unbundled fares increased=1
+2026-10-19T02:15:23+00:00,2026-11-17,DTW,1,yes,13,bag toggle applied; DOM changed=True; Unbundled fares increased=2
+2026-10-19T02:15:36+00:00,2026-11-17,MSP,1,yes,10,bag toggle applied; DOM changed=True; Unbundled fares increased=1
+2026-10-19T02:15:50+00:00,2026-11-17,JAN,1,not_needed,7,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:16:05+00:00,2026-11-17,STL,1,not_needed,10,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:16:20+00:00,2026-11-17,BZN,1,not_needed,1,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:16:35+00:00,2026-11-17,OMA,1,not_needed,4,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:16:47+00:00,2026-11-17,LAS,1,yes,13,bag toggle applied; DOM changed=True; Unbundled fares increased=2
+2026-10-19T02:17:09+00:00,2026-11-17,MHT,1,no_flights,0,No nonstop flights found
+2026-10-19T02:17:20+00:00,2026-11-17,EWR,1,yes,17,bag toggle applied; DOM changed=True; Unbundled fares increased=2
+2026-10-19T02:17:34+00:00,2026-11-17,ABQ,1,not_needed,3,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:17:46+00:00,2026-11-17,LGA,1,yes,24,bag toggle applied; DOM changed=True; Unbundled fares increased=3
+2026-10-19T02:18:00+00:00,2026-11-17,CLT,1,not_needed,12,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:18:13+00:00,2026-11-17,FAR,1,not_needed,1,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:18:23+00:00,2026-11-17,CMH,1,yes,10,bag toggle applied; DOM changed=True; Unbundled fares increased=1
+2026-10-19T02:18:38+00:00,2026-11-17,OKC,1,not_needed,4,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:18:52+00:00,2026-11-17,PDX,1,not_needed,5,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:19:04+00:00,2026-11-17,PHL,1,yes,30,bag toggle applied; DOM changed=True; Unbundled fares increased=3
+2026-10-19T02:19:16+00:00,2026-11-17,PVD,1,not_needed,3,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:19:31+00:00,2026-11-17,CHS,1,not_needed,9,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:19:44+00:00,2026-11-17,FSD,1,not_needed,1,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:19:58+00:00,2026-11-17,BNA,1,not_needed,12,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:20:12+00:00,2026-11-17,DFW,1,yes,25,bag toggle applied; DOM changed=True; Unbundled fares increased=3
+2026-10-19T02:20:26+00:00,2026-11-17,SLC,1,not_needed,8,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:20:40+00:00,2026-11-17,BTV,1,not_needed,1,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:20:57+00:00,2026-11-17,DCA,1,not_needed,20,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:21:12+00:00,2026-11-17,SEA,1,not_needed,8,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:21:26+00:00,2026-11-17,CRW,1,not_needed,4,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:21:39+00:00,2026-11-17,MKE,1,not_needed,6,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:22:02+00:00,2026-11-17,JAC,1,no_flights,0,No nonstop flights found
+2026-10-19T02:22:14+00:00,2026-12-04,BHM,1,not_needed,11,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:22:36+00:00,2026-12-04,ANC,1,no_flights,0,No nonstop flights found
+2026-10-19T02:22:52+00:00,2026-12-04,PHX,1,not_needed,10,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:23:06+00:00,2026-12-04,LIT,1,not_needed,7,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:23:17+00:00,2026-12-04,LAX,1,yes,14,bag toggle applied; DOM changed=True; Unbundled fares increased=2
+2026-10-19T02:23:29+00:00,2026-12-04,DEN,1,no,30,bag toggle applied; DOM changed=True; Unbundled fares increased=0
+2026-10-19T02:23:43+00:00,2026-12-04,DEN,2,yes,15,bag toggle applied; DOM changed=True; Unbundled fares increased=2
+2026-10-19T02:23:57+00:00,2026-12-04,BDL,1,not_needed,6,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:24:10+00:00,2026-12-04,MCO,1,no,48,bag toggle applied; DOM changed=True; Unbundled fares increased=0
+2026-10-19T02:24:39+00:00,2026-12-04,MCO,2,no,48,"bag toggle failed: Locator.wait_for: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator(""button:has-text('+')"").first
+; DOM changed=False; Unbundled fares increased=0"
+2026-10-19T02:24:56+00:00,2026-12-04,MCO,3,yes,24,bag toggle applied; DOM changed=True; Unbundled fares increased=4
+2026-10-19T02:25:10+00:00,2026-12-04,HNL,1,not_needed,1,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:25:24+00:00,2026-12-04,BOI,1,not_needed,2,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:25:55+00:00,2026-12-04,ORD,1,no,42,"bag toggle failed: Locator.wait_for: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator(""button:has-text('+')"").first
+; DOM changed=False; Unbundled fares increased=0"
+2026-10-19T02:26:10+00:00,2026-12-04,ORD,2,yes,21,bag toggle applied; DOM changed=True; Unbundled fares increased=2
+2026-10-19T02:26:24+00:00,2026-12-04,IND,1,not_needed,9,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:26:41+00:00,2026-12-04,DSM,1,not_needed,8,"bag toggle failed: Locator.wait_for: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator(""button:has-text('+')"").first
+; DOM changed=False; Unbundled fares increased=0"
+2026-10-19T02:26:56+00:00,2026-12-04,ICT,1,not_needed,3,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:27:13+00:00,2026-12-04,SDF,1,not_needed,16,"bag toggle failed: Locator.wait_for: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator(""button:has-text('+')"").first
+; DOM changed=False; Unbundled fares increased=0"
+2026-10-19T02:27:25+00:00,2026-12-04,MSY,1,yes,11,bag toggle applied; DOM changed=True; Unbundled fares increased=1
+2026-10-19T02:27:42+00:00,2026-12-04,PWM,1,not_needed,2,"bag toggle failed: Locator.wait_for: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator(""button:has-text('+')"").first
+; DOM changed=False; Unbundled fares increased=0"
+2026-10-19T02:27:54+00:00,2026-12-04,BWI,1,yes,15,bag toggle applied; DOM changed=True; Unbundled fares increased=3
+2026-10-19T02:28:06+00:00,2026-12-04,BOS,1,yes,14,bag toggle applied; DOM changed=True; Unbundled fares increased=1
+2026-10-19T02:28:18+00:00,2026-12-04,DTW,1,yes,12,bag toggle applied; DOM changed=True; Unbundled fares increased=2
+2026-10-19T02:28:30+00:00,2026-12-04,MSP,1,yes,10,bag toggle applied; DOM changed=True; Unbundled fares increased=1
+2026-10-19T02:28:44+00:00,2026-12-04,JAN,1,not_needed,8,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:28:56+00:00,2026-12-04,STL,1,yes,11,bag toggle applied; DOM changed=True; Unbundled fares increased=1
+2026-10-19T02:29:09+00:00,2026-12-04,BZN,1,not_needed,1,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:29:23+00:00,2026-12-04,OMA,1,not_needed,5,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:29:35+00:00,2026-12-04,LAS,1,yes,14,bag toggle applied; DOM changed=True; Unbundled fares increased=2
+2026-10-19T02:29:57+00:00,2026-12-04,MHT,1,no_flights,0,No nonstop flights found
+2026-10-19T02:30:27+00:00,2026-12-04,EWR,1,no,36,"bag toggle failed: Locator.wait_for: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator(""button:has-text('+')"").first
+; DOM changed=False; Unbundled fares increased=0"
+2026-10-19T02:30:57+00:00,2026-12-04,EWR,2,no,36,"bag toggle failed: Locator.wait_for: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator(""button:has-text('+')"").first
+; DOM changed=False; Unbundled fares increased=0"
+2026-10-19T02:31:11+00:00,2026-12-04,EWR,3,yes,18,bag toggle applied; DOM changed=True; Unbundled fares increased=2
+2026-10-19T02:31:25+00:00,2026-12-04,ABQ,1,not_needed,3,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:31:39+00:00,2026-12-04,LGA,1,yes,23,bag toggle applied; DOM changed=True; Unbundled fares increased=2
+2026-10-19T02:31:54+00:00,2026-12-04,CLT,1,not_needed,14,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:32:09+00:00,2026-12-04,FAR,1,not_needed,1,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:32:23+00:00,2026-12-04,CMH,1,not_needed,9,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:32:38+00:00,2026-12-04,OKC,1,not_needed,5,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:32:51+00:00,2026-12-04,PDX,1,not_needed,4,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:33:04+00:00,2026-12-04,PHL,1,yes,32,bag toggle applied; DOM changed=True; Unbundled fares increased=3
+2026-10-19T02:33:17+00:00,2026-12-04,PVD,1,not_needed,6,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:33:32+00:00,2026-12-04,CHS,1,not_needed,9,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:33:46+00:00,2026-12-04,FSD,1,not_needed,1,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:33:59+00:00,2026-12-04,BNA,1,not_needed,13,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:34:12+00:00,2026-12-04,DFW,1,yes,28,bag toggle applied; DOM changed=True; Unbundled fares increased=3
+2026-10-19T02:34:27+00:00,2026-12-04,SLC,1,not_needed,8,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:34:40+00:00,2026-12-04,BTV,1,not_needed,1,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:34:55+00:00,2026-12-04,DCA,1,not_needed,20,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:35:12+00:00,2026-12-04,SEA,1,not_needed,16,"bag toggle failed: Locator.wait_for: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator(""button:has-text('+')"").first
+; DOM changed=False; Unbundled fares increased=0"
+2026-10-19T02:35:27+00:00,2026-12-04,CRW,1,not_needed,4,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:35:41+00:00,2026-12-04,MKE,1,not_needed,6,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:36:04+00:00,2026-12-04,JAC,1,no_flights,0,No nonstop flights found
+2026-10-19T02:36:18+00:00,2027-01-07,BHM,1,not_needed,18,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:36:40+00:00,2027-01-07,ANC,1,no_flights,0,No nonstop flights found
+2026-10-19T02:36:54+00:00,2027-01-07,PHX,1,not_needed,9,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:37:09+00:00,2027-01-07,LIT,1,not_needed,6,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:37:22+00:00,2027-01-07,LAX,1,yes,11,bag toggle applied; DOM changed=True; Unbundled fares increased=1
+2026-10-19T02:37:35+00:00,2027-01-07,DEN,1,yes,14,bag toggle applied; DOM changed=True; Unbundled fares increased=2
+2026-10-19T02:37:48+00:00,2027-01-07,BDL,1,not_needed,5,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:38:01+00:00,2027-01-07,MCO,1,yes,23,bag toggle applied; DOM changed=True; Unbundled fares increased=4
+2026-10-19T02:38:15+00:00,2027-01-07,HNL,1,not_needed,2,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:38:29+00:00,2027-01-07,BOI,1,not_needed,1,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:38:42+00:00,2027-01-07,ORD,1,yes,19,bag toggle applied; DOM changed=True; Unbundled fares increased=2
+2026-10-19T02:39:07+00:00,2027-01-07,IND,1,no,16,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:39:19+00:00,2027-01-07,IND,2,yes,8,bag toggle applied; DOM changed=True; Unbundled fares increased=1
+2026-10-19T02:39:33+00:00,2027-01-07,DSM,1,not_needed,3,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:39:46+00:00,2027-01-07,ICT,1,not_needed,3,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:40:00+00:00,2027-01-07,SDF,1,not_needed,6,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:40:11+00:00,2027-01-07,MSY,1,yes,10,bag toggle applied; DOM changed=True; Unbundled fares increased=1
+2026-10-19T02:40:24+00:00,2027-01-07,PWM,1,not_needed,1,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:40:37+00:00,2027-01-07,BWI,1,yes,13,bag toggle applied; DOM changed=True; Unbundled fares increased=3
+2026-10-19T02:40:48+00:00,2027-01-07,BOS,1,yes,11,bag toggle applied; DOM changed=True; Unbundled fares increased=1
+2026-10-19T02:40:59+00:00,2027-01-07,DTW,1,yes,12,bag toggle applied; DOM changed=True; Unbundled fares increased=2
+2026-10-19T02:41:11+00:00,2027-01-07,MSP,1,yes,10,bag toggle applied; DOM changed=True; Unbundled fares increased=1
+2026-10-19T02:41:25+00:00,2027-01-07,JAN,1,not_needed,7,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:41:39+00:00,2027-01-07,STL,1,not_needed,16,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:41:54+00:00,2027-01-07,BZN,1,not_needed,1,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:43:53+00:00,2027-01-07,OMA,1,error,0,"TimeoutError: Page.goto: Timeout 30000ms exceeded.
+Call log:
+  - navigating to ""https://www.google.com/travel/flights?q=nonstop+flights+from+ATL+to+OMA+on+2027-01-07+oneway&curr=USD&hl=en&gl=us"", waiting until ""domcontentloaded""
+"
+2026-10-19T02:44:12+00:00,2027-01-07,OMA,2,not_needed,8,"bag toggle failed: Locator.wait_for: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator(""button:has-text('+')"").first
+; DOM changed=False; Unbundled fares increased=0"
+2026-10-19T02:44:24+00:00,2027-01-07,LAS,1,yes,13,bag toggle applied; DOM changed=True; Unbundled fares increased=2
+2026-10-19T02:44:46+00:00,2027-01-07,MHT,1,no_flights,0,No nonstop flights found
+2026-10-19T02:44:58+00:00,2027-01-07,EWR,1,yes,17,bag toggle applied; DOM changed=True; Unbundled fares increased=2
+2026-10-19T02:45:12+00:00,2027-01-07,ABQ,1,not_needed,3,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:45:42+00:00,2027-01-07,LGA,1,no,44,"bag toggle failed: Locator.wait_for: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator(""button:has-text('+')"").first
+; DOM changed=False; Unbundled fares increased=0"
+2026-10-19T02:45:56+00:00,2027-01-07,LGA,2,yes,22,bag toggle applied; DOM changed=True; Unbundled fares increased=2
+2026-10-19T02:46:11+00:00,2027-01-07,CLT,1,not_needed,11,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:46:23+00:00,2027-01-07,FAR,1,not_needed,1,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:46:34+00:00,2027-01-07,CMH,1,yes,7,bag toggle applied; DOM changed=True; Unbundled fares increased=1
+2026-10-19T02:46:48+00:00,2027-01-07,OKC,1,not_needed,4,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:47:03+00:00,2027-01-07,PDX,1,not_needed,3,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:47:15+00:00,2027-01-07,PHL,1,yes,28,bag toggle applied; DOM changed=True; Unbundled fares increased=3
+2026-10-19T02:47:28+00:00,2027-01-07,PVD,1,not_needed,2,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:47:42+00:00,2027-01-07,CHS,1,not_needed,8,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:47:56+00:00,2027-01-07,FSD,1,not_needed,1,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:48:10+00:00,2027-01-07,BNA,1,not_needed,11,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:48:23+00:00,2027-01-07,DFW,1,yes,27,bag toggle applied; DOM changed=True; Unbundled fares increased=3
+2026-10-19T02:48:41+00:00,2027-01-07,SLC,1,not_needed,16,"bag toggle failed: Locator.wait_for: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator(""button:has-text('+')"").first
+; DOM changed=False; Unbundled fares increased=0"
+2026-10-19T02:48:55+00:00,2027-01-07,BTV,1,not_needed,1,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:49:11+00:00,2027-01-07,DCA,1,not_needed,20,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:49:24+00:00,2027-01-07,SEA,1,not_needed,7,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:49:39+00:00,2027-01-07,CRW,1,not_needed,3,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:49:53+00:00,2027-01-07,MKE,1,not_needed,5,bag toggle applied; DOM changed=False; Unbundled fares increased=0
+2026-10-19T02:50:07+00:00,2027-01-07,JAC,1,not_needed,1,bag toggle applied; DOM changed=False; Unbundled fares increased=0

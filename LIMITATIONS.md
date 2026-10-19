@@ -134,7 +134,8 @@ Nothing in this project establishes causation, and the write-up should not claim
 
 **open** items for `data/googleflights_2026-10-19/`:
 
-- **The search log is not yet in the repository.** `admi_search_log.csv` records every attempt and why it passed or failed. Until it is added, the pass/fail record rests on the `bag_check` column in `admi_fares.csv`.
+- **The first 7 searches ran with a slightly earlier version of the collector.** `admi_search_log.csv` records every attempt: 249 attempts for 240 searches between 01:47 and 02:50 UTC, with 8 bag-check failures and 1 timeout, all of which passed on a retry. Its first 7 entries (01:47–01:49) mention a dialog-closing step that is not in the committed `admi_collect.py`, so the script was edited and restarted after them. Those 7 were judged by the same price test (4 `not_needed`, 3 `yes`), so the data is unaffected, but the committed script is the version that collected the other 233.
+- **"bag toggle failed" in the log does not mean the bag was missing.** It means one step of the click sequence timed out. Three such attempts still show the Frontier fare rising, so the bag had been added before the failing step; the verdict comes from the price, not the click.
 - **The bag check is judged on Frontier and Spirit only.** United's carry-on fee is captured in `price_bag` and used in the with-bags figures, but a United route without Frontier is marked `not_needed` without its price change being checked.
 - **54 flights were saved as two half-rows,** one with only the no-bag price and one with only the bag price, because Google Flights wrote the space in the departure time differently on the two reads. `to_raw.py` fills each half from the other, so no score is affected. The collector should normalise that space before the next run.
 - **Philadelphia appears twice in `admi_fares.csv`,** once as PA and once as DE, because the collector copies it for Delaware. `to_raw.py` drops the DE copy.
