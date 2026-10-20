@@ -382,7 +382,7 @@ def report(data_dir="data/raw"):
     print("Figures above are reproduced from %s/. See LIMITATIONS.md before" % data_dir)
     if data_dir == "data/raw":
         print("quoting any of them: the 12 and 25 November Atlanta tables are not")
-        print("hand-verified, and the Bengaluru market has one date only.")
+        print("hand-verified, and Bengaluru (one date) is not part of the study.")
     else:
         print("quoting any of them.")
     print("=" * 74)

@@ -186,6 +186,8 @@ Both raw and adjusted fares are kept in the tool's detail export for anyone who 
 
 ## 10. Market comparison
 
+> **Not used in the published study.** The Bengaluru comparison was dropped (README, "Why there is no Bengaluru comparison"). This section describes the method as designed, in case it is restarted with a source that prices every Indian airline.
+
 Comparing two markets in dollars would be meaningless: Indian domestic fares sit far below US ones for reasons that have nothing to do with competitive structure. The comparison therefore uses **ratios and shares only**, never raw prices across markets:
 
 - price per mile by airline count, within each market

@@ -38,7 +38,7 @@ All three are competitive routes scoring negative ADMI, so they pull the competi
 
 **Closed** — **The $75 fixed-cost floor.** Still a judgement rather than an estimate, but no longer without precedent: DOT's SIFL formula uses a fixed terminal charge of $58.95 (second half of 2026) in exactly this role.
 
-**open** — **$0.09 per mile as the India figure.** No external source found. It may come from this project's own Bengaluru data, in which case it is a fitted value presented as a yardstick and **must be labelled as such**, because using the data to set its own baseline is circular. This is now the only unsourced rate in the project and it is the one the entire cross-market comparison rests on. It needs either a published Indian cost-per-ASK figure or an explicit statement that it is fitted from this data.
+**closed with Bengaluru** — **$0.09 per mile as the India figure.** No longer used. No external source found. It may come from this project's own Bengaluru data, in which case it is a fitted value presented as a yardstick and **must be labelled as such**, because using the data to set its own baseline is circular. This is now the only unsourced rate in the project and it is the one the entire cross-market comparison rests on. It needs either a published Indian cost-per-ASK figure or an explicit statement that it is fitted from this data.
 
 **open** — **The 100-mile exclusion floor.** Chosen by judgement. No route in either market is actually excluded by it, so nothing currently depends on it.
 
@@ -56,21 +56,21 @@ Airfares also change continuously. These are snapshots, and a rerun on another d
 
 ---
 
-## 5. The Bengaluru market is incomplete
+## 5. Bengaluru was dropped
 
-**open** — One date (25 October 2026) of the five planned. **Nothing from Bengaluru can carry a structural label**, since the label requires five dates by definition. All Bengaluru figures are single-date observations.
+**closed** — Bengaluru was planned as a comparison market and is no longer part of the study. One date was collected by hand (25 October 2026) and is kept in `data/raw/` for the record, but a single date cannot carry a structural label, and 15 of its 33 destinations were recorded as having no nonstop when several almost certainly do.
 
-**open** — 15 of 33 destinations are recorded as having no nonstop: AGX, AJL, ATQ, DMU, HGI, IMF, IXA, IXC, IXL, KUU, PNY, PYG, RPR, SHL, SXR. Several almost certainly do have nonstops from Bengaluru — Amritsar (ATQ), Chandigarh (IXC) and Raipur (RPR) among them. These are also precisely the rows most likely to contain a thin route, which is to say the rows most likely to change the comparison. The finding that Bengaluru has no single-airline routes **cannot be considered established until they are rechecked.**
+The five-date scripted collection on 19 October 2026 failed for a different reason. During the run, Google Flights showed IndiGo, India's largest airline, as "Price unavailable", so the collection contains no IndiGo fare at all, and searches on routes flown mostly by IndiGo (Goa, Indore, Vijayawada, Port Blair, Mangalore) returned no prices. That run was not added to the repository. Whether Google Flights withholds IndiGo prices from everyone or only from automated browsers was not tested.
 
-**open** — The KUU row has a known internal inconsistency and has not been fixed.
-
-**open** — COK, GOI, DED and IXZ need confirmation.
+A comparison would need a source that prices every Indian airline. Until one is used, no Bengaluru figure should be quoted, including the earlier single-date gradient of 1.15×.
 
 ---
 
 ## 6. Airline grouping
 
-**open** — Airlines are counted as they appear in search results, so corporate groups are counted as separate carriers. Air India and Air India Express appear as two airlines on several Bengaluru routes when commercially they are one group. Counting them as one would lower the airline count on those routes, raise their CS, and raise their ADMI.
+**closed with Bengaluru** — No longer affects any published figure. Kept for anyone who restarts the comparison.
+
+ Airlines are counted as they appear in search results, so corporate groups are counted as separate carriers. Air India and Air India Express appear as two airlines on several Bengaluru routes when commercially they are one group. Counting them as one would lower the airline count on those routes, raise their CS, and raise their ADMI.
 
 This matters specifically because it works against the Bengaluru finding: if grouping were applied, some two-airline routes would become one-airline routes, and the claim that Bengaluru has no monopoly routes might not survive. A grouping sensitivity run is written and waits only on the full data. **Until it is run, the Bengaluru result should be stated as conditional on counting Air India and Air India Express separately.**
 
@@ -78,7 +78,7 @@ This matters specifically because it works against the Bengaluru finding: if gro
 
 ## 7. Festival and holiday dates
 
-**open** — Three of the five collection dates fall in India's festival season, when domestic demand and fares rise sharply. The comparison tab supports excluding dates, but with one Bengaluru date collected there is nothing yet to exclude. When the full set exists, the comparison must be run with and without 3, 12 and 25 November, and both results reported.
+**Bengaluru part closed.** Three of the five planned Bengaluru dates fell in India's festival season, when domestic demand and fares rise sharply. The comparison tab supports excluding dates, but with one Bengaluru date collected there is nothing yet to exclude. When the full set exists, the comparison must be run with and without 3, 12 and 25 November, and both results reported.
 
 The Atlanta dates straddle US Thanksgiving in the same way: 25 November 2026 is the day before the holiday. Its median net fare is the same as 12 November's ($171), so there is no visible holiday spike at Atlanta, but this is one date and not a test.
 
@@ -125,8 +125,8 @@ Nothing in this project establishes causation, and the write-up should not claim
 | Monopoly to competitive ratio 4.17× | Reproduced at 4.40× by the scripted re-collection, so not an artefact of hand collection. Falls to **3.18×** once a carry-on is included, because Frontier and United price it separately; quote both, labelled. Fix §2 first. Also note this is not distance-controlled; any distance-controlled figure will be lower and the two must never appear in the same passage without labels. |
 | Fitted baseline $12.3 + $0.0827 × miles | Solid as a description of the 74 competitive observations. Its fixed term is poorly identified. |
 | Fares fall with lead time, $254 at 14 days to $171 at 45 days | Solid within this sample. One hub, one quarter; do not generalise. |
-| Bengaluru has no single-airline routes | **Provisional.** Depends on §5 and §6. Do not publish as established. |
-| Bengaluru gradient 1.15× vs Atlanta 4.17× | **Provisional.** One date, same dependencies. |
+| Bengaluru has no single-airline routes | **Withdrawn.** Bengaluru is not part of the study (§5). |
+| Bengaluru gradient 1.15× vs Atlanta 4.17× | **Withdrawn.** Same reason. |
 
 ---
 
