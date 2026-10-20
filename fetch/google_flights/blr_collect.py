@@ -1,3 +1,6 @@
+# NOT USED: Bengaluru was dropped from the study. During the 19 Oct 2026 run,
+# Google Flights showed IndiGo as "Price unavailable", so no Google Flights
+# collector can capture India's largest airline. Kept for the record.
 import asyncio
 import csv
 import os

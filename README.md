@@ -2,7 +2,7 @@
 
 A quantitative index that separates how much of an airfare is explained by **distance** from how much is explained by **the absence of an alternative**.
 
-Two markets are measured with the same method: Atlanta (ATL) to one airport in each of the other 49 US states, and Bengaluru (BLR) to domestic Indian destinations.
+The market measured is Atlanta (ATL) to one airport in each of the other 49 US states. A second market, Bengaluru (BLR), was planned as a comparison and has been dropped; the reason is below.
 
 Everything here is reproducible from the raw data in this repository with the standard library alone:
 
@@ -39,7 +39,9 @@ The Atlanta fares were collected a second time on 19 October 2026, by a script i
 
 All three produce the **same 18 routes**. The gap also reproduces without bags (4.17× by hand, 4.40× by script). Adding the carry-on fee that Frontier and United charge separately lowers it to 3.18×, so a little over a quarter of the raw gap comes from fares that leave the bag out, not from competition. The bag-inclusive figure is the fairer comparison and should be quoted next to the other.
 
-The comparison market produces a different and more interesting answer. **Not one priced nonstop out of Bengaluru is flown by a single airline.** The thinnest route in that sample has two. The same gradient measured the same way is 1.15× at Bengaluru against 4.17× at Atlanta. On the evidence so far the Atlanta pattern is a property of a concentrated hub market rather than of air travel in general — though see the limitations before leaning on this.
+### Why there is no Bengaluru comparison
+
+Bengaluru was meant to show whether the Atlanta pattern belongs to a concentrated hub or to air travel in general. One date was collected by hand (25 October 2026, kept in `data/raw/` for the record). The five-date scripted collection on 19 October failed: during the run, Google Flights showed IndiGo, India's largest airline, as "Price unavailable", so no IndiGo fare was captured, and routes flown mostly by IndiGo came back empty. A Bengaluru dataset without its largest airline would get both the airline counts and the cheapest fares wrong, so **no Bengaluru figure is reported** and the earlier single-date comparison (1.15× against 4.17×) is withdrawn. Every result in this repository is about Atlanta.
 
 ---
 
@@ -141,7 +143,7 @@ Every fare is the cheapest **nonstop, one-way, economy** fare for a single trave
 | ATL | 2026-11-03 | 49 | 46 | 23 | manual |
 | ATL | 2026-11-12 | 49 | 45 | 32 | Gemini-assisted, **not hand-verified** |
 | ATL | 2026-11-25 | 49 | 45 | 45 | Gemini-assisted, **not hand-verified** |
-| BLR | 2026-10-25 | 33 | 18 | 14 | manual |
+| BLR | 2026-10-25 | 33 | 18 | 14 | manual, not used (Bengaluru dropped) |
 | ATL | 2026-10-28 | 48 | 45 | 9 | script, Google Flights |
 | ATL | 2026-11-07 | 48 | 46 | 19 | script, Google Flights |
 | ATL | 2026-11-17 | 48 | 45 | 29 | script, Google Flights |
@@ -177,7 +179,7 @@ Those are different quantities — a causal effect on one route versus a cross-s
 
 ## Limitations in one paragraph
 
-Two of the five Atlanta tables were extracted with AI assistance and have not been hand-checked against a live search, though they are labelled verified inside the tool. Three fares are implausible and were never rechecked (PHL at $14, IAD at $27, JAC at $221); the PHL fare nets to the $1 clamp, which is a visible symptom rather than a hidden one. The $0.15–$0.20 per mile range is now sourced to DOT cost data, but the $0.09 India figure and the 100-mile cutoff remain uncited, and the India figure is the one the whole cross-market comparison rests on. The scripted re-collection reproduces the 18 structural routes on five different dates, but both collections come from Google Flights, so there is still no cross-check against a second source. The Bengaluru market has one date, so nothing there can carry a structural label, and 15 of its 33 destinations are recorded as having no nonstop when several almost certainly do. Air India and Air India Express are counted as separate carriers, which inflates the airline count on several Bengaluru routes. Full detail in [LIMITATIONS.md](LIMITATIONS.md).
+Two of the five Atlanta tables were extracted with AI assistance and have not been hand-checked against a live search, though they are labelled verified inside the tool. Three fares are implausible and were never rechecked (PHL at $14, IAD at $27, JAC at $221); the PHL fare nets to the $1 clamp, which is a visible symptom rather than a hidden one. The $0.15–$0.20 per mile range is now sourced to DOT cost data, but the 100-mile cutoff remains uncited. The scripted re-collection reproduces the 18 structural routes on five different dates, but both collections come from Google Flights, so there is still no cross-check against a second source. Bengaluru was dropped because Google Flights did not price IndiGo during the scripted run. Full detail in [LIMITATIONS.md](LIMITATIONS.md).
 
 ---
 
