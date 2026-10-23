@@ -16,16 +16,18 @@ python3 analysis/admi.py data/googleflights_2026-10-19/no_bags    # same re-coll
 
 ## The headline result
 
-From Atlanta, the median price per mile falls by a factor of four as soon as a route has competition. This is visible in the raw fares before any index is applied.
+From Atlanta, a route with one airline costs about three times as much per mile as a route with three or more, even after the carry-on that Frontier and United charge separately is priced in. These are the bag-inclusive figures, the ones quoted in Part 5 of the write-up:
 
 | Airlines on route | Observations | Median $/mile |
 |---|---:|---:|
-| 1 | 110 | 0.368 |
-| 2 | 42 | 0.129 |
-| 3 | 59 | 0.090 |
-| 4 or more | 15 | 0.084 |
+| 1 | 114 | 0.371 |
+| 2 | 38 | 0.174 |
+| 3 | 60 | 0.118 |
+| 4 or more | 15 | 0.113 |
 
-Scoring with the locked model, **18 of 46 Atlanta routes** clear the structural bar, and all 18 clear it on all five dates rather than the four the rule requires. Across 16 variations of the model the count moves between 11 and 24; the list of routes barely changes, because single-airline routes score high under every baseline tested.
+**18 routes are structural**, and all 18 clear the bar on all five dates rather than the four the rule requires. 17 of them are flown only by Delta; the 18th, Charlotte, has two airlines. Across 16 variations of the model the count moves between 13 and 22, and 12 routes are structural under every one of them. Seven routes score below zero (Orlando, Dallas, Denver, Las Vegas, Los Angeles, Philadelphia, Phoenix), and every one of them has a budget airline on it.
+
+The first, hand-collected dataset (no bags) finds the same 18 routes out of 46 scored. Its medians are $0.368, $0.129, $0.090 and $0.084 a mile, a 4.17× gap, and its stress-test range is 11 to 24, with 10 routes structural under every variation.
 
 ### A second, independent collection
 
@@ -158,7 +160,7 @@ Fares fall as the departure date moves further out: the median net fare is $254 
 
 ## The tool
 
-`tool/index.html` is a single file with no build step. Open it in a browser and it works offline, keeping observations in the browser's own storage. It has tabs for entry, the sheet, the scoring rules, the methodology, statistics, the two-market comparison, and raw data export.
+`tool/index.html` is a single file with no build step. Open it in a browser and it works offline, keeping observations in the browser's own storage. It is the same file as the hosted copy at [arjun-pathi-portfolio.vercel.app/admi-tool](https://arjun-pathi-portfolio.vercel.app/admi-tool/), with both Atlanta datasets built in and about 300 airports. It has tabs for entry, the sheet, the scoring rules, the methodology, statistics, the two-market comparison, and raw data export.
 
 Fare lookup is optional. `tool/api/search.js` is a serverless function that proxies a search provider so the API key stays on the server. It reads two environment variables and **no key is stored in this repository**:
 
@@ -180,6 +182,20 @@ Those are different quantities — a causal effect on one route versus a cross-s
 ## Limitations in one paragraph
 
 Two of the five Atlanta tables were extracted with AI assistance and have not been hand-checked against a live search, though they are labelled verified inside the tool. Three fares are implausible and were never rechecked (PHL at $14, IAD at $27, JAC at $221); the PHL fare nets to the $1 clamp, which is a visible symptom rather than a hidden one. The $0.15–$0.20 per mile range is now sourced to DOT cost data, but the 100-mile cutoff remains uncited. The scripted re-collection reproduces the 18 structural routes on five different dates, but both collections come from Google Flights, so there is still no cross-check against a second source. Bengaluru was dropped because Google Flights did not price IndiGo during the scripted run. Full detail in [LIMITATIONS.md](LIMITATIONS.md).
+
+---
+
+## Write-up
+
+The project is written up as a series on Medium:
+
+1. [I Checked Flights From Atlanta to 49 States. Some of the Prices Made No Sense.](https://pathiarjun15.medium.com/part-1-introducing-admi-what-49-flights-out-of-atlanta-taught-me-about-fake-prices-abf5ec600b3f): the idea and the three questions
+2. [What Makes a Plane Ticket "Expensive"? Building a Way to Measure It](https://pathiarjun15.medium.com/part-2-building-the-admi-model-484d3f06cc0b): the model in words
+3. [The Math Behind a $422 Ticket to Wichita](https://pathiarjun15.medium.com/part-3-the-admi-math-d3ac2b16ca34): every formula, worked through one fare, and how to read a score
+4. [I Automated 240 Google Flights Searches. The Bugs Taught Me More Than the Code.](https://pathiarjun15.medium.com/part-4-the-tool-that-automated-admi-5f30f1b519b3): the tool and the collector
+5. [Flying 322 Miles From Atlanta Costs More Than Flying 404. The Difference Is One Airline.](https://pathiarjun15.medium.com/part-5-the-results-18-routes-and-almost-all-of-them-belong-to-one-airline-a5c8779d803d): the results
+
+A sixth part, comparing the hand and scripted collections, is planned. The numbers in the posts are the ones this repository reproduces; if they ever disagree, the repository is the record.
 
 ---
 

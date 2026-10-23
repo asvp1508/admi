@@ -198,7 +198,7 @@ Comparing two markets in dollars would be meaningless: Indian domestic fares sit
 
 The headline per-mile yardstick is country-specific: $0.15 with the $75 floor for the US, $0.09 with **no** floor for India. The floor is dropped because the median Bengaluru net fare in the sample is $82; a $75 floor would exceed the fare on short routes and swamp the index. Scored against the US yardstick instead, the 18 Bengaluru routes average −0.027 and nothing clears 0.6, which is an arithmetic consequence of the yardstick rather than a finding about either market.
 
-Both ratios must be computed the same way for the cross-market number to mean anything. The reported comparison is **thinnest airline count vs 3 or more airlines**: 4.17× at Atlanta, 1.15× at Bengaluru.
+Both ratios must be computed the same way for the cross-market number to mean anything. The comparison was to be reported as **thinnest airline count vs 3 or more airlines**. The single-date Bengaluru figure (1.15×) is withdrawn and should not be quoted against Atlanta's 4.17× (hand-collected) or 3.18× (scripted, bag-inclusive).
 
 ---
 
