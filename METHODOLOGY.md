@@ -166,7 +166,7 @@ The question a reviewer should ask is whether the headline number is an artefact
 | Share 100%, all 5 dates | 18 | — |
 | Fitted baseline instead of $0.15 | 24 | 0.514 |
 
-The count ranges from 11 to 24 and the membership of the list is stable at its top. Note the direction of the last row: substituting the baseline fitted from the project's own competitive routes **raises** the count to 24, because that baseline is lower than the $0.15 assumption. The published figure of 18 is therefore the conservative one, and a critic arguing the baseline is too generous is arguing for a larger result.
+The count ranges from 11 to 24 and the membership of the list is stable at its top: ten routes — BHM, CHS, CLT, CRW, DSM, ICT, LIT, MKE, OKC and SDF — are structural under every variation above, which is the part of the result that owes nothing to any single assumption. The scripted collection gives twelve under its own sixteen variants, adding FAR and FSD. Note the direction of the last row: substituting the baseline fitted from the project's own competitive routes **raises** the count to 24, because that baseline is lower than the $0.15 assumption. The published figure of 18 is therefore the conservative one, and a critic arguing the baseline is too generous is arguing for a larger result.
 
 ---
 
