@@ -8,9 +8,9 @@ Everything below is a known defect, stated at the time of publication rather tha
 
 ## 1. Data provenance
 
-**open** — The Atlanta tables for **12 November** and **25 November 2026** were extracted with AI assistance from search results rather than entered by hand from a live search. They are labelled `VERIFIED` inside the collection tool. **That label is wrong.** Neither table has been checked route by route against a live search, and the number of routes spot-checked and the number corrected are both unrecorded.
+**open** — Most of the Atlanta tables for **12 November** and **25 November 2026** were extracted with AI assistance from search results rather than entered by hand from a live search. On each of those dates 34 of the 45 scored rows carry `source = gemini` and the remaining 11 were entered by hand; the split is recorded per row in `admi_raw_observations.csv`. They are labelled `VERIFIED` inside the collection tool. **That label is wrong.** Neither table has been checked route by route against a live search, and the number of routes spot-checked and the number corrected are both unrecorded.
 
-Those two dates are 90 of 226 scored Atlanta observations, so they are not a minor share. What protects the headline result is that the 18 structural routes clear the threshold on all five dates: dropping the two unverified dates entirely would still leave three hand-collected dates on which every one of them qualifies. Any figure quoted from those two dates alone should be treated as provisional.
+Those two dates are 90 of 226 scored Atlanta observations, 68 of them AI-assisted, so they are not a minor share. What protects the headline result is that the 18 structural routes clear the threshold on all five dates: dropping the two unverified dates entirely would still leave three hand-collected dates on which every one of them qualifies. Any figure quoted from those two dates alone should be treated as provisional.
 
 The other four tables (ATL 25 October, 30 October, 3 November, and BLR 25 October) were entered by hand from live searches.
 
